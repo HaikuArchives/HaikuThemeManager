@@ -1,5 +1,5 @@
 
-resource(1, "BEOS:APP_SIG") #'MIMS' "application/x-vnd.mmu_man-Themes";
+resource(1, "BEOS:APP_SIG") #'MIMS' "application/x-vnd.mmu_man-ThemeManager";
 
 resource app_version {
 	major      = 0,
@@ -7,13 +7,15 @@ resource app_version {
 	minor      = 0,
 	variety    = B_APPV_ALPHA,
 	internal   = 0,
-	short_info = "Themes",
-	long_info  = "Themes ©2000-2008 François Revol."
+	short_info = "ThemeManager",
+	long_info  = "ThemeManager ©2000-2010 François Revol."
 };
 
 resource app_flags B_SINGLE_LAUNCH;
 
-resource(1, "BEOS:FILE_TYPES") message;
+resource(1, "BEOS:FILE_TYPES") message {
+	"types" = "text/x-vnd.mmu_man-Theme"
+};
 
 //#ifdef HAIKU_TARGET_PLATFORM_HAIKU
 

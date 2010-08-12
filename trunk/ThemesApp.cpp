@@ -12,7 +12,7 @@
 #include "ThemesApp.h"
 #include "ThemeInterfaceView.h"
 
-const char *kThemesAppSig = "application/x-vnd.mmu_man-Themes";
+const char *kThemesAppSig = "application/x-vnd.mmu_man-ThemeManager";
 
 
 ThemesApp::ThemesApp()
@@ -33,7 +33,7 @@ ThemesApp::ReadyToRun()
 	BRect frame(0, 0, 550, 300);
 	frame.OffsetBySelf(s.Frame().Width()/2 - frame.Width()/2, 
 						s.Frame().Height()/2 - frame.Height()/2);
-	BWindow *w = new BWindow(frame, "Themes", B_TITLED_WINDOW, B_NOT_RESIZABLE | B_QUIT_ON_WINDOW_CLOSE);
+	BWindow *w = new BWindow(frame, "ThemeManager", B_TITLED_WINDOW, B_NOT_RESIZABLE | B_QUIT_ON_WINDOW_CLOSE);
 	ThemeInterfaceView *v = new ThemeInterfaceView(w->Bounds());
 	w->AddChild(v);
 	w->Show();
