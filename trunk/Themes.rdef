@@ -15,7 +15,7 @@ resource app_flags B_SINGLE_LAUNCH;
 
 resource(1, "BEOS:FILE_TYPES") message;
 
-#ifdef HAIKU_TARGET_PLATFORM_HAIKU
+//#ifdef HAIKU_TARGET_PLATFORM_HAIKU
 
 resource vector_icon {
 	$"6E636966050500020106023AB09C387275BA11FB3C46904852304A0DE300FFE7"
@@ -36,7 +36,7 @@ resource vector_icon {
 	$"0A0B00"
 };
 
-#else // HAIKU_TARGET_PLATFORM_HAIKU
+//#else // HAIKU_TARGET_PLATFORM_HAIKU
 
 resource large_icon
 {
@@ -94,5 +94,5 @@ resource mini_icon
 	$"FFFF00000E0F0F0F0FFFFFFF00000E0E"
 };
 
-#endif // HAIKU_TARGET_PLATFORM_HAIKU
+//#endif // HAIKU_TARGET_PLATFORM_HAIKU
 

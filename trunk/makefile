@@ -115,7 +115,7 @@ OPTIMIZE	:=
 #	to use.  For example, setting DEFINES to "DEBUG=1" will cause the
 #	compiler option "-DDEBUG=1" to be used.  Setting DEFINES to "DEBUG"
 #	would pass "-DDEBUG" on the compiler's command line.
-DEFINES		:= SINGLE_BINARY
+DEFINES		:= SINGLE_BINARY _ZETA_TS_FIND_DIR_
 
 #	specify special warning levels
 #	if unspecified default warnings will be used
@@ -215,3 +215,6 @@ EXTRA_DEPS :=
 
 ## include the makefile-engine
 include $(BUILDHOME)/etc/makefile-engine
+
+# force using rc instead of beres
+BERES := rc
