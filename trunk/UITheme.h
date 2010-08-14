@@ -91,6 +91,10 @@
 #define B_UI_SETTINGS_CHANGED '_UIC'
 #endif
 
+// more names
+#define B_UI_DOCUMENT_SELECTION_BACKGROUND_COLOR "be:c:DocSBg"
+
+
 #define R5_DECOR_BEOS 0
 #define R5_DECOR_WIN95 1
 #define R5_DECOR_AMIGA 2

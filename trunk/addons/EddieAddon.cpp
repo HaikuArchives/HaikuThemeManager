@@ -112,7 +112,7 @@ EddieThemesAddon::ApplyTheme(BMessage &theme, uint32 flags)
 		sprintf(buffer, "%02x%02x%02x", col.red, col.green, col.blue);
 		text << "TextColor " << buffer << "\n";
 	}
-	if (FindRGBColor(uisettings, "be:c:DocSBg", 0, &col) >= B_OK) {
+	if (FindRGBColor(uisettings, B_UI_DOCUMENT_SELECTION_BACKGROUND_COLOR, 0, &col) >= B_OK) {
 		sprintf(buffer, "%02x%02x%02x", col.red, col.green, col.blue);
 		text << "SelectionColor " << buffer << "\n";
 	} else if (FindRGBColor(uisettings, B_UI_MENU_SELECTED_BACKGROUND_COLOR, 0, &col) >= B_OK) {
@@ -156,7 +156,7 @@ EddieThemesAddon::ApplyDefaultTheme(uint32 flags)
 	rgb_color selbg = {180, 200, 240, 255};
 	AddRGBColor(uisettings, B_UI_DOCUMENT_BACKGROUND_COLOR, bg);
 	AddRGBColor(uisettings, B_UI_DOCUMENT_TEXT_COLOR, fg);
-	AddRGBColor(uisettings, "be:c:DocSBg", selbg);
+	AddRGBColor(uisettings, B_UI_DOCUMENT_SELECTION_BACKGROUND_COLOR, selbg);
 	theme.AddMessage(Z_THEME_UI_SETTINGS, &uisettings);
 	return ApplyTheme(theme, flags);
 }
