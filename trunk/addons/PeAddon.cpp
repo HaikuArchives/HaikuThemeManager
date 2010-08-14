@@ -7,6 +7,7 @@
  * Pe Color ThemesAddon class
  */
 
+#include <Control.h>
 #include <Directory.h>
 #include <Message.h>
 #include <Messenger.h>
@@ -36,7 +37,22 @@
 #define A_DESCRIPTION "Make Pe use system colors"
 
 #define PE_SETTINGS_NAME "pe/settings"
+#define PE_SIG "application/x-vnd.beunited.pe"
 
+#define msg_Preferences					'Pref'
+#define msg_NewColor					'NClr'
+
+static struct pe_color_map {
+	const char *pe;
+	const char *view;
+	const char *dano;
+	const char *fallback;
+} sPeColors[] = {
+	{ "low", "lowc", B_UI_DOCUMENT_BACKGROUND_COLOR, NULL },
+	{ "text", "txtc", B_UI_DOCUMENT_TEXT_COLOR, NULL },
+	{ "selection", "selc", B_UI_DOCUMENT_SELECTION_BACKGROUND_COLOR, B_UI_MENU_SELECTED_BACKGROUND_COLOR },
+	{ NULL, NULL, NULL, NULL }
+};
 
 class PeThemesAddon : public ThemesAddon {
 public:
@@ -53,6 +69,9 @@ status_t	ApplyTheme(BMessage &theme, uint32 flags=0L);
 status_t	MakeTheme(BMessage &theme, uint32 flags=0L);
 
 status_t	ApplyDefaultTheme(uint32 flags=0L);
+
+private:
+status_t	FindPrefWindow(BMessenger &messenger);
 };
 
 
@@ -93,47 +112,68 @@ status_t
 PeThemesAddon::ApplyTheme(BMessage &theme, uint32 flags)
 {
 	BMessage uisettings;
+	BMessage peColors;
 	status_t err;
 	BPath PeSPath;
 	rgb_color col;
 	BString text;
 	char buffer[10];
+	int i;
 	
 	err = theme.FindMessage(Z_THEME_UI_SETTINGS, &uisettings);
 	if (err)
 		return err;
 	
-	if (FindRGBColor(uisettings, B_UI_DOCUMENT_BACKGROUND_COLOR, 0, &col) >= B_OK) {
+	for (i = 0; sPeColors[i].pe; i++) {
+		if (FindRGBColor(uisettings, sPeColors[i].dano, 0, &col) < B_OK)
+			if (FindRGBColor(uisettings, sPeColors[i].fallback, 0, &col) < B_OK)
+				continue;
 		sprintf(buffer, "%02x%02x%02x", col.red, col.green, col.blue);
-		text << "low color=#" << buffer << "\n";
-	}
-	if (FindRGBColor(uisettings, B_UI_DOCUMENT_TEXT_COLOR, 0, &col) >= B_OK) {
-		sprintf(buffer, "%02x%02x%02x", col.red, col.green, col.blue);
-		text << "text color=#" << buffer << "\n";
-	}
-	if (FindRGBColor(uisettings, "be:c:DocSBg", 0, &col) >= B_OK) {
-		sprintf(buffer, "%02x%02x%02x", col.red, col.green, col.blue);
-		text << "selection color=#" << buffer << "\n";
-	} else if (FindRGBColor(uisettings, B_UI_MENU_SELECTED_BACKGROUND_COLOR, 0, &col) >= B_OK) {
-		sprintf(buffer, "%02x%02x%02x", col.red, col.green, col.blue);
-		text << "selection color=#" << buffer << "\n";
+		text << sPeColors[i].pe << " color=#" << buffer << "\n";
 	}
 	
-	if (find_directory(B_USER_SETTINGS_DIRECTORY, &PeSPath) < B_OK)
-		return B_ERROR;
-	PeSPath.Append(PE_SETTINGS_NAME);
-	BFile PeSettings(PeSPath.Path(), B_WRITE_ONLY|B_OPEN_AT_END);
-	if (PeSettings.InitCheck() < B_OK)
-		return PeSettings.InitCheck();
+	// apply
+	BMessenger msgrPrefs;
+	if (flags & UI_THEME_SETTINGS_APPLY &&
+		AddonFlags() & Z_THEME_ADDON_DO_APPLY &&
+		FindPrefWindow(msgrPrefs) == B_OK) {
+
+
+		for (i = 0; sPeColors[i].pe; i++) {
+			if (FindRGBColor(uisettings, sPeColors[i].dano, 0, &col) < B_OK)
+				if (FindRGBColor(uisettings, sPeColors[i].fallback, 0, &col) < B_OK)
+					continue;
+			BMessage msgColor(msg_NewColor);
+			msgColor.AddData("color", B_RGB_COLOR_TYPE, &col, sizeof(col));
+			msgColor.AddSpecifier("View", sPeColors[i].view);
+			msgrPrefs.SendMessage(&msgColor);
+		}
 	
+		
+		
+		// simulate a click on the "Ok" button in prefs
+		BMessage click(B_SET_PROPERTY);
+		click.AddSpecifier("Value");
+		click.AddSpecifier("View", "ok  ");
+		click.AddInt32("data", B_CONTROL_ON);
+		msgrPrefs.SendMessage(click);
+		
+		
+	}
+
+	// save
 	if (flags & UI_THEME_SETTINGS_SAVE && AddonFlags() & Z_THEME_ADDON_DO_SAVE) {
+		if (find_directory(B_USER_SETTINGS_DIRECTORY, &PeSPath) < B_OK)
+			return B_ERROR;
+		PeSPath.Append(PE_SETTINGS_NAME);
+		BFile PeSettings(PeSPath.Path(), B_WRITE_ONLY|B_OPEN_AT_END);
+		if (PeSettings.InitCheck() < B_OK)
+			return PeSettings.InitCheck();
+	
 		if (PeSettings.Write(text.String(), strlen(text.String())) < B_OK)
 			return B_ERROR;
 	}
 	
-	if (flags & UI_THEME_SETTINGS_APPLY && AddonFlags() & Z_THEME_ADDON_DO_APPLY) {
-		
-	}
 	return B_OK;
 }
 
@@ -156,9 +196,80 @@ PeThemesAddon::ApplyDefaultTheme(uint32 flags)
 	rgb_color selbg = {180, 200, 240, 255};
 	AddRGBColor(uisettings, B_UI_DOCUMENT_BACKGROUND_COLOR, bg);
 	AddRGBColor(uisettings, B_UI_DOCUMENT_TEXT_COLOR, fg);
-	AddRGBColor(uisettings, "be:c:DocSBg", selbg);
+	AddRGBColor(uisettings, B_UI_DOCUMENT_SELECTION_BACKGROUND_COLOR, selbg);
 	theme.AddMessage(Z_THEME_UI_SETTINGS, &uisettings);
 	return ApplyTheme(theme, flags);
+}
+
+
+status_t
+PeThemesAddon::FindPrefWindow(BMessenger &messenger)
+{
+	BMessenger app(PE_SIG);
+	BMessenger win;
+	status_t err;
+	int i;
+
+	if (!app.IsValid())
+		return B_ERROR;
+
+	BMessage answer;
+	BMessage msgGetMsgr(B_GET_PROPERTY);
+	msgGetMsgr.AddSpecifier("Windows");
+	err = app.SendMessage(&msgGetMsgr, &answer, 2000000LL, 2000000LL);
+	if (B_OK == err) {
+		for (i = 0; answer.FindMessenger("result", i, &win) == B_OK; i++) {
+			BString title;
+			BMessage m(B_GET_PROPERTY);
+			m.AddSpecifier("Title");
+			err = win.SendMessage(&m, &m, 20000LL, 20000LL);
+			if (m.FindString("result", &title) == B_OK &&
+				title == "Preferences") {
+				// get the top level view
+				BMessenger view;
+				m = BMessage(B_GET_PROPERTY);
+				m.AddSpecifier("View", 0L);
+				err = win.SendMessage(&m, &m, 20000LL, 20000LL);
+				if (m.FindMessenger("result", &view) == B_OK) {
+					messenger = view;
+					return B_OK;
+				}
+			}
+		}
+	}
+
+	// force showing the prefs window
+	BMessage msgShowPref(msg_Preferences);
+	err = app.SendMessage(&msgShowPref);
+
+	err = app.SendMessage(&msgGetMsgr, &answer, 2000000LL, 2000000LL);
+	if (B_OK == err) {
+		for (i = 0; answer.FindMessenger("result", i, &win) == B_OK; i++) {
+			BString title;
+			BMessage m(B_GET_PROPERTY);
+			m.AddSpecifier("Title");
+			err = win.SendMessage(&m, &m, 20000LL, 20000LL);
+			if (m.FindString("result", &title) == B_OK &&
+				title == "Preferences") {
+				// hide the prefs window
+				BMessage hide(B_SET_PROPERTY);
+				hide.AddSpecifier("Hidden");
+				hide.AddBool("data", true);
+				err = win.SendMessage(&hide);
+				// get the top level view
+				BMessenger view;
+				m = BMessage(B_GET_PROPERTY);
+				m.AddSpecifier("View", 0L);
+				err = win.SendMessage(&m, &m, 20000LL, 20000LL);
+				if (m.FindMessenger("result", &view) == B_OK) {
+					messenger = view;
+					return B_OK;
+				}
+			}
+		}
+	}
+
+	return B_ERROR;
 }
 
 
