@@ -28,6 +28,7 @@
 
 #include "ThemesAddon.h"
 #include "UITheme.h"
+#include "Utils.h"
 
 #ifdef SINGLE_BINARY
 #define instantiate_themes_addon instantiate_themes_addon_window_decor
@@ -139,11 +140,13 @@ status_t
 DecorThemesAddon::ApplyTheme(BMessage &theme, uint32 flags)
 {
 	BMessage window_decor;
+	BMessage ui_settings;
 	BMessage globals;
 	BString decorName;
 	int32 decorId;
 	bool decorDone = false;
 	status_t err;
+	rgb_color col;
 
 	if (!(flags & UI_THEME_SETTINGS_SET_ALL) || !(AddonFlags() & Z_THEME_ADDON_DO_SET_ALL))
 		return B_OK;
@@ -152,6 +155,37 @@ DecorThemesAddon::ApplyTheme(BMessage &theme, uint32 flags)
 	DERR(err);
 	if (err)
 		return err;
+
+	theme.FindMessage(Z_THEME_UI_SETTINGS, &ui_settings);
+
+	if (window_decor.FindMessage("window:decor_globals", &globals) == B_OK) {
+		BMessage bwindow;
+		// Try to map colors from the Dano fields
+		if (globals.FindMessage("BWindow", &bwindow) == B_OK) {
+			if (FindRGBColor(bwindow, "f:Inactive Title", 0, &col) == B_OK)
+				set_ui_color(B_WINDOW_INACTIVE_TEXT_COLOR, col);
+			if (FindRGBColor(bwindow, "f:Active Title", 0, &col) == B_OK)
+				set_ui_color(B_WINDOW_TEXT_COLOR, col);
+		}
+
+	}
+	// get colors here, just in case the UI Settings addon isn't enabled.
+	// apply them before changing the decor since for now they don't handle color changes.
+	if (FindRGBColor(window_decor, B_UI_WINDOW_TAB_COLOR, 0, &col) == B_OK ||
+		FindRGBColor(ui_settings, B_UI_WINDOW_TAB_COLOR, 0, &col) == B_OK)
+		set_ui_color(B_WINDOW_TAB_COLOR, col);
+
+	if (FindRGBColor(window_decor, B_UI_WINDOW_TEXT_COLOR, 0, &col) == B_OK ||
+		FindRGBColor(ui_settings, B_UI_WINDOW_TEXT_COLOR, 0, &col) == B_OK)
+		set_ui_color(B_WINDOW_TEXT_COLOR, col);
+
+	if (FindRGBColor(window_decor, B_UI_WINDOW_INACTIVE_TAB_COLOR, 0, &col) == B_OK ||
+		FindRGBColor(ui_settings, B_UI_WINDOW_INACTIVE_TAB_COLOR, 0, &col) == B_OK)
+		set_ui_color(B_WINDOW_INACTIVE_TAB_COLOR, col);
+
+	if (FindRGBColor(window_decor, B_UI_WINDOW_INACTIVE_TEXT_COLOR, 0, &col) == B_OK ||
+		FindRGBColor(ui_settings, B_UI_WINDOW_INACTIVE_TEXT_COLOR, 0, &col) == B_OK)
+		set_ui_color(B_WINDOW_INACTIVE_TEXT_COLOR, col);
 
 	// try each name until one works
 	for (int i = 0; window_decor.FindString("window:decor", i, &decorName) == B_OK; i++) {
@@ -192,8 +226,7 @@ extern void __set_window_decor(int32 theme);
 		__set_window_decor(decorNr);
 #endif
 #endif
-	// XXX: add colors à la WindowShade ?
-	
+
 	return B_OK;
 }
 
@@ -203,6 +236,7 @@ DecorThemesAddon::MakeTheme(BMessage &theme, uint32 flags)
 {
 	BMessage window_decor;
 	BMessage globals;
+	BMessage bwindow;
 	BString decorName;
 	status_t err;
 	
@@ -215,8 +249,17 @@ DecorThemesAddon::MakeTheme(BMessage &theme, uint32 flags)
 	err = get_decorator_name(get_decorator(), decorName);
 	DERR(err);
 	if (err == B_OK) {
+		AddRGBColor(bwindow, "f:Inactive Title", ui_color(B_WINDOW_INACTIVE_TEXT_COLOR));
+		AddRGBColor(bwindow, "f:Active Title", ui_color(B_WINDOW_INACTIVE_TEXT_COLOR));
+
+		globals.AddMessage("window:decor_globals", &bwindow);
 		window_decor.AddString("window:decor", decorName.String());
 		window_decor.AddMessage("window:decor_globals", &globals);
+
+		AddRGBColor(bwindow, B_UI_WINDOW_TAB_COLOR, ui_color(B_WINDOW_TAB_COLOR));
+		AddRGBColor(bwindow, B_UI_WINDOW_TEXT_COLOR, ui_color(B_WINDOW_TEXT_COLOR));
+		AddRGBColor(bwindow, B_UI_WINDOW_INACTIVE_TAB_COLOR, ui_color(B_WINDOW_INACTIVE_TAB_COLOR));
+		AddRGBColor(bwindow, B_UI_WINDOW_INACTIVE_TEXT_COLOR, ui_color(B_WINDOW_INACTIVE_TEXT_COLOR));
 	}
 #if 0
 #ifdef B_BEOS_VERSION_DANO

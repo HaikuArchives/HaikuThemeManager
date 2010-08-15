@@ -93,7 +93,10 @@
 
 // more names
 #define B_UI_DOCUMENT_SELECTION_BACKGROUND_COLOR "be:c:DocSBg"
-
+#define B_UI_WINDOW_TAB_COLOR "h:c:WinTabBg"
+#define B_UI_WINDOW_TEXT_COLOR "h:c:WinTabTx"
+#define B_UI_WINDOW_INACTIVE_TAB_COLOR "h:c:InWinTabBg"
+#define B_UI_WINDOW_INACTIVE_TEXT_COLOR "h:c:InWinTabTx"
 
 #define R5_DECOR_BEOS 0
 #define R5_DECOR_WIN95 1

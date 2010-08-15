@@ -46,6 +46,11 @@ extern void _set_system_font_(const char *which, font_family family,
 extern status_t _get_system_default_font_(const char* which,
 	font_family family, font_style style, float* _size);
 
+// default values for colors in Interface Kit
+// TODO: use it
+namespace BPrivate {
+extern const rgb_color* kDefaultColors;
+}
 
 #define A_NAME "System Colors and Fonts"
 #define A_MSGNAME Z_THEME_UI_SETTINGS
@@ -88,8 +93,8 @@ struct ui_color_map {
 	{ B_UI_NAVIGATION_PULSE_COLOR, B_NAVIGATION_PULSE_COLOR },
 	{ B_UI_SHINE_COLOR, B_SHINE_COLOR },
 	{ B_UI_SHADOW_COLOR, B_SHADOW_COLOR },
-	{ B_UI_TOOLTIP_BACKGROUND_COLOR, B_TOOLTIP_BACKGROUND_COLOR },
-	{ B_UI_TOOLTIP_TEXT_COLOR, B_TOOLTIP_TEXT_COLOR },
+	{ B_UI_TOOLTIP_BACKGROUND_COLOR, B_TOOL_TIP_BACKGROUND_COLOR },
+	{ B_UI_TOOLTIP_TEXT_COLOR, B_TOOL_TIP_TEXT_COLOR },
 	{ B_UI_MENU_BACKGROUND_COLOR, B_MENU_BACKGROUND_COLOR },
 	{ B_UI_MENU_SELECTED_BACKGROUND_COLOR, B_MENU_SELECTED_BACKGROUND_COLOR },
 	{ B_UI_MENU_ITEM_TEXT_COLOR, B_MENU_ITEM_TEXT_COLOR },
@@ -97,6 +102,11 @@ struct ui_color_map {
 	{ B_UI_MENU_SELECTED_BORDER_COLOR, B_MENU_SELECTED_BORDER_COLOR },
 	{ B_UI_SUCCESS_COLOR, B_SUCCESS_COLOR },
 	{ B_UI_FAILURE_COLOR, B_FAILURE_COLOR },
+	{ B_UI_WINDOW_TAB_COLOR, B_WINDOW_TAB_COLOR },
+	{ B_UI_WINDOW_TEXT_COLOR, B_WINDOW_TEXT_COLOR },
+	{ B_UI_WINDOW_INACTIVE_TAB_COLOR, B_WINDOW_INACTIVE_TAB_COLOR },
+	{ B_UI_WINDOW_INACTIVE_TEXT_COLOR, B_WINDOW_INACTIVE_TEXT_COLOR },
+	
 	{ NULL, (color_which)-1 }
 };
 
@@ -139,7 +149,7 @@ UISettingsThemesAddon::RunPreferencesPanel()
 	*/
 	if (!err)
 		return B_OK;
-	err = ent.SetTo("/boot/beos/preferences/Appearance");
+	err = ent.SetTo("/boot/system/preferences/Appearance");
 	if (!err) {
 		err = ent.GetRef(&ref);
 		if (!err) {
@@ -156,7 +166,7 @@ UISettingsThemesAddon::AddNames(BMessage &names)
 	FENTRY;
 	
 	names.AddString(Z_THEME_UI_SETTINGS, "UI Settings");
-	// Haiku doesn't know about them, wo add them
+	// Haiku doesn't know about them, we add them ourselves
 	//XXX: use symbolic names.
 	names.AddString("be:c:PanBg", "Panel Background");
 	names.AddString("be:c:PanTx", "Panel Text");
@@ -189,6 +199,11 @@ UISettingsThemesAddon::AddNames(BMessage &names)
 	names.AddString("be:f:be_plain_font", "System Plain");
 	names.AddString("be:f:be_bold_font", "System Bold");
 	names.AddString("be:f:be_fixed_font", "System Fixed");
+	names.AddString("be:f:be_fixed_font", "System Fixed");
+	names.AddString("h:c:WinTabBg", "Window Tab Background");
+	names.AddString("h:c:WinTabTx", "Window Tab Text");
+	names.AddString("h:c:InWinTabBg", "Inactive Window Tab Background");
+	names.AddString("h:c:InWinTabTx", "Inactive Window Tab Text");
 	return B_OK;
 }
 
