@@ -126,7 +126,8 @@ PeThemesAddon::ApplyTheme(BMessage &theme, uint32 flags)
 	
 	for (i = 0; sPeColors[i].pe; i++) {
 		if (FindRGBColor(uisettings, sPeColors[i].dano, 0, &col) < B_OK)
-			if (FindRGBColor(uisettings, sPeColors[i].fallback, 0, &col) < B_OK)
+			if (sPeColors[i].fallback &&
+				FindRGBColor(uisettings, sPeColors[i].fallback, 0, &col) < B_OK)
 				continue;
 		sprintf(buffer, "%02x%02x%02x", col.red, col.green, col.blue);
 		text << sPeColors[i].pe << " color=#" << buffer << "\n";
