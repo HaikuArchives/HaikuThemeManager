@@ -3,6 +3,7 @@
  * Distributed under the terms of the MIT License.
  */
 
+#include <Entry.h>
 #include <Screen.h>
 #include <Window.h>
 
@@ -46,6 +47,17 @@ ThemesApp::MessageReceived(BMessage *message)
 	switch (message->what) {
 	default:
 		BApplication::MessageReceived(message);
+	}
+}
+
+
+void
+ThemesApp::RefsReceived(BMessage *message)
+{
+	message->PrintToStream();
+	entry_ref ref;
+	if (message->FindRef("refs", &ref) == B_OK) {
+		;
 	}
 }
 

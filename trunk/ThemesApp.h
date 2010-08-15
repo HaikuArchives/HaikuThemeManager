@@ -13,6 +13,7 @@ public:
 	virtual ~ThemesApp();
 	void ReadyToRun();
 	void MessageReceived(BMessage *message);
+	void RefsReceived(BMessage *message);
 
 private:
 };
