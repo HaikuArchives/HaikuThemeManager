@@ -149,16 +149,13 @@ PeThemesAddon::ApplyTheme(BMessage &theme, uint32 flags)
 			msgColor.AddSpecifier("View", sPeColors[i].view);
 			msgrPrefs.SendMessage(&msgColor);
 		}
-	
-		
 		
 		// simulate a click on the "Ok" button in prefs
 		BMessage click(B_SET_PROPERTY);
 		click.AddSpecifier("Value");
 		click.AddSpecifier("View", "ok  ");
 		click.AddInt32("data", B_CONTROL_ON);
-		msgrPrefs.SendMessage(click);
-		
+		msgrPrefs.SendMessage(&click);
 		
 	}
 
