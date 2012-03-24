@@ -9,6 +9,7 @@ TODOs for Theme manager:
 * Save as resource/BMessage ? (for editing)
 * broadcast _UIC for Haiku
 * ideas for addons:
+	- ControlLook change support for Haiku
 	- ~/config/settings/Tracker/DefaultFolderTemplate/ (default background ??)
 	- Desktop icon size ?
 	- Desktop shelf ? (dangerous)
