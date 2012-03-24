@@ -36,17 +36,18 @@
 
 #define DERR(e) { PRINT(("%s: err: %s\n", __FUNCTION__, strerror(e))); }
 
+// headers/private/interface/DecoratorPrivate.h
 namespace BPrivate {
-int32 count_decorators(void);
-int32 get_decorator(void);
-status_t get_decorator_name(const int32 &index, BString &name);
-status_t get_decorator_preview(const int32 &index, BBitmap *bitmap);
-status_t set_decorator(const int32 &index);
+status_t get_decorator(BString &name);
+status_t set_decorator(const BString &name);
+status_t get_decorator_preview(const BString &name, BBitmap *bitmap);
 } 
 
 using namespace BPrivate;
 
 
+//XXX: maybe check before setting the current decorator again ?
+#if 0
 status_t
 set_decorator(const char *name)
 {
@@ -66,7 +67,7 @@ set_decorator(const char *name)
 	}
 	return ENOENT;
 }
-
+#endif
 
 #define A_NAME "Window Decor"
 #define A_MSGNAME Z_THEME_WINDOW_DECORATIONS
@@ -189,7 +190,7 @@ DecorThemesAddon::ApplyTheme(BMessage &theme, uint32 flags)
 
 	// try each name until one works
 	for (int i = 0; window_decor.FindString("window:decor", i, &decorName) == B_OK; i++) {
-		if (set_decorator(decorName.String()) == B_OK) {
+		if (set_decorator(decorName) == B_OK) {
 			decorDone = true;
 			break;
 		}
@@ -197,20 +198,19 @@ DecorThemesAddon::ApplyTheme(BMessage &theme, uint32 flags)
 	// none... maybe R5 number ?
 	if (!decorDone && 
 		window_decor.FindInt32("window:R5:decor", &decorId) == B_OK) {
-		int32 defaultDecor = 0; // XXX ?
 		switch (decorId) {
 			case R5_DECOR_BEOS:
 			default:
-				set_decorator(defaultDecor);
+				set_decorator(BString("Default"));
 				break;
 			case R5_DECOR_WIN95:
-				set_decorator("WinDecorator");
+				set_decorator(BString("WinDecorator"));
 				break;
 			case R5_DECOR_AMIGA:
-				set_decorator("AmigaDecorator");
+				set_decorator(BString("AmigaDecorator"));
 				break;
 			case R5_DECOR_MAC:
-				set_decorator("MacDecorator");
+				set_decorator(BString("MacDecorator"));
 				break;
 		}
 	}
@@ -246,7 +246,7 @@ DecorThemesAddon::MakeTheme(BMessage &theme, uint32 flags)
 	if (err)
 		window_decor.MakeEmpty();
 
-	err = get_decorator_name(get_decorator(), decorName);
+	err = get_decorator(decorName);
 	DERR(err);
 	if (err == B_OK) {
 		AddRGBColor(bwindow, "f:Inactive Title", ui_color(B_WINDOW_INACTIVE_TEXT_COLOR));
@@ -285,7 +285,7 @@ DecorThemesAddon::ApplyDefaultTheme(uint32 flags)
 {
 	BMessage theme;
 	BMessage window_decor;
-	window_decor.AddString("window:decor", "R5");
+	window_decor.AddString("window:decor", "Default");
 	window_decor.AddInt32("window:R5:decor", 0L);
 	theme.AddMessage(A_MSGNAME, &window_decor);
 	return ApplyTheme(theme, flags);
