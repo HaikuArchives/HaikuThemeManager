@@ -86,7 +86,7 @@ RDEFS := Themes.rdef
 #		naming scheme you need to specify the path to the library
 #		and it's name
 #		library: my_lib.a entry: my_lib.a or path/my_lib.a
-LIBS := be media textencoding translation stdc++.r4
+LIBS = be media textencoding translation $(STDCPPLIBS)
 
 #	specify additional paths to directories following the standard
 #	libXXX.so or libXXX.a naming scheme.  You can specify full paths
@@ -218,3 +218,6 @@ include $(BUILDHOME)/etc/makefile-engine
 
 # force using rc instead of beres
 BERES := rc
+
+# Set C++ libs for BeOS and Haiku alpha3
+STDCPPLIBS ?= stdc++.r4
