@@ -1,0 +1,204 @@
+// new BMessage
+BMessage('ZThm') {
+	z:theme:infos = BMessage(0x00000000) {
+		z:theme:name = string("Win95", 5 bytes)
+	}
+	// Desktop backgrounds and color; please respect count and ordering of all fields!
+	be:bgndimginfo = BMessage(0x00000000) {
+		// one per workspace, up to the last changing one
+		be:desktop_color = rgb_color(0,130,130,255)
+	}
+	// Deskbar position
+	deskbar_settings = BMessage(0x00000000) {
+		// Deskbar on-screen position
+		db:location = int32(1 or 0x1)
+		// Deskbar is expanded
+		db:expanded = bool(true)
+	}
+	// Screensaver settings
+	screensaver_settings = BMessage(0x00000000) {
+		// Screensaver active module
+		screensaver:modulename = string("TextCrawler", 11 bytes)
+	}
+	// Sounds Settings
+	sounds_settings = BMessage(0x00000000) {
+		AIM: Received Message = BMessage('SndI') {
+		}
+		BeShare-Name Said = BMessage('SndI') {
+		}
+		Beep = BMessage('SndI') {
+			// Filename for this sound event
+			sounds:file = string("/boot/beos/etc/sounds/BeBeep.wav", 32 bytes)
+			// Volume for this sound event
+			sounds:volume = float(1.000000)
+		}
+		IM Message Received = BMessage('SndI') {
+		}
+		Key Down = BMessage('SndI') {
+		}
+		Key Repeat = BMessage('SndI') {
+		}
+		Key Up = BMessage('SndI') {
+		}
+		Mouse Down = BMessage('SndI') {
+		}
+		Mouse Up = BMessage('SndI') {
+		}
+		New E-mail = BMessage('SndI') {
+		}
+		Startup = BMessage('SndI') {
+			// Filename for this sound event
+			sounds:file = string("/boot/beos/etc/sounds/BeStartup.wav", 35 bytes)
+			// Volume for this sound event
+			sounds:volume = float(1.000000)
+		}
+		Vision Nick Notification = BMessage('SndI') {
+		}
+		Window Activated = BMessage('SndI') {
+		}
+		Window Close = BMessage('SndI') {
+		}
+		Window Minimized = BMessage('SndI') {
+		}
+		Window Open = BMessage('SndI') {
+		}
+		Window Restored = BMessage('SndI') {
+		}
+		Window Zoomed = BMessage('SndI') {
+		}
+		Yahoo: Buzz = BMessage('SndI') {
+			// Filename for this sound event
+			sounds:file = string("/boot/apps/Internet/Yahoo/media/doorbl.wav", 42 bytes)
+			// Volume for this sound event
+			sounds:volume = float(1.000000)
+		}
+		Yahoo: New Mail = BMessage('SndI') {
+			// Filename for this sound event
+			sounds:file = string("/boot/apps/Internet/Yahoo/media/purr.aiff", 41 bytes)
+			// Volume for this sound event
+			sounds:volume = float(1.000000)
+		}
+		Yahoo: New Message = BMessage('SndI') {
+			// Filename for this sound event
+			sounds:file = string("/boot/apps/Internet/Yahoo/media/ring.mp3", 40 bytes)
+			// Volume for this sound event
+			sounds:volume = float(1.000000)
+		}
+		Yahoo: Offline = BMessage('SndI') {
+			// Filename for this sound event
+			sounds:file = string("/boot/apps/Internet/Yahoo/media/doorslam.mp3", 44 bytes)
+			// Volume for this sound event
+			sounds:volume = float(1.000000)
+		}
+		Yahoo: Online = BMessage('SndI') {
+			// Filename for this sound event
+			sounds:file = string("/boot/apps/Internet/Yahoo/media/dooropen.mp3", 44 bytes)
+			// Volume for this sound event
+			sounds:volume = float(1.000000)
+		}
+	}
+	// Terminal Preferences
+	terminal_prefs = BMessage(0x00000000) {
+		// Terminal column count
+		term:cols = int32(80 or 0x50)
+		// Terminal row count
+		term:rows = int32(24 or 0x18)
+		// Terminal tab width
+		term:tab = int32(8 or 0x8)
+		// Terminal font
+		term:font = BFont(Bitstream Vera Sans Mono/Bold/14.0, shear=90.0, rot=0.0, height=12.9951+3.30176+0.0)
+		// Terminal background color
+		term:c:bg = rgb_color(0,0,0,0)
+		// Terminal foreground color
+		term:c:fg = rgb_color(215,243,233,0)
+		// Terminal cursor background color
+		term:c:curbg = rgb_color(0,254,0,0)
+		// Terminal cursor foreground color
+		term:c:curfg = rgb_color(255,0,255,0)
+		// Terminal selection background color
+		term:c:selbg = rgb_color(0,150,221,0)
+		// Terminal selection foreground color
+		term:c:selfg = rgb_color(0,0,0,0)
+		// Terminal text encoding
+		term:encoding = int32(1 or 0x1)
+	}
+	// UI Settings
+	ui_settings = BMessage(0x00000000) {
+		// Panel Background
+		be:c:PanBg = rgb_color(195,195,195,255)
+		// Panel Text
+		be:c:PanTx = rgb_color(0,0,0,255)
+		// Panel Link
+		be:c:PanLn = rgb_color(0,62,171,255)
+		// Document Background
+		be:c:DocBg = rgb_color(255,255,255,255)
+		// Document Text
+		be:c:DocTx = rgb_color(0,0,0,255)
+		// Document Link
+		be:c:DocLn = rgb_color(0,62,171,255)
+		// Control Background
+		be:c:CtlBg = rgb_color(245,245,245,255)
+		// Control Text
+		be:c:CtlTx = rgb_color(0,0,0,255)
+		// Control Border
+		be:c:CtlBr = rgb_color(130,130,130,255)
+		// Control Highlight
+		be:c:CtlHg = rgb_color(0,0,130,255)
+		// Navigation Base
+		be:c:NavBs = rgb_color(195,195,195,255)
+		// Navigation Pulse
+		be:c:NavPl = rgb_color(0,0,0,255)
+		// Shine
+		be:c:Shine = rgb_color(255,255,255,255)
+		// Shadow
+		be:c:Shadow = rgb_color(0,0,0,255)
+		// ToolTip Background
+		be:c:TipBg = rgb_color(255,255,171,255)
+		// ToolTip Text
+		be:c:TipTx = rgb_color(130,130,130,255)
+		// Menu Background
+		be:c:MenBg = rgb_color(195,195,195,255)
+		// Menu Selected Background
+		be:c:MenSBg = rgb_color(0,0,130,255)
+		// Menu Item Text
+		be:c:MenTx = rgb_color(0,0,0,255)
+		// Menu Selected Item Text
+		be:c:MenSTx = rgb_color(255,255,255,255)
+		// Menu Selected Border
+		be:c:MenSBr = rgb_color(0,0,130,255)
+		// Success
+		be:c:Success = rgb_color(0,255,0,255)
+		// Failure
+		be:c:Failure = rgb_color(255,0,0,255)
+		// Menu Item Text
+		be:f:MenTx = BFont(Swis721 BT/Roman/12.0, shear=90.0, rot=0.0, height=11.5547+2.83008+0.0)
+		// Menu Separator
+		be:MenSep = int32(0 or (nil))
+		// Show Menu Triggers
+		be:MenTrig = bool(false)
+		// Menu ZSnake
+		be:MenZSnake = bool(false)
+		// ToolTip
+		be:f:Tip = BFont(Swis721 BT/Roman/11.0, shear=90.0, rot=0.0, height=10.5918+2.59424+0.0)
+		// System Plain
+		be:f:be_plain_font = BFont(Bitstream Vera Sans/Roman/11.0, shear=90.0, rot=0.0, height=10.2104+2.59424+0.0)
+		// System Bold
+		be:f:be_bold_font = BFont(Bitstream Vera Sans/Bold/12.0, shear=90.0, rot=0.0, height=11.1387+2.83008+0.0)
+		// System Fixed
+		be:f:be_fixed_font = BFont(Monospac821 BT/Roman/12.0, shear=90.0, rot=0.0, height=11.5547+2.83008+0.0)
+	}
+	// Window decorations and scrollbars
+	window_decorations = BMessage(0x00000000) {
+		// Window decor
+		window:decor = string("yellowTAB", 9 bytes)
+		// Window decor parameters
+		window:decor_globals = BMessage(0x00000000) {
+			BWindow = BMessage(0x00000000) {
+				f:WindowTitle = BFont(Bitstream Vera Sans/Bold/12.0, shear=90.0, rot=0.0, height=11.1387+2.83008+0.0)
+				b:Buttons Need Focus = int32(0 or (nil))
+				f:Inactive Title = rgb_color(140,140,140,255)
+				f:Active Title = rgb_color(0,0,0,255)
+			}
+		}
+	}
+}

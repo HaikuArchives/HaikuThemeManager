@@ -1,0 +1,210 @@
+// new BMessage
+BMessage('ZThm') {
+	z:theme:infos = BMessage(0x00000000) {
+		z:theme:name = string("win2k", 5 bytes)
+		z:theme:screenshot = string("screenshot.png", 14 bytes)
+	}
+	// Desktop backgrounds and color; please respect count and ordering of all fields!
+	be:bgndimginfo = BMessage(0x00000000) {
+		// one per workspace, up to the last changing one
+		be:desktop_color = rgb_color(58,110,165,255)
+	}
+	// Deskbar position
+	deskbar_settings = BMessage(0x00000000) {
+		// Deskbar on-screen position
+		db:location = int32(1 or 0x1)
+		// Deskbar is expanded
+		db:expanded = bool(true)
+	}
+	// Screensaver settings
+	screensaver_settings = BMessage(0x00000000) {
+		// Screensaver active module
+		screensaver:modulename = string("TextCrawler", 11 bytes)
+	}
+	// Sounds Settings
+	sounds_settings = BMessage(0x00000000) {
+		BeShare-DLFinished = BMessage('SndI') {
+		}
+		BeShare-InactivChat = BMessage('SndI') {
+		}
+		BeShare-Name Said = BMessage('SndI') {
+		}
+		BeShare-NoComplete = BMessage('SndI') {
+		}
+		BeShare-Private Msg = BMessage('SndI') {
+		}
+		BeShare-PrivateWndw = BMessage('SndI') {
+		}
+		BeShare-ULFinished = BMessage('SndI') {
+		}
+		BeShare-ULStarted = BMessage('SndI') {
+		}
+		BeShare-WatchedUser = BMessage('SndI') {
+		}
+		Beep = BMessage('SndI') {
+			// Filename for this sound event
+			sounds:file = string("/boot/beos/etc/sounds/BeBeep.wav", 32 bytes)
+			// Volume for this sound event
+			sounds:volume = float(1.000000)
+		}
+		Capture = BMessage('SndI') {
+		}
+		IM Connected = BMessage('SndI') {
+		}
+		IM Disconnected = BMessage('SndI') {
+		}
+		IM Message Received = BMessage('SndI') {
+		}
+		IM Status: Available = BMessage('SndI') {
+		}
+		IM Status: Away = BMessage('SndI') {
+		}
+		IM Status: Offline = BMessage('SndI') {
+		}
+		InfoPopper: Error Message = BMessage('SndI') {
+		}
+		InfoPopper: Important Message = BMessage('SndI') {
+		}
+		InfoPopper: Information Message = BMessage('SndI') {
+		}
+		InfoPopper: Progress Message = BMessage('SndI') {
+		}
+		Key Down = BMessage('SndI') {
+		}
+		Key Repeat = BMessage('SndI') {
+		}
+		Key Up = BMessage('SndI') {
+		}
+		Mouse Down = BMessage('SndI') {
+		}
+		Mouse Up = BMessage('SndI') {
+		}
+		New E-mail = BMessage('SndI') {
+		}
+		Startup = BMessage('SndI') {
+			// Filename for this sound event
+			sounds:file = string("/boot/beos/etc/sounds/BeStartup.wav", 35 bytes)
+			// Volume for this sound event
+			sounds:volume = float(1.000000)
+		}
+		Vision Nick Notification = BMessage('SndI') {
+		}
+		Window Activated = BMessage('SndI') {
+		}
+		Window Close = BMessage('SndI') {
+		}
+		Window Minimized = BMessage('SndI') {
+		}
+		Window Open = BMessage('SndI') {
+		}
+		Window Restored = BMessage('SndI') {
+		}
+		Window Zoomed = BMessage('SndI') {
+		}
+	}
+	// Terminal Preferences
+	terminal_prefs = BMessage(0x00000000) {
+		// Terminal column count
+		term:cols = int32(80 or 0x50)
+		// Terminal row count
+		term:rows = int32(24 or 0x18)
+		// Terminal tab width
+		term:tab = int32(8 or 0x8)
+		// Terminal font
+		term:font = BFont(Bitstream Vera Sans Mono/Bold/11.0, shear=90.0, rot=0.0, height=10.2104+2.59424+0.0)
+		// Terminal background color
+		term:c:bg = rgb_color(0,0,0,0)
+		// Terminal foreground color
+		term:c:fg = rgb_color(200,200,200,0)
+		// Terminal cursor background color
+		term:c:curbg = rgb_color(255,255,255,255)
+		// Terminal cursor foreground color
+		term:c:curfg = rgb_color(0,0,0,255)
+		// Terminal selection background color
+		term:c:selbg = rgb_color(250,250,250,255)
+		// Terminal selection foreground color
+		term:c:selfg = rgb_color(50,50,50,255)
+		// Terminal text encoding
+		term:encoding = int32(0 or (nil))
+	}
+	// UI Settings
+	ui_settings = BMessage(0x00000000) {
+		// Panel Background
+		be:c:PanBg = rgb_color(212,208,200,255)
+		// Panel Text
+		be:c:PanTx = rgb_color(0,0,0,255)
+		// Panel Link
+		be:c:PanLn = rgb_color(0,110,204,255)
+		// Document Background
+		be:c:DocBg = rgb_color(255,255,255,255)
+		// Document Text
+		be:c:DocTx = rgb_color(0,0,0,255)
+		// Document Link
+		be:c:DocLn = rgb_color(0,110,204,255)
+		// Control Background
+		be:c:CtlBg = rgb_color(212,208,200,255)
+		// Control Text
+		be:c:CtlTx = rgb_color(0,0,0,255)
+		// Control Border
+		be:c:CtlBr = rgb_color(0,0,0,255)
+		// Control Highlight
+		be:c:CtlHg = rgb_color(10,36,106,255)
+		// Navigation Base
+		be:c:NavBs = rgb_color(10,36,106,255)
+		// Navigation Pulse
+		be:c:NavPl = rgb_color(245,219,149,255)
+		// Shine
+		be:c:Shine = rgb_color(255,255,255,255)
+		// Shadow
+		be:c:Shadow = rgb_color(128,128,128,255)
+		// ToolTip Background
+		be:c:TipBg = rgb_color(255,255,0,255)
+		// ToolTip Text
+		be:c:TipTx = rgb_color(0,0,0,255)
+		// Menu Background
+		be:c:MenBg = rgb_color(212,208,200,255)
+		// Menu Selected Background
+		be:c:MenSBg = rgb_color(10,36,106,255)
+		// Menu Item Text
+		be:c:MenTx = rgb_color(0,0,0,255)
+		// Menu Selected Item Text
+		be:c:MenSTx = rgb_color(255,255,255,255)
+		// Menu Selected Border
+		be:c:MenSBr = rgb_color(10,36,106,255)
+		// Success
+		be:c:Success = rgb_color(0,255,0,255)
+		// Failure
+		be:c:Failure = rgb_color(255,0,0,255)
+		// Menu Item Text
+		be:f:MenTx = BFont(Verdana/Regular/10.0, shear=90.0, rot=0.0, height=10.0537+2.09961+0.0)
+		// Menu Separator
+		be:MenSep = int32(0 or (nil))
+		// Show Menu Triggers
+		be:MenTrig = bool(false)
+		// Menu ZSnake
+		be:MenZSnake = bool(false)
+		// ToolTip
+		be:f:Tip = BFont(Verdana/Regular/10.0, shear=90.0, rot=0.0, height=10.0537+2.09961+0.0)
+		// System Plain
+		be:f:be_plain_font = BFont(Verdana/Regular/10.0, shear=90.0, rot=0.0, height=10.0537+2.09961+0.0)
+		// System Bold
+		be:f:be_bold_font = BFont(Bitstream Vera Sans/Bold/10.0, shear=90.0, rot=0.0, height=9.28223+2.3584+0.0)
+		// System Fixed
+		be:f:be_fixed_font = BFont(Monospac821 BT/Roman/12.0, shear=90.0, rot=0.0, height=11.5547+2.83008+0.0)
+	}
+	// Window decorations and scrollbars
+	window_decorations = BMessage(0x00000000) {
+		// Window decor
+		window:decor = string("Win2k", 5 bytes)
+		// Window decor parameters
+		window:decor_globals = BMessage(0x00000000) {
+			BWindow = BMessage(0x00000000) {
+				f:Floater Title = BFont(Verdana/Regular/11.0, shear=90.0, rot=0.0, height=11.0591+2.30957+0.0)
+				b:Buttons Need Focus = int32(0 or (nil))
+				f:Inactive Title = rgb_color(127,127,127,255)
+				f:Active Title = rgb_color(255,255,255,255)
+				f:WindowTitle = BFont(Verdana/Bold/10.0, shear=90.0, rot=0.0, height=10.0537+2.09961+0.0)
+			}
+		}
+	}
+}

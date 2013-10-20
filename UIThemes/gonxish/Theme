@@ -1,0 +1,135 @@
+// new BMessage
+BMessage('ZThm') {
+	z:theme:infos = BMessage(0x00000000) {
+		z:theme:name = string("gonxish", 7 bytes)
+		z:theme:screenshot = string("screenshot.png", 14 bytes)
+		z:theme:description = string("Pastel colors...", 16 bytes)
+	}
+	// UI Settings
+	ui_settings = BMessage(0x00000000) {
+		// Panel Background
+		be:c:PanBg = rgb_color(239,235,231,255)
+		// Panel Text
+		be:c:PanTx = rgb_color(0,0,0,255)
+		// Document Background
+		be:c:DocBg = rgb_color(238,245,255,255)
+		// Document Text
+		be:c:DocTx = rgb_color(0,0,0,255)
+		// Control Background
+		be:c:CtlBg = rgb_color(244,244,240,255)
+		// Control Text
+		be:c:CtlTx = rgb_color(0,0,0,255)
+		// Control Border
+		be:c:CtlBr = rgb_color(140,140,121,255)
+		// Control Highlight
+		be:c:CtlHg = rgb_color(80,114,154,255)
+		// Navigation Base
+		be:c:NavBs = rgb_color(96,128,182,255)
+		// Navigation Pulse
+		be:c:NavPl = rgb_color(0,0,0,255)
+		// Shine
+		be:c:Shine = rgb_color(255,255,255,255)
+		// Shadow
+		be:c:Shadow = rgb_color(168,166,152,255)
+		// ToolTip Background
+		be:c:TipBg = rgb_color(255,255,0,255)
+		// ToolTip Text
+		be:c:TipTx = rgb_color(0,0,0,255)
+		// Menu Background
+		be:c:MenBg = rgb_color(239,235,231,0)
+		// Menu Selected Background
+		be:c:MenSBg = rgb_color(157,179,204,255)
+		// Menu Item Text
+		be:c:MenTx = rgb_color(0,0,0,255)
+		// Menu Selected Item Text
+		be:c:MenSTx = rgb_color(255,255,255,255)
+		// Menu Selected Border
+		be:c:MenSBr = rgb_color(140,140,121,255)
+		// Success
+		be:c:Success = rgb_color(0,255,0,255)
+		// Failure
+		be:c:Failure = rgb_color(255,0,0,255)
+		// Menu Item Text
+		be:f:MenTx = BFont(Swis721 BT/Roman/12.0, shear=90.0, rot=0.0, height=11.5547+2.83008+0.0)
+		// Menu Separator
+		be:MenSep = int32(0 or (nil))
+		// Show Menu Triggers
+		be:MenTrig = bool(false)
+		// Menu ZSnake
+		be:MenZSnake = bool(true)
+		// ToolTip
+		be:f:Tip = BFont(Swis721 BT/Roman/11.0, shear=90.0, rot=0.0, height=10.5918+2.59424+0.0)
+		// System Plain
+		be:f:be_plain_font = BFont(Bitstream Vera Sans/Roman/11.0, shear=90.0, rot=0.0, height=10.2104+2.59424+0.0)
+		// System Bold
+		be:f:be_bold_font = BFont(Bitstream Vera Sans/Bold/12.0, shear=90.0, rot=0.0, height=11.1387+2.83008+0.0)
+		// System Fixed
+		be:f:be_fixed_font = BFont(Monospac821 BT/Roman/12.0, shear=90.0, rot=0.0, height=11.5547+2.83008+0.0)
+	}
+	// Window decorations and scrollbars
+	window_decorations = BMessage(0x00000000) {
+		// Window decor
+		window:decor = string("GONX", 4 bytes)
+		// Window decor parameters
+		window:decor_globals = BMessage(0x00000000) {
+			BWindow = BMessage(0x00000000) {
+				f:Floater Title = BFont(Swis721 BT/Roman/11.0, shear=90.0, rot=0.0, height=10.5918+2.59424+0.0)
+				b:Buttons Need Focus = int32(0 or (nil))
+				f:Active Title = rgb_color(0,0,0,255)
+				f:Inactive Title = rgb_color(38,38,38,255)
+			}
+		}
+	}
+	// Desktop backgrounds and color; please respect count and ordering of all fields!
+	be:bgndimginfo = BMessage(0x00000000) {
+		// Workspaces each backdrop apply to
+		be:bgndimginfoworkspaces = int32(1 or 0x1)
+		// Actual backdrop image file
+		be:bgndimginfopath = string("/boot/home/config/Backgrounds/GonxBG.png", 40 bytes)
+		// image mode: 0=use_origin, 1=centered, 2=scaled, 3=tiled
+		be:bgndimginfomode = int32(2 or 0x2)
+		// Origin point for mode 0
+		be:bgndimginfooffset = BPoint(0.0, 0.0)
+		// If true, use desktop color as icon text background
+		be:bgndimginfoerasetext = bool(true)
+		// one per workspace, up to the last changing one
+		be:desktop_color = rgb_color(126,160,193,255)
+	}
+	// Deskbar position
+	deskbar_settings = BMessage(0x00000000) {
+		// Deskbar on-screen position
+		db:location = int32(4 or 0x4)
+		// Deskbar is expanded
+		db:expanded = bool(false)
+	}
+	// Terminal Preferences
+	terminal_prefs = BMessage(0x00000000) {
+		// Terminal column count
+		term:cols = int32(80 or 0x50)
+		// Terminal row count
+		term:rows = int32(24 or 0x18)
+		// Terminal tab width
+		term:tab = int32(8 or 0x8)
+		// Terminal font
+		term:font = BFont(Bitstream Vera Sans Mono/Roman/12.0, shear=90.0, rot=0.0, height=11.1387+2.83008+0.0)
+		// Terminal background color
+		term:c:bg = rgb_color(238,245,255,0)
+		// Terminal foreground color
+		term:c:fg = rgb_color(0,0,0,0)
+		// Terminal cursor background color
+		term:c:curbg = rgb_color(243,202,0,0)
+		// Terminal cursor foreground color
+		term:c:curfg = rgb_color(40,38,255,0)
+		// Terminal selection background color
+		term:c:selbg = rgb_color(0,0,0,0)
+		// Terminal selection foreground color
+		term:c:selfg = rgb_color(255,255,255,0)
+		// Terminal text encoding
+		term:encoding = int32(0 or (nil))
+	}
+	dircolours_settings = BMessage(0x00000000) {
+	}
+	// BeIDE Settings
+	BeIDE_settings = BMessage(0x00000000) {
+	}
+}
