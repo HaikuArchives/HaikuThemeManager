@@ -1,0 +1,8 @@
+ChangeLog
+========================
+The reason this file exists is because history for this branch is not kept (size issue).
+
+10/2013:
+	Add README and CHANGELOG.
+	Add two new themes ("TuneTracker" and "Winter").
+	Create themes branch with themes from "master".
