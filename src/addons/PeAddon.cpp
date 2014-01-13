@@ -165,12 +165,29 @@ PeThemesAddon::ApplyTheme(BMessage &theme, uint32 flags)
 		}
 		
 		// simulate a click on the "Ok" button in prefs
+		// this doesn't seem to work anymore in Haiku !?
 		BMessage click(B_SET_PROPERTY);
 		click.AddSpecifier("Value");
 		click.AddSpecifier("View", "ok  ");
 		click.AddInt32("data", B_CONTROL_ON);
 		msgrPrefs.SendMessage(&click);
-		
+
+		// just in case
+		click.RemoveName("data");
+		click.AddInt32("data", B_CONTROL_OFF);
+		msgrPrefs.SendMessage(&click);
+
+		// instead simulate a button down/up
+		snooze(100000);
+		click.MakeEmpty();
+		click.what = B_MOUSE_DOWN;
+		click.AddSpecifier("View", "ok  ");
+		click.AddSpecifier("View", (int32)0);
+		msgrPrefs.SendMessage(&click);
+
+		snooze(100000);
+		click.what = B_MOUSE_UP;
+		msgrPrefs.SendMessage(&click);
 	}
 
 	// save
@@ -232,6 +249,7 @@ PeThemesAddon::FindPrefWindow(BMessenger &messenger)
 	if (B_OK == err) {
 		for (i = 0; answer.FindMessenger("result", i, &win) == B_OK; i++) {
 			BString title;
+			//TODO: FIXME: title might get localized someday...
 			BMessage m(B_GET_PROPERTY);
 			m.AddSpecifier("Title");
 			err = win.SendMessage(&m, &m, 20000LL, 20000LL);
