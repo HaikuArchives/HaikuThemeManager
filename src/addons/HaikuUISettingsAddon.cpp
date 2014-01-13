@@ -135,6 +135,10 @@ status_t
 UISettingsThemesAddon::RunPreferencesPanel()
 {
 	status_t err = B_OK;
+
+	if (be_roster->Launch("application/x-vnd.Haiku-Appearance") == B_OK)
+		return B_OK;
+
 	entry_ref ref;
 	BEntry ent;
 	FENTRY;
