@@ -102,6 +102,8 @@ DeskbarThemesAddon::AddNames(BMessage &names)
 	names.AddString(Z_THEME_DESKBAR_SETTINGS, "Deskbar position");
 	names.AddString("db:location", "Deskbar on-screen position");
 	names.AddString("db:expanded", "Deskbar is expanded");
+	names.AddString("db:iconSize", "Deskbar icons size");
+	names.AddString("db:hideLabels", "Deskbar hide labels");
 	return B_OK;
 }
 
@@ -163,8 +165,12 @@ DeskbarThemesAddon::ApplyDefaultTheme(uint32 flags)
 	BMessage deskbar;
 	deskbar_location loc = B_DESKBAR_RIGHT_TOP;
 	bool expanded = true;
+	int32 iconSize = 16;
+	bool hideLabels = false;
 	deskbar.AddInt32("db:location", (int32)loc);
 	deskbar.AddBool("db:expanded", expanded);
+	deskbar.AddInt32("db:iconSize", iconSize);
+	deskbar.AddBool("db:hideLabels", hideLabels);
 	theme.AddMessage(A_MSGNAME, &deskbar);
 	return ApplyTheme(theme, flags);
 }
