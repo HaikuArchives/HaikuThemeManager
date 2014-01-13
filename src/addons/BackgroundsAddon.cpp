@@ -38,6 +38,10 @@
 
 #define B__DESKTOP_COLOR "be:desktop_color"
 
+#ifndef __HAIKU__
+#define B_SYSTEM_PREFERENCES_DIRECTORY B_BEOS_PREFERENCES_DIRECTORY
+#endif
+
 
 class BackgroundThemesAddon : public ThemesAddon {
 public:
@@ -86,23 +90,33 @@ BackgroundThemesAddon::Description()
 status_t
 BackgroundThemesAddon::RunPreferencesPanel()
 {
-/*	if (be_roster->Launch("application/x-vnd.obos-Backgrounds") < B_OK)
-		if (be_roster->Launch("application/x-vnd.Be-Backgrounds") < B_OK)
-			return B_ERROR;*/
+	if (be_roster->Launch("application/x-vnd.Haiku-Backgrounds") == B_OK)
+		return B_OK;
+	if (be_roster->Launch("application/x-vnd.Be-Backgrounds") == B_OK)
+		return B_OK;
+
 	status_t err;
 	entry_ref ref;
 	BEntry ent;
-	err = ent.SetTo("/boot/beos/preferences/Backgrounds");
-	if (!err) {
+
+	BPath p;
+	err = find_directory(B_SYSTEM_PREFERENCES_DIRECTORY, &p);
+	if (err == B_OK) {
+		p.Append("Backgrounds");
+		err = ent.SetTo(p.Path());
+	}
+	if (err == B_OK) {
 		err = ent.GetRef(&ref);
 		if (!err) {
 			err = be_roster->Launch(&ref);
 		}
 	}
-	if (!err)
+	if (err == B_OK)
 		return B_OK;
+
+	// ZETA: single-Prefs with addons...
 	err = ent.SetTo("/system/add-ons/Preferences/Backgrounds");
-	if (!err) {
+	if (err == B_OK) {
 		err = ent.GetRef(&ref);
 		if (!err) {
 			err = be_roster->Launch(&ref);
