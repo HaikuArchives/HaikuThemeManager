@@ -77,9 +77,15 @@ ScreensaverThemesAddon::Description()
 status_t
 ScreensaverThemesAddon::RunPreferencesPanel()
 {
+	// Haiku
+	if (be_roster->Launch("application/x-vnd.Haiku-ScreenSaver") == B_OK)
+		return B_OK;
+
 	status_t err;
 	entry_ref ref;
 	BEntry ent;
+
+	// BeOS
 	err = ent.SetTo("/boot/beos/preferences/ScreenSaver");
 	if (!err) {
 		err = ent.GetRef(&ref);
@@ -89,6 +95,7 @@ ScreensaverThemesAddon::RunPreferencesPanel()
 	}
 	if (!err)
 		return B_OK;
+	// ZETA
 	err = ent.SetTo("/system/add-ons/Preferences/ScreenSaver");
 	if (!err) {
 		err = ent.GetRef(&ref);
