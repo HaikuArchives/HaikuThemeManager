@@ -114,6 +114,12 @@ status_t
 DecorThemesAddon::RunPreferencesPanel()
 {
 	status_t err;
+
+	// Haiku (tab colors)
+	if (be_roster->Launch("application/x-vnd.Haiku-Appearance") == B_OK)
+		return B_OK;
+
+	// ZETA
 	entry_ref ref;
 	BEntry ent;
 	err = ent.SetTo("/boot/beos/references/Appearance");
