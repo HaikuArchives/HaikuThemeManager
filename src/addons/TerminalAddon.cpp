@@ -174,10 +174,23 @@ TerminalThemesAddon::Description()
 status_t
 TerminalThemesAddon::RunPreferencesPanel()
 {
-	BAlert *alert;
-	alert = new BAlert("info", "Please use the Settings menu in the Terminal application.", "Gotcha");
-	alert->Go();
-	return B_OK;
+	status_t err;
+
+	// make sure Terminal is running
+	if (!be_roster->IsRunning(kHaikuTerminalAppSig)) {
+		err = be_roster->Launch(kHaikuTerminalAppSig);
+		if (err < B_OK)
+			return err;
+	}
+
+	// and fake the menu item click
+	BMessage command('MPre');
+	command.AddSpecifier("Window", 0L);
+
+	BMessenger msgr(kHaikuTerminalAppSig);
+	err = msgr.SendMessage(&command);
+
+	return err;
 }
 
 
