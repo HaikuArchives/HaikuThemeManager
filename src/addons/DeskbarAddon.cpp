@@ -68,6 +68,9 @@ DeskbarThemesAddon::Description()
 status_t
 DeskbarThemesAddon::RunPreferencesPanel()
 {
+	if (be_roster->Launch("application/x-vnd.Haiku-DeskbarPreferences") == B_OK)
+		return B_OK;
+
 	status_t err;
 	entry_ref ref;
 	BEntry ent;
