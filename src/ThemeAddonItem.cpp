@@ -28,7 +28,7 @@
 #define CTRL_OFF_Y 25
 #define CTRL_SPACING 10
 
-//#define HAVE_PREF_BTN
+#define HAVE_PREF_BTN
 
 
 ThemeAddonItem::ThemeAddonItem(BRect bounds, ThemeInterfaceView *iview, int32 id)
