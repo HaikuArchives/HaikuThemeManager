@@ -96,6 +96,20 @@ PeThemesAddon::Description()
 status_t
 PeThemesAddon::RunPreferencesPanel()
 {
+	status_t err;
+
+	// make sure Terminal is running
+	if (!be_roster->IsRunning(PE_SIG)) {
+		err = be_roster->Launch(PE_SIG);
+		if (err < B_OK)
+			return err;
+	}
+
+	// force showing the prefs window
+	BMessenger app(PE_SIG);
+	BMessage msgShowPref(msg_Preferences);
+	err = app.SendMessage(&msgShowPref);
+
 	return B_OK;
 }
 
