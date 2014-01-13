@@ -73,6 +73,12 @@ status_t
 SoundsThemesAddon::RunPreferencesPanel()
 {
 	status_t err;
+
+	// Haiku
+	if (be_roster->Launch("application/x-vnd.Haiku-Sounds") == B_OK)
+		return B_OK;
+
+	// BeOS
 	entry_ref ref;
 	BEntry ent;
 	err = ent.SetTo("/boot/beos/preferences/Sounds");
@@ -84,6 +90,8 @@ SoundsThemesAddon::RunPreferencesPanel()
 	}
 	if (!err)
 		return B_OK;
+
+	// ZETA
 	err = ent.SetTo("/system/add-ons/Preferences/Sounds");
 	if (!err) {
 		err = ent.GetRef(&ref);
