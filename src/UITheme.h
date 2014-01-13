@@ -97,6 +97,14 @@
 #define B_UI_WINDOW_TEXT_COLOR "h:c:WinTabTx"
 #define B_UI_WINDOW_INACTIVE_TAB_COLOR "h:c:InWinTabBg"
 #define B_UI_WINDOW_INACTIVE_TEXT_COLOR "h:c:InWinTabTx"
+#define B_UI_WINDOW_BORDER_COLOR "h:c:WinBr"
+#define B_UI_WINDOW_INACTIVE_BORDER_COLOR "h:c:InWinBr"
+#define B_UI_CONTROL_MARK_COLOR "be:c:CtlMk"
+#define B_UI_LIST_BACKGROUND_COLOR "be:c:LstBg"
+#define B_UI_LIST_SELECTED_BACKGROUND_COLOR "be:c:LstSBg"
+#define B_UI_LIST_ITEM_TEXT_COLOR "be:c:LstTx"
+#define B_UI_LIST_SELECTED_ITEM_TEXT_COLOR "be:c:LstSTx"
+#define B_UI_SCROLL_BAR_THUMB_COLOR "be:c:SbThb"
 
 #define R5_DECOR_BEOS 0
 #define R5_DECOR_WIN95 1
