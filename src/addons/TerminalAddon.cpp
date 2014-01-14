@@ -294,13 +294,20 @@ TerminalThemesAddon::ApplyDefaultTheme(uint32 flags)
 {
 	BMessage theme;
 	BMessage termpref;
+	int32 i;
+
 	// XXX: add font and stuff...
-	AddRGBColor(termpref, "term:c:bg",make_color(255,255,255,0));
-	AddRGBColor(termpref, "term:c:fg",make_color(0,0,0,0));
-	AddRGBColor(termpref, "term:c:curbg",make_color(0,0,0,0));
-	AddRGBColor(termpref, "term:c:curfg",make_color(255,255,255,0));
-	AddRGBColor(termpref, "term:c:selbg",make_color(0,0,0,0));
-	AddRGBColor(termpref, "term:c:selfg",make_color(255,255,255,0));
+
+	for (i = 0; i < NENTS(sHaikuPrefsMapInt32); i++) {
+		termpref.AddInt32(sHaikuPrefsMapInt32[i].name,
+			sHaikuPrefsMapInt32[i].def);
+	}
+
+	for (i = 0; i < NENTS(sHaikuPrefsMapColors); i++) {
+		AddRGBColor(termpref, sHaikuPrefsMapColors[i].name,
+			sHaikuPrefsMapColors[i].def);
+	}
+
 	theme.AddMessage(Z_THEME_TERMINAL_SETTINGS, &termpref);
 	return ApplyTheme(theme, flags);
 }
