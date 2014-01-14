@@ -461,24 +461,38 @@ status_t
 ThemeManager::LoadThemes()
 {
 	FENTRY;
+	directory_which dirs[] = {
+#ifdef __HAIKU__
+		/* find system settings dir */
+		B_SYSTEM_DATA_DIRECTORY,
+		B_SYSTEM_NONPACKAGED_DATA_DIRECTORY,
+		/* find user data / settings dir */
+		B_USER_DATA_DIRECTORY,
+#else
+		B_BEOS_ETC_DIRECTORY,
+#endif
+		B_USER_SETTINGS_DIRECTORY
+	};
+	int dircount = sizeof(dirs) / sizeof(dirs[0]);
 	int dirwhich;
 	BPath path;
 	BDirectory dir;
 	entry_ref ref;
 	status_t err;
 	
-	for (dirwhich = 0; dirwhich < 2; dirwhich++) {
-		if (!dirwhich)	/* find system settings dir */
-			err = find_directory(B_BEOS_ETC_DIRECTORY, &path);
-		else			/* find user settings dir */
-			err = find_directory(B_USER_SETTINGS_DIRECTORY, &path);
-		if (err)	return err;
+	for (dirwhich = 0; dirwhich < dircount; dirwhich++) {
+		err = find_directory(dirs[dirwhich], &path);
+		if (err < B_OK)
+			continue;
 		
 		err = dir.SetTo(path.Path());
-		if (err)	return err;
+		if (err)
+			continue;
 		BEntry ent;
 		if (dir.FindEntry(Z_THEMES_FOLDER_NAME, &ent) < B_OK) {
-			dir.CreateDirectory(Z_THEMES_FOLDER_NAME, NULL);
+			err = dir.CreateDirectory(Z_THEMES_FOLDER_NAME, NULL);
+			if (err != B_OK)
+				continue;
 		}
 		
 		path.Append(Z_THEMES_FOLDER_NAME);
