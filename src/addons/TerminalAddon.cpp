@@ -38,6 +38,8 @@
 #define A_MSGNAME Z_THEME_TERMINAL_SETTINGS
 #define A_DESCRIPTION "Terminal color, font and size"
 
+#define NENTS(x)      sizeof(x)/sizeof(x[0])
+
 /* definitions for R5 Terminal settings file */
 
 #define TP_MAGIC 0xf1f2f3f4
@@ -131,6 +133,40 @@ static const char* const PREF_EMULATE_BOLD = "Emulate bold";
 #define TP_SELBG "term:c:selbg"
 #define TP_SELFG "term:c:selfg"
 #define TP_ENCODING "term:encoding"
+
+static struct {
+	const char *name; // if NULL, just prefix "term:"
+	const char *pref;
+	int32 def;
+} sHaikuPrefsMapInt32[] = {
+	{ TP_COLS, PREF_COLS, 80 },
+	{ TP_ROWS, PREF_ROWS, 25 }
+	// discard encoding and tab width
+};
+
+static struct {
+	const char *name; // if NULL, just prefix "term:"
+	const char *pref;
+	rgb_color def;
+} sHaikuPrefsMapColors[] = {
+	{ TP_BG, PREF_TEXT_BACK_COLOR, {255, 255, 255, 0} },
+	{ TP_FG, PREF_TEXT_FORE_COLOR, {0, 0, 0, 0} },
+	{ TP_CURBG, PREF_CURSOR_BACK_COLOR, {0, 0, 0, 0} },
+	{ TP_CURFG, PREF_CURSOR_FORE_COLOR, {255, 255, 255, 0} },
+	{ TP_SELBG, PREF_SELECT_BACK_COLOR, {0, 0, 0, 0} },
+	{ TP_SELFG, PREF_SELECT_FORE_COLOR, {255, 255, 255, 0} }
+	//TODO: handle IM colors?
+	//TODO: handle ANSI colors?
+};
+
+// TODO: split family/style/size
+static struct {
+	const char *name; // if NULL, just prefix "term:"
+	const char *pref;
+	const char *def;
+} sHaikuPrefsMapFonts[] = {
+	{ TP_FONT, NULL, NULL },
+};
 
 static const char *kHaikuTerminalAppSig = "application/x-vnd.Haiku-Terminal";
 static const char *kBeOSTerminalAppSig = "application/x-vnd.Be-SHEL";
@@ -457,25 +493,26 @@ TerminalThemesAddon::ApplyThemeHaiku(BMessage &theme, uint32 flags)
 	int32 ival;
 	rgb_color color;
 	BString s;
+	int i;
 
 	err = MyMessage(theme, termpref);
 	if (err)
 		return err;
 
-	if (termpref.FindInt32(TP_COLS, &ival) < B_OK)
-		ival = 80;
-	s = "";
-	s << ival;
-	lines.AddString(PREF_COLS, s.String());
+	for (i = 0; i < NENTS(sHaikuPrefsMapInt32); i++) {
+		if (termpref.FindInt32(sHaikuPrefsMapInt32[i].name, &ival) < B_OK)
+			ival = sHaikuPrefsMapInt32[i].def;
+		s = "";
+		s << ival;
+		lines.AddString(sHaikuPrefsMapInt32[i].pref, s.String());
+	}
 
-	if (termpref.FindInt32(TP_ROWS, &ival) < B_OK)
-		ival = 25;
-	s = "";
-	s << ival;
-	lines.AddString(PREF_ROWS, s.String());
-
-	if (termpref.FindInt32(TP_TABWIDTH, &ival) >= B_OK) {
-		//XXX: handle that ?
+	for (i = 0; i < NENTS(sHaikuPrefsMapColors); i++) {
+		if (FindRGBColor(termpref, sHaikuPrefsMapColors[i].name, 0, &color) != B_OK)
+			color = sHaikuPrefsMapColors[i].def;
+		s = "";
+		s << color.red << ", " << color.green << ", " << color.blue;
+		lines.AddString(sHaikuPrefsMapColors[i].pref, s.String());
 	}
 
 	BFont tFont;
@@ -495,53 +532,7 @@ TerminalThemesAddon::ApplyThemeHaiku(BMessage &theme, uint32 flags)
 		s << tFont.Size();
 		lines.AddString(PREF_HALF_FONT_SIZE, s.String());
 	}
-	
-	if (FindRGBColor(termpref, TP_BG, 0, &color) != B_OK)
-		color = make_color(255,255,255,255);
-	s = "";
-	s << color.red << ", " << color.green << ", " << color.blue;
-	lines.AddString(PREF_TEXT_BACK_COLOR, s.String());
-	
-	if (FindRGBColor(termpref, TP_FG, 0, &color) != B_OK)
-		color = make_color(0,0,0,255);
-	s = "";
-	s << color.red << ", " << color.green << ", " << color.blue;
-	lines.AddString(PREF_TEXT_FORE_COLOR, s.String());
 
-	if (FindRGBColor(termpref, TP_CURBG, 0, &color) != B_OK)
-		color = make_color(255,255,255,255);
-	s = "";
-	s << color.red << ", " << color.green << ", " << color.blue;
-	lines.AddString(PREF_CURSOR_BACK_COLOR, s.String());
-
-	if (FindRGBColor(termpref, TP_CURFG, 0, &color) != B_OK)
-		color = make_color(0,0,0,255);
-	s = "";
-	s << color.red << ", " << color.green << ", " << color.blue;
-	lines.AddString(PREF_CURSOR_FORE_COLOR, s.String());
-
-	if (FindRGBColor(termpref, TP_SELBG, 0, &color) != B_OK)
-		color = make_color(0,0,0,255);
-	s = "";
-	s << color.red << ", " << color.green << ", " << color.blue;
-	lines.AddString(PREF_SELECT_BACK_COLOR, s.String());
-
-	if (FindRGBColor(termpref, TP_SELFG, 0, &color) != B_OK)
-		color = make_color(255,255,255,255);
-	s = "";
-	s << color.red << ", " << color.green << ", " << color.blue;
-	lines.AddString(PREF_SELECT_FORE_COLOR, s.String());
-	
-	/* XXX: handle PREF_IM_FORE_COLOR PREF_IM_BACK_COLOR PREF_IM_SELECT_COLOR */
-
-	
-	if (termpref.FindInt32(TP_ENCODING, &ival) != B_OK)
-		ival = 0; // UTF-8
-	s = "";
-	s << ival;
-	//XXX: shouldn't really be touched...
-	//lines.AddString(, s.String());
-	
 	if (flags & UI_THEME_SETTINGS_SAVE && AddonFlags() & Z_THEME_ADDON_DO_SAVE) {
 		SaveHaikuTerminalSettings(lines);
 	}
