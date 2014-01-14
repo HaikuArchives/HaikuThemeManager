@@ -77,32 +77,45 @@ struct termprefs {
 /* definitions for Haiku Terminal settings file */
 /* from TermConst.h */
 
-#define PREF_HALF_FONT_FAMILY "Half Font Family"
-#define PREF_HALF_FONT_STYLE "Half Font Style"
-#define PREF_HALF_FONT_SIZE "Half Font Size"
+static const char* const PREF_HALF_FONT_FAMILY = "Half Font Family";
+static const char* const PREF_HALF_FONT_STYLE = "Half Font Style";
+static const char* const PREF_HALF_FONT_SIZE = "Half Font Size";
 
-#define PREF_TEXT_FORE_COLOR "Text Foreground Color"
-#define PREF_TEXT_BACK_COLOR "Text Background Color"
-#define PREF_SELECT_FORE_COLOR "Selection Foreground Color"
-#define PREF_SELECT_BACK_COLOR "Selection Background Color"
-#define PREF_CURSOR_FORE_COLOR "Cursor Foreground Color"
-#define PREF_CURSOR_BACK_COLOR "Cursor Background Color"
+static const char* const PREF_TEXT_FORE_COLOR = "Text";
+static const char* const PREF_TEXT_BACK_COLOR = "Background";
+static const char* const PREF_CURSOR_FORE_COLOR = "Text under cursor";
+static const char* const PREF_CURSOR_BACK_COLOR = "Cursor";
+static const char* const PREF_SELECT_FORE_COLOR = "Selected text";
+static const char* const PREF_SELECT_BACK_COLOR = "Selected background";
 
-#define PREF_IM_FORE_COLOR "IM Foreground Color"
-#define PREF_IM_BACK_COLOR "IM Background Color"
-#define PREF_IM_SELECT_COLOR "IM Selection Color"
+static const char* const PREF_IM_FORE_COLOR = "IM foreground color";
+static const char* const PREF_IM_BACK_COLOR = "IM background color";
+static const char* const PREF_IM_SELECT_COLOR = "IM selection color";
 
-#define PREF_HISTORY_SIZE "History Size"
-#define PREF_CURSOR_BLINKING "Cursor Blinking rate"
+static const char* const PREF_ANSI_BLACK_COLOR = "ANSI black color";
+static const char* const PREF_ANSI_RED_COLOR = "ANSI red color";
+static const char* const PREF_ANSI_GREEN_COLOR = "ANSI green color";
+static const char* const PREF_ANSI_YELLOW_COLOR = "ANSI yellow color";
+static const char* const PREF_ANSI_BLUE_COLOR = "ANSI blue color";
+static const char* const PREF_ANSI_MAGENTA_COLOR = "ANSI magenta color";
+static const char* const PREF_ANSI_CYAN_COLOR = "ANSI cyan color";
+static const char* const PREF_ANSI_WHITE_COLOR = "ANSI white color";
 
-#define PREF_IM_AWARE = "Input Method Aware"
+static const char* const PREF_ANSI_BLACK_HCOLOR = "ANSI bright black color";
+static const char* const PREF_ANSI_RED_HCOLOR = "ANSI bright red color";
+static const char* const PREF_ANSI_GREEN_HCOLOR = "ANSI bright green color";
+static const char* const PREF_ANSI_YELLOW_HCOLOR = "ANSI bright yellow color";
+static const char* const PREF_ANSI_BLUE_HCOLOR = "ANSI bright blue color";
+static const char* const PREF_ANSI_MAGENTA_HCOLOR = "ANSI bright magenta color";
+static const char* const PREF_ANSI_CYAN_HCOLOR = "ANSI bright cyan color";
+static const char* const PREF_ANSI_WHITE_HCOLOR = "ANSI bright white color";
 
-#define PREF_COLS "Cols"
-#define PREF_ROWS "Rows"
-#define PREF_SHELL "Shell"
+static const char* const PREF_COLS = "Cols";
+static const char* const PREF_ROWS = "Rows";
 
-#define PREF_TEXT_ENCODING "Text encoding"
-#define PREF_GUI_LANGUAGE "Language"
+static const char* const PREF_BLINK_CURSOR = "Blinking cursor";
+static const char* const PREF_CURSOR_STYLE = "Cursor style";
+static const char* const PREF_EMULATE_BOLD = "Emulate bold";
 
 
 /* theme field names */
