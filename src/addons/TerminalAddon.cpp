@@ -666,7 +666,8 @@ TerminalThemesAddon::LoadHaikuTerminalSettings(BMessage &into)
 	if (find_directory(B_USER_SETTINGS_DIRECTORY, &pTermPref) < B_OK)
 		return EINVAL;
 #ifdef __HAIKU__
-	pTermPref.Append("Terminal_settings");
+	pTermPref.Append("Terminal");
+	pTermPref.Append("Default");
 #else
 	pTermPref.Append("HaikuTerminal_settings");
 #endif
@@ -702,7 +703,8 @@ TerminalThemesAddon::SaveHaikuTerminalSettings(BMessage &from)
 	if (find_directory(B_USER_SETTINGS_DIRECTORY, &pTermPref) < B_OK)
 		return EINVAL;
 #ifdef __HAIKU__
-	pTermPref.Append("Terminal_settings");
+	pTermPref.Append("Terminal");
+	pTermPref.Append("Default");
 #else
 	pTermPref.Append("HaikuTerminal_settings");
 #endif
