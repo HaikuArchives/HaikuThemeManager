@@ -38,7 +38,7 @@
 
 // headers/private/interface/DecoratorPrivate.h
 namespace BPrivate {
-status_t get_decorator(BString &name);
+bool get_decorator(BString &name);
 status_t set_decorator(const BString &name);
 status_t get_decorator_preview(const BString &name, BBitmap *bitmap);
 } 
@@ -252,7 +252,7 @@ DecorThemesAddon::MakeTheme(BMessage &theme, uint32 flags)
 	if (err)
 		window_decor.MakeEmpty();
 
-	err = get_decorator(decorName);
+	err = get_decorator(decorName) ? B_OK : B_ERROR;
 	DERR(err);
 	if (err == B_OK) {
 		AddRGBColor(bwindow, "f:Inactive Title", ui_color(B_WINDOW_INACTIVE_TEXT_COLOR));

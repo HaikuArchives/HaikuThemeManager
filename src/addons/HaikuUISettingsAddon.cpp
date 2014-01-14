@@ -43,7 +43,7 @@
 
 // headers/private/interface/DecoratorPrivate.h
 namespace BPrivate {
-status_t get_decorator(BString &name);
+bool get_decorator(BString &name);
 status_t set_decorator(const BString &name);
 status_t get_decorator_preview(const BString &name, BBitmap *bitmap);
 }
@@ -325,8 +325,7 @@ UISettingsThemesAddon::ApplyTheme(BMessage &theme, uint32 flags)
 
 	// force reloading the current decor to pick up the changed colors
 	BString decor;
-	err = get_decorator(decor);
-	if (err >= B_OK)
+	if (get_decorator(decor))
 		err = set_decorator(decor);
 
 	return B_OK;
