@@ -18,6 +18,7 @@
 #include <Menu.h>
 #include <Message.h>
 #include <Roster.h>
+#include <String.h>
 #include <Debug.h>
 
 #include <stdio.h>
@@ -39,6 +40,14 @@
 #endif
 
 #define DERR(e) { PRINT(("%s: err: %s\n", __FUNCTION__, strerror(e))); }
+
+// headers/private/interface/DecoratorPrivate.h
+namespace BPrivate {
+status_t get_decorator(BString &name);
+status_t set_decorator(const BString &name);
+status_t get_decorator_preview(const BString &name, BBitmap *bitmap);
+}
+using namespace BPrivate;
 
 // private font API
 extern void _set_system_font_(const char *which, font_family family,
@@ -313,7 +322,13 @@ UISettingsThemesAddon::ApplyTheme(BMessage &theme, uint32 flags)
 		}
 		set_menu_info(&menuInfo);
 	}
-	
+
+	// force reloading the current decor to pick up the changed colors
+	BString decor;
+	err = get_decorator(decor);
+	if (err >= B_OK)
+		err = set_decorator(decor);
+
 	return B_OK;
 }
 
