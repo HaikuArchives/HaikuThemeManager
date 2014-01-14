@@ -580,7 +580,8 @@ TerminalThemesAddon::MakeThemeHaiku(BMessage &theme, uint32 flags)
 	BMessage termpref;
 	BMessage lines;
 	status_t err;
-	BPath pTermPref;
+	BString value;
+	int n, i;
 	
 	(void)flags;
 	err = MyMessage(theme, termpref);
@@ -589,64 +590,38 @@ TerminalThemesAddon::MakeThemeHaiku(BMessage &theme, uint32 flags)
 	
 	err = LoadHaikuTerminalSettings(lines);
 	
-	//XXX: WRITEME
+	for (i = 0; i < NENTS(sHaikuPrefsMapInt32); i++) {
+		int v;
 
-/*
-	char buffer[1024];
-	char key[B_FIELD_NAME_LENGTH], data[512];
-	int n;
-	FILE *file;
-	while (fgets(buffer, sizeof(buffer), file) != NULL) {
-		if (*buffer == '#')
+		if (lines.FindString(sHaikuPrefsMapInt32[i].pref, &value) < B_OK)
 			continue;
 
-		n = sscanf(buffer, "%*[\"]%[^\"]%*[\"]%*[^\"]%*[\"]%[^\"]", key, data);
-		if (n == 2) {
-			if (strstr(key, " Color")) {
-				rgb_color color;
-				int r, g, b;
-				n = sscanf(data, "%3d, %3d, %3d", &r, &g, &b);
-				color.red = r;
-				color.green = g;
-				color.blue = b;
-				color.alpha = 255;
-				
-			} else
-				lines.AddString(key, data);
+		n = sscanf(value.String(), "%d", &v);
+		//printf("n=%d '%s'\n", n, value.String());
+
+		if (n == 1)
+			termpref.AddInt32(sHaikuPrefsMapInt32[i].name, v);
+	}
+
+	for (i = 0; i < NENTS(sHaikuPrefsMapColors); i++) {
+		int r, g, b;
+
+		if (lines.FindString(sHaikuPrefsMapColors[i].pref, &value) < B_OK)
+			continue;
+
+		n = sscanf(value.String(), "%d%*[, ]%d%*[, ]%d", &r, &g, &b);
+		//printf("n=%d '%s' %d,%d,%d\n", n, value.String(), r, g, b);
+
+		if (n == 3) {
+			rgb_color c = make_color(r, g, b, 255);
+			AddRGBColor(termpref, sHaikuPrefsMapColors[i].name, c);
 		}
 	}
-*/
-/*
-	BFile fTermPref(pTermPref.Path(), B_READ_ONLY);
-	if (fTermPref.InitCheck() != B_OK)
-		return fTermPref.InitCheck();
-	if (fTermPref.Read(&tp, sizeof(struct termprefs)) < (ssize_t)sizeof(struct termprefs))
-		return EIO;
-	if ((tp.magic != TP_MAGIC) || (tp.version != TP_VERSION))
-		return EINVAL;
-	termpref.AddInt32(TP_COLS, tp.p.cols);
-	termpref.AddInt32(TP_ROWS, tp.p.rows);
-	termpref.AddInt32(TP_TABWIDTH, tp.p.tab_width);
-	BFont tFont;
-	font_family ff;
-	font_style fs;
-	BString str(tp.p.font);
-	str.Truncate(str.FindFirst('/'));
-	strncpy(ff, str.String(), sizeof(ff));
-	str.SetTo(tp.p.font);
-	str.Remove(0, str.FindFirst('/')+1);
-	strncpy(fs, str.String(), sizeof(fs));
-	tFont.SetFamilyAndStyle(ff, fs);
-	tFont.SetSize(tp.p.font_size);
-	AddFont(termpref, TP_FONT, &tFont);
-	AddRGBColor(termpref, TP_BG, tp.p.bg);
-	AddRGBColor(termpref, TP_FG, tp.p.fg);
-	AddRGBColor(termpref, TP_CURBG, tp.p.curbg);
-	AddRGBColor(termpref, TP_CURFG, tp.p.curfg);
-	AddRGBColor(termpref, TP_SELBG, tp.p.selbg);
-	AddRGBColor(termpref, TP_SELFG, tp.p.selfg);
-	termpref.AddInt32(TP_ENCODING, tp.p.encoding);
-*/
+
+	// TODO: handle font
+
+	//termpref.PrintToStream();
+
 	err = SetMyMessage(theme, termpref);
 	return B_OK;
 }
