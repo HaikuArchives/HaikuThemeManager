@@ -328,6 +328,32 @@ UISettingsThemesAddon::ApplyTheme(BMessage &theme, uint32 flags)
 	if (get_decorator(decor))
 		err = set_decorator(decor);
 
+	uisettings.what = B_UI_SETTINGS_CHANGED;
+	// doesn't work, we must enumerate all windows
+	//be_roster->Broadcast(&uisettings);
+	BList apps;
+	be_roster->GetAppList(&apps);
+	for (i = 0; i < apps.CountItems(); i++) {
+		BMessenger app(NULL, (team_id)apps.ItemAt(i));
+		if (!app.IsValid())
+			continue;
+		
+		BMessage answer;
+		BMessage msgGetMsgr(B_GET_PROPERTY);
+		msgGetMsgr.AddSpecifier("Windows");
+		err = app.SendMessage(&msgGetMsgr, &answer, 2000000LL, 2000000LL);
+		if (err < B_OK)
+			continue;
+
+		BMessenger win;
+		int j;
+		for (j = 0; answer.FindMessenger("result", j, &win) == B_OK; j++) {
+			err = win.SendMessage(&uisettings, (BHandler *)NULL, 20000LL);
+			//printf("post to %d (%d) 0x%08lx\n", (team_id)apps.ItemAt(i), j, err);
+			// we don't care if it worked
+		}
+	}
+
 	return B_OK;
 }
 
