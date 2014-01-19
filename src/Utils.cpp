@@ -366,7 +366,7 @@ AddFont(BMessage &message, const char *name, BFont *f, int32 count)
 #ifdef B_BEOS_VERSION_DANO
 	return message.AddFlat(name, f, count);
 #else
-	return message.AddData(name, 'FONt', (void *)&f, sizeof(f), true, count);
+	return message.AddData(name, 'FONt', (void *)f, sizeof(*f), true, count);
 #endif
 }
 
