@@ -533,7 +533,7 @@ TerminalThemesAddon::ApplyThemeHaiku(BMessage &theme, uint32 flags)
 		s << fs;
 		lines.AddString(PREF_HALF_FONT_STYLE, s.String());
 		s = "";
-		s << tFont.Size();
+		s << (int32)tFont.Size();
 		lines.AddString(PREF_HALF_FONT_SIZE, s.String());
 	}
 
