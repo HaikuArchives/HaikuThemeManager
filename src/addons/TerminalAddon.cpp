@@ -496,7 +496,6 @@ TerminalThemesAddon::ApplyThemeHaiku(BMessage &theme, uint32 flags)
 	BMessage termpref;
 	BMessage lines;
 	status_t err;
-	struct termprefs tp;
 	int32 ival;
 	rgb_color color;
 	BString s;
@@ -523,8 +522,6 @@ TerminalThemesAddon::ApplyThemeHaiku(BMessage &theme, uint32 flags)
 	}
 
 	BFont tFont;
-	tp.p.font_size = 12;
-	strcpy(tp.p.font, "Courier10 BT/Roman");
 	if (FindFont(termpref, TP_FONT, 0, &tFont) == B_OK) {
 		font_family ff;
 		font_style fs;
@@ -618,7 +615,26 @@ TerminalThemesAddon::MakeThemeHaiku(BMessage &theme, uint32 flags)
 		}
 	}
 
-	// TODO: handle font
+	BFont font;
+	BString s;
+	font_family family;
+	font_style style;
+	float size = 12.0;
+	memset(&family, 0, sizeof(family));
+	memset(&style, 0, sizeof(style));
+
+	if (lines.FindString(PREF_HALF_FONT_FAMILY, &s) == B_OK)
+		strncpy(family, s.String(), B_FONT_FAMILY_LENGTH);
+
+	if (lines.FindString(PREF_HALF_FONT_STYLE, &s) == B_OK)
+		strncpy(style, s.String(), B_FONT_STYLE_LENGTH);
+
+	font.SetFamilyAndStyle(family, style);
+
+	if (lines.FindString(PREF_HALF_FONT_SIZE, &s) == B_OK)
+		sscanf(s.String(), "%f", &size);
+
+	font.SetSize(size);
 
 	//termpref.PrintToStream();
 
