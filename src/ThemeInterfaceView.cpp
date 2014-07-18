@@ -67,6 +67,7 @@ const uint32 kShowSSPulse		= 'TmH2';
 
 static const uint32 skOnlineThemes	= 'TmOL';
 static const char* skThemeURL		= "http://www.zeta-os.com/cms/download.php?list.4";
+static const char* kHaikuDepotSig	= "application/x-vnd.Haiku-HaikuDepot";
 
 #define HIDESS_OFFSET (Bounds().Width()/2 - 130)
 
@@ -236,6 +237,11 @@ ThemeInterfaceView::AllAttached()
 	fShowSSPaneBtn->SetTarget(this);
 	fShowSSPaneBtn->ResizeToPreferred();
 
+	fMoreThemesBtn = new BButton(BRect(), "getthemes", _T("More themes"), new BMessage(skOnlineThemes), B_FOLLOW_RIGHT | B_FOLLOW_TOP);
+	AddChild(fMoreThemesBtn);
+	fMoreThemesBtn->SetTarget(this);
+	fMoreThemesBtn->ResizeToPreferred();
+
 	fApplyBtn = new BButton(BRect(), "apply", _T("Apply"), new BMessage(kApplyThemeBtn), B_FOLLOW_RIGHT | B_FOLLOW_TOP);
 	AddChild(fApplyBtn);
 	fApplyBtn->ResizeToPreferred();
@@ -246,10 +252,12 @@ ThemeInterfaceView::AllAttached()
 	float height = fSetShotBtn->Bounds().Height();
 	fSetShotBtn->ResizeTo(widest, height);
 	fShowSSPaneBtn->ResizeTo(widest, height);
+	fMoreThemesBtn->ResizeTo(widest, height);
 	fApplyBtn->ResizeTo(widest, height);
 	
 	fSetShotBtn->MoveTo(frame.right - widest, frame.top + 5.0);
 	fShowSSPaneBtn->MoveTo(frame.right - widest, fSetShotBtn->Frame().bottom + 10.0);
+	fMoreThemesBtn->MoveTo(frame.right - widest, fShowSSPaneBtn->Frame().bottom + 10.0);
 	fApplyBtn->MoveTo(frame.right - widest, fNewBtn->Frame().top - fApplyBtn->Bounds().Height() - 10);
 	
 	// add the preview screen
@@ -436,9 +444,25 @@ ThemeInterfaceView::MessageReceived(BMessage *_msg)
 			break;
 		
 		case skOnlineThemes:
-			be_roster->Launch( "application/x-vnd.Mozilla-Firefox", 1, (char **)&skThemeURL);
+		{
+			/*
+			ZETA code:
+			be_roster->Launch( "application/x-vnd.Mozilla-Firefox", 1,
+				(char **)&skThemeURL);
+			*/
+			if (!be_roster->IsRunning(kHaikuDepotSig)) {
+				be_roster->Launch(kHaikuDepotSig);
+				snooze(1000000);
+			}
+			BMessenger msgr(kHaikuDepotSig);
+			BMessage message(B_SET_PROPERTY);
+			message.AddString("data", "_theme");
+			message.AddSpecifier("Value");
+			message.AddSpecifier("View", "search terms");
+			message.AddSpecifier("Window", (int32)0);
+			msgr.SendMessage(&message);
 			break;
-			
+		}
 		default:
 		{
 			BView::MessageReceived(_msg);

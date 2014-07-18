@@ -69,6 +69,7 @@ private:
 		BButton*			fDeleteBtn;
 		BButton*			fSetShotBtn;
 		BButton*			fShowSSPaneBtn;
+		BButton*			fMoreThemesBtn;
 		BView*				fScreenshotPane;
 		BStringView*		fScreenshotNone;
 		BBox*				fBox;
