@@ -4,7 +4,7 @@
  */
 
 /*
- * BeIDE Color ThemesAddon class
+ * Terminal Color ThemesAddon class
  */
 
 #include <Alert.h>
