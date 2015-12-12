@@ -46,6 +46,9 @@ ThemeAddonItem::ThemeAddonItem(BRect bounds, ThemeInterfaceView *iview, int32 id
 	SetLowUIColor(B_UI_PANEL_BACKGROUND_COLOR);
 	SetHighUIColor(B_UI_PANEL_TEXT_COLOR);
 #else
+#ifdef __HAIKU__
+	SetToolTip(tip.String());
+#endif
 	SetViewColor(ui_color(B_PANEL_BACKGROUND_COLOR));
 	SetLowColor(ui_color(B_PANEL_BACKGROUND_COLOR));
 	SetHighColor(ui_color(B_PANEL_TEXT_COLOR));
@@ -64,10 +67,17 @@ ThemeAddonItem::ThemeAddonItem(BRect bounds, ThemeInterfaceView *iview, int32 id
 	fApplyBox->SetToolTipText(_T("Use this information from themes"));
 	fSaveBox->SetToolTipText(_T("Save this information to themes"));
 #endif
+#ifdef __HAIKU__
+	fApplyBox->SetToolTip(_T("Use this information from themes"));
+	fSaveBox->SetToolTip(_T("Save this information to themes"));
+#endif
 #ifdef HAVE_PREF_BTN
 	fPrefsBtn = new BButton(BRect(CTRL_OFF_X+100+CTRL_SPACING*2, CTRL_OFF_Y, CTRL_OFF_X+150+CTRL_SPACING*2, CTRL_OFF_Y+30), "prefs", _T("Preferences"), prefs);
 #ifdef B_BEOS_VERSION_DANO
 	fPrefsBtn->SetToolTipText(_T("Run the preferences panel for this topic."));
+#endif
+#ifdef __HAIKU__
+	fPrefsBtn->SetToolTip(_T("Run the preferences panel for this topic."));
 #endif
 #endif
 	BFont fnt;
@@ -137,10 +147,17 @@ ThemeAddonItem::RelocalizeStrings()
 	fApplyBox->SetToolTipText(_T("Use this information from themes"));
 	fSaveBox->SetToolTipText(_T("Save this information to themes"));
 #endif
+#ifdef __HAIKU__
+	fApplyBox->SetToolTip(_T("Use this information from themes"));
+	fSaveBox->SetToolTip(_T("Save this information to themes"));
+#endif
 #ifdef HAVE_PREF_BTN
 	fPrefsBtn->SetLabel(_T("Preferences"));
 #ifdef B_BEOS_VERSION_DANO
 	fPrefsBtn->SetToolTipText(_T("Run the preferences panel for this topic."));
+#endif
+#ifdef __HAIKU__
+	fPrefsBtn->SetToolTip(_T("Run the preferences panel for this topic."));
 #endif
 #endif
 	RelayoutButtons();
