@@ -522,7 +522,17 @@ TerminalThemesAddon::ApplyThemeHaiku(BMessage &theme, uint32 flags)
 	}
 
 	BFont tFont;
-	if (FindFont(termpref, TP_FONT, 0, &tFont) == B_OK) {
+	for (i = 0; FindFont(termpref, TP_FONT, i, &tFont) == B_OK; i++) {
+		// at least set the size
+		s = "";
+		s << (int32)tFont.Size();
+		lines.AddString(PREF_HALF_FONT_SIZE, s.String());
+		//tFont.PrintToStream();
+		//printf("fixed: %d\n", tFont.IsFixed());
+		//printf("f&h fixed: %d\n", tFont.IsFullAndHalfFixed());
+		// don't even try to set the font if it's not there or not fixed
+		if (!tFont.IsFixed() && !tFont.IsFullAndHalfFixed())
+			continue;
 		font_family ff;
 		font_style fs;
 		tFont.GetFamilyAndStyle(&ff, &fs);
@@ -532,9 +542,6 @@ TerminalThemesAddon::ApplyThemeHaiku(BMessage &theme, uint32 flags)
 		s = "";
 		s << fs;
 		lines.AddString(PREF_HALF_FONT_STYLE, s.String());
-		s = "";
-		s << (int32)tFont.Size();
-		lines.AddString(PREF_HALF_FONT_SIZE, s.String());
 	}
 
 	if (flags & UI_THEME_SETTINGS_SAVE && AddonFlags() & Z_THEME_ADDON_DO_SAVE) {
