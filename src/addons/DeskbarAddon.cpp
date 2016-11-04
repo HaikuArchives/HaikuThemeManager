@@ -13,7 +13,11 @@
 #include <Message.h>
 #include <Messenger.h>
 #include <Roster.h>
+#ifdef __HAIKU__
+#include <Deskbar.h>
+#else
 #include <be_apps/Deskbar/Deskbar.h>
+#endif
 
 #include <string.h>
 
