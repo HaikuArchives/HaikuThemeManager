@@ -144,7 +144,7 @@ BeIDEThemesAddon::ApplyTheme(BMessage &theme, uint32 flags)
 		be_roster->GetAppList(&teamList);
 		count = teamList.CountItems();
 		for (i = 0; i < count; i++) {
-			if (be_roster->GetRunningAppInfo((team_id)(teamList.ItemAt(i)), &ainfo) == B_OK) {
+			if (be_roster->GetRunningAppInfo((team_id)((addr_t)teamList.ItemAt(i)), &ainfo) == B_OK) {
 				if (!strcmp(ainfo.signature, "application/x-mw-BeIDE")) {
 					BMessenger msgr(NULL, ainfo.team);
 					BMessage msg(B_PASTE);

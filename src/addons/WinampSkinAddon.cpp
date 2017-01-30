@@ -401,7 +401,7 @@ WinampSkinThemesAddon::SetSPSkin(BString *from)
 	BMessage command(B_GET_PROPERTY);
 	BMessage answer;
 	command.AddSpecifier("Hidden");
-	command.AddSpecifier("Window", 0L); // TitleSpectrumAnalyzer does change the title from "SoundPlay"!
+	command.AddSpecifier("Window", (int32)0); // TitleSpectrumAnalyzer does change the title from "SoundPlay"!
 	err = msgr.SendMessage(&command, &answer,(bigtime_t)2E6,(bigtime_t)2E6);
 	if(B_OK == err) {
 		if (answer.FindBool("result", &beosIfaceHidden) != B_OK)

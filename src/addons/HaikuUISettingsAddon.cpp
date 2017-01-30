@@ -334,7 +334,7 @@ UISettingsThemesAddon::ApplyTheme(BMessage &theme, uint32 flags)
 	BList apps;
 	be_roster->GetAppList(&apps);
 	for (i = 0; i < apps.CountItems(); i++) {
-		BMessenger app(NULL, (team_id)apps.ItemAt(i));
+		BMessenger app(NULL, (team_id)(addr_t)apps.ItemAt(i));
 		if (!app.IsValid())
 			continue;
 		

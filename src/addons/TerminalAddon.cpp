@@ -234,7 +234,7 @@ TerminalThemesAddon::RunPreferencesPanel()
 
 	// and fake the menu item click
 	BMessage command('MPre');
-	command.AddSpecifier("Window", 0L);
+	command.AddSpecifier("Window", (int32)0);
 
 	BMessenger msgr(kHaikuTerminalAppSig);
 	err = msgr.SendMessage(&command);
@@ -418,7 +418,7 @@ TerminalThemesAddon::ApplyThemeR5(BMessage &theme, uint32 flags)
 		be_roster->GetAppList(&teamList);
 		count = teamList.CountItems();
 		for (i = 0; i < count; i++) {
-			if (be_roster->GetRunningAppInfo((team_id)(teamList.ItemAt(i)), &ainfo) == B_OK) {
+			if (be_roster->GetRunningAppInfo((team_id)((addr_t)teamList.ItemAt(i)), &ainfo) == B_OK) {
 				if (!strcmp(ainfo.signature, kBeOSTerminalAppSig)) {
 					err = B_OK;
 					BMessage msg(MSG_R5_SET_PREF);
@@ -428,7 +428,7 @@ TerminalThemesAddon::ApplyThemeR5(BMessage &theme, uint32 flags)
 					
 					//msg.AddData("", 'UBYT', &(tp.p), sizeof(struct tpref));
 					msg.AddData("", 'UBYT', &(tp), sizeof(struct termprefs));
-					msg.AddSpecifier("Window", 0L);
+					msg.AddSpecifier("Window", (int32)0);
 					err = msgr.SendMessage(&msg);
 				}
 			}
@@ -555,7 +555,7 @@ TerminalThemesAddon::ApplyThemeHaiku(BMessage &theme, uint32 flags)
 		be_roster->GetAppList(&teamList);
 		count = teamList.CountItems();
 		for (i = 0; i < count; i++) {
-			if (be_roster->GetRunningAppInfo((team_id)(teamList.ItemAt(i)), &ainfo) == B_OK) {
+			if (be_roster->GetRunningAppInfo((team_id)((addr_t)teamList.ItemAt(i)), &ainfo) == B_OK) {
 				if (!strcmp(ainfo.signature, kHaikuTerminalAppSig)) {
 					err = B_OK;
 					//XXX: WRITEME

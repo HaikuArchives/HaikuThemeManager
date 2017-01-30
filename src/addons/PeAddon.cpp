@@ -258,7 +258,7 @@ PeThemesAddon::FindPrefWindow(BMessenger &messenger)
 				// get the top level view
 				BMessenger view;
 				m = BMessage(B_GET_PROPERTY);
-				m.AddSpecifier("View", 0L);
+				m.AddSpecifier("View", (int32)0);
 				err = win.SendMessage(&m, &m, 20000LL, 20000LL);
 				if (m.FindMessenger("result", &view) == B_OK) {
 					messenger = view;
@@ -289,7 +289,7 @@ PeThemesAddon::FindPrefWindow(BMessenger &messenger)
 				// get the top level view
 				BMessenger view;
 				m = BMessage(B_GET_PROPERTY);
-				m.AddSpecifier("View", 0L);
+				m.AddSpecifier("View", (int32)0);
 				err = win.SendMessage(&m, &m, 20000LL, 20000LL);
 				if (m.FindMessenger("result", &view) == B_OK) {
 					messenger = view;
