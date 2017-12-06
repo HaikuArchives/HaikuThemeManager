@@ -1,4 +1,7 @@
 Haiku Theme Manager
+
+![Haiku Theme Manager app](https://github.com/ayushmunot/HaikuThemeManager/blob/master/haikuthememanager.png?raw=true "Haiku Theme Manager")
+
 =================
 **NOTE**: Branch "master" contains only the Theme Manager app. Themes reside in "themes" branch. [Download themes](https://github.com/HaikuArchives/HaikuThemeManager/archive/themes.zip).
 
