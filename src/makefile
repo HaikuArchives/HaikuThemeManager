@@ -220,4 +220,6 @@ include $(BUILDHOME)/etc/makefile-engine
 BERES := rc
 
 # Set C++ libs for BeOS and Haiku alpha3
+ifneq ($(CPU), ppc)
 STDCPPLIBS ?= stdc++.r4
+endif
