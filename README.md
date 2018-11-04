@@ -1,6 +1,6 @@
 # Haiku Theme Manager
 
-![Screenshot](screenshot.png)
+![Screenshot](Screenshot.png)
 
 **NOTE**: Branch "master" contains only the Theme Manager app. Themes reside in "themes" branch. [Download themes](https://github.com/HaikuArchives/HaikuThemeManager/archive/themes.zip).
 
