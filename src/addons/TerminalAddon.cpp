@@ -706,7 +706,7 @@ TerminalThemesAddon::SaveHaikuTerminalSettings(BMessage &from)
 #endif
 
 	BFile file(pTermPref.Path(), B_WRITE_ONLY | B_CREATE_FILE | B_ERASE_FILE);
-	char buffer[512];
+	BString buffer;
 	type_code type;
 	char *key;
 	err = file.InitCheck();
@@ -730,8 +730,12 @@ TerminalThemesAddon::SaveHaikuTerminalSettings(BMessage &from)
 		BString s;
 		if (settings.FindString(key, &s) < B_OK)
 			continue;
-		int len = snprintf(buffer, sizeof(buffer), "\"%s\" , \"%s\"\n", key, s.String());
-		file.Write(buffer, len);
+		buffer.Append("\"");
+		buffer.Append(key);
+		buffer.Append("\" , \"");
+		buffer.Append(s);
+		buffer.Append("\"\n");
+		file.Write(buffer.String(), buffer.Length());
 	}
 	return B_OK;
 }
