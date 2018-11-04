@@ -124,12 +124,18 @@ inline rgb_color make_color(uint8 red, uint8 green, uint8 blue, uint8 alpha=255)
 	c.alpha = alpha;
 	return c;
 }
+typedef unsigned long int addr_t;
 #endif
 #endif
 
 #ifdef __HAIKU__
 #define B_TOOLTIP_BACKGROUND_COLOR B_TOOL_TIP_BACKGROUND_COLOR
 #define B_TOOLTIP_TEXT_COLOR B_TOOL_TIP_TEXT_COLOR
+#endif
+
+#ifdef __MWERKS__
+// mwcc does not know about it, use best effort
+#define __FUNCTION__ __FILE__ /*__LINE__*/
 #endif
 
 #endif /* _Z_UI_THEME_H */
