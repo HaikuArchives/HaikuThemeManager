@@ -39,7 +39,6 @@ SRCS := \
 	MakeScreenshot.cpp \
 	MSThemeImporter.cpp \
 	ParseMessage.cpp \
-	TextInputAlert.cpp \
 	ThemeAddonItem.cpp \
 	ThemesApp.cpp \
 	ThemeImporter.cpp \

@@ -31,6 +31,7 @@
 #include <ListView.h>
 #include <interface/StringView.h>
 #include <ScrollView.h>
+#include <TextControl.h>
 #include <TextView.h>
 
 #include <Application.h>
@@ -39,7 +40,6 @@
 #include <stdio.h>
 
 #include "UITheme.h"
-#include "TextInputAlert.h"
 
 extern status_t ScaleBitmap(const BBitmap& inBitmap, BBitmap& outBitmap);
 
@@ -89,55 +89,6 @@ refs_filter(BMessage *message, BHandler **handler, BMessageFilter *filter)
 }
 
 
-// #pragma mark - MyInvoker
-
-
-class MyInvoker : public BInvoker {
-public:
-						MyInvoker(BMessage* message, 
-							const BHandler* handler, 
-							const BLooper* looper = NULL);
-	virtual				~MyInvoker();
-	virtual status_t	Invoke(BMessage* message = NULL);
-	void				SetOwner(TextInputAlert *alert);
-private:
-	TextInputAlert*		fOwner;
-};
-
-
-MyInvoker::MyInvoker(BMessage* message, 
-	const BHandler* handler, 
-	const BLooper* looper)
-	: BInvoker(message, handler, looper)
-{
-}
-
-
-MyInvoker::~MyInvoker()
-{
-}
-
-
-status_t
-MyInvoker::Invoke(BMessage* message)
-{
-	BMessage *out = Message();
-	if (out) {
-		if (out->ReplaceString("text", fOwner->TextControl()->TextView()->Text()) == B_OK || 
-			out->AddString("text", fOwner->TextControl()->TextView()->Text()) == B_OK)
-			return BInvoker::Invoke();
-	}
-	return EINVAL;
-}
-
-
-void
-MyInvoker::SetOwner(TextInputAlert *alert)
-{
-	fOwner = alert;
-}
-
-
 // #pragma mark -
 
 
@@ -157,7 +108,6 @@ ThemeInterfaceView::ThemeInterfaceView(BRect _bounds)
 	fThemeManager(NULL),
 	fScreenshotPaneHidden(false),
 	fHasScreenshot(false),
-	fPopupInvoker(NULL),
 	fBox(NULL)
 {
 /*
@@ -171,7 +121,6 @@ ThemeInterfaceView::ThemeInterfaceView(BRect _bounds)
 
 ThemeInterfaceView::~ThemeInterfaceView()
 {
-	delete fPopupInvoker;
 	delete fThemeManager;
 }
 
@@ -181,7 +130,6 @@ ThemeInterfaceView::AllAttached()
 {
 	BView::AllAttached();
 	
-	fPopupInvoker = new MyInvoker(new BMessage(kReallyCreateTheme), this);
 #ifdef B_BEOS_VERSION_DANO
 	SetViewUIColor(B_UI_PANEL_BACKGROUND_COLOR);
 #else
@@ -210,7 +158,17 @@ ThemeInterfaceView::AllAttached()
 	fNewBtn->ResizeToPreferred();
 	fNewBtn->MoveTo(fThemeListSV->Frame().right + 15.0, frame.bottom - fNewBtn->Bounds().Height());
 	BPoint lt = fNewBtn->Frame().LeftTop();
-	lt.x = fNewBtn->Frame().right + 10.0;
+
+	fNameText = new BTextControl(BRect(), "text", "", "My Theme", new BMessage(kCreateThemeBtn));
+	AddChild(fNameText);
+	fNameText->SetTarget(this);
+	fNameText->ResizeToPreferred();
+	// default is a bit small
+	fNameText->ResizeBy(fNameText->Bounds().Width(), 0);
+	fNameText->MoveTo(lt);
+	fNameText->MoveBy(0, (fNewBtn->Bounds().Height() - fNameText->Bounds().Height()) / 2);
+	//fNameText->MoveBy(0, - fNewBtn->Bounds().Height());
+	fNameText->Hide();
 
 	lt.x = fNewBtn->Frame().right + 10.0;
 	fSaveBtn = new BButton(BRect(), "save", _T("Save"), new BMessage(kSaveThemeBtn));
@@ -342,21 +300,27 @@ ThemeInterfaceView::MessageReceived(BMessage *_msg)
 			break;
 
 		case kCreateThemeBtn:
-		{
-			TextInputAlert *alert = new TextInputAlert("New name", "New Theme Name", "My Theme", "Ok");
-			fPopupInvoker->SetOwner(alert);
-			alert->Go(fPopupInvoker);
+		if (fNameText->IsHidden()) {
+			float w = fNameText->Bounds().Width() + 10.0;
+			fNameText->Show();
+			fNameText->MakeFocus();
+			fNewBtn->MoveBy(w, 0);
+			fSaveBtn->MoveBy(w, 0);
+			fDeleteBtn->MoveBy(w, 0);
 			break;
+		} else {
+			float w = fNameText->Bounds().Width() + 10.0;
+			fNameText->Hide();
+			fNameText->MakeFocus(false);
+			fNewBtn->MoveBy(-w, 0);
+			fSaveBtn->MoveBy(-w, 0);
+			fDeleteBtn->MoveBy(-w, 0);
 		}
+		/* FALLTHROUGH */
 
 		case kReallyCreateTheme:
-		{
-			const char *name;
-			if (_msg->FindString("text", &name) < B_OK)
-				break;
-			CreateNew(name);
+			CreateNew(fNameText->Text());
 			break;
-		}
 
 		case kSaveThemeBtn:
 			SaveSelected();

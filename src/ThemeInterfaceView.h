@@ -17,6 +17,7 @@ class BBox;
 class BListView;
 class BButton;
 class BScrollView;
+class BTextControl;
 class BTextView;
 class BMessage;
 class BStringView;
@@ -60,11 +61,11 @@ private:
 		bool				fScreenshotPaneHidden;
 		bool				fHasScreenshot;
 		
-		MyInvoker*			fPopupInvoker;
 		BScrollView*		fThemeListSV;
 		BListView*			fThemeList;
 		BButton*			fApplyBtn;
 		BButton*			fNewBtn;
+		BTextControl*		fNameText;
 		BButton*			fSaveBtn;
 		BButton*			fDeleteBtn;
 		BButton*			fSetShotBtn;
