@@ -671,6 +671,9 @@ ThemeInterfaceView::CreateNew(const char *name)
 		return err;
 	ti = new ThemeItem(id, n.String(), false);
 	fThemeList->AddItem(ti);
+	fThemeList->DeselectAll();
+	fThemeList->Select(fThemeList->CountItems() - 1);
+	fThemeList->ScrollToSelection();
 	return B_OK;
 }
 
