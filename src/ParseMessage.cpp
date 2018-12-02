@@ -24,6 +24,7 @@ public:
 	char GetByte();
 	ssize_t Write(const void *data, size_t len);
 	status_t FillTextLine();
+	const char *Line() { return fTextLine; };
 private:
 	BDataIO *fIn;
 	char fTextLine[MAX_TEXT_LINE_INPUT_SIZE];
@@ -283,13 +284,48 @@ status_t Parse_Msg_BPoint(BMessage *msg, TextLineInputDataIO *st, char *name)
 	return B_OK;
 }
 
-status_t Parse_Msg_HexDump(BMessage *msg, TextLineInputDataIO *st, char *name, int32 field_code)
+status_t Parse_Msg_HexDump(BMessage *msg, TextLineInputDataIO *st, char *name, int32 field_code, int32 size)
 {
-	(void)msg;
-	(void)st;
-	(void)name;
-	(void)field_code;
-	return B_OK;
+	status_t err;
+	uint8 *data = (uint8 *)malloc(size);
+	uint8 *p;
+	int32 o;
+
+	if (data == NULL)
+		return ENOMEM;
+
+	while ((err = st->FillTextLine()) == 0);
+
+	for (p = data, o = 0; o < size; p < data + size) {
+		const char *s = st->Line();
+		while (*s && *s++ != 'x');
+		uint32 offset = strtoul(s, NULL, 16);
+
+		if (offset != o) {
+			free(data);
+			return EINVAL;
+		}
+
+		while (*s && *s++ != ' ');
+
+		for (; *s && s[1] && *s != '\''; o++) {
+			char buf[3] = "xx";
+			buf[0] = *s++;
+			buf[1] = *s++;
+			*p++ = strtoul(buf, NULL, 16);
+			while (*s == ' ')
+				s++;
+		}
+
+		if (o < size)
+			err = st->FillTextLine();
+	}
+
+	err = msg->AddData(name, field_code, data, size);
+
+	free(data);
+
+	return err;
 }
 
 status_t Parse_Msg_BMessage(BMessage *msg, TextLineInputDataIO *st)
@@ -298,6 +334,7 @@ status_t Parse_Msg_BMessage(BMessage *msg, TextLineInputDataIO *st)
 	char field_code_name[B_FIELD_NAME_LENGTH];
 	type_code field_code;
 	int32 index; // unused !
+	int32 sz;
 	int i = 0;
 	char c;
 	status_t err;
@@ -410,11 +447,15 @@ status_t Parse_Msg_BMessage(BMessage *msg, TextLineInputDataIO *st)
 			if (err < B_OK)
 				return err;
 		} else if (!strncmp(field_code_name, "'", 1)) {
-			field_code = ((st->GetByte() << 24) & 0xff000000) |	
-						((st->GetByte() << 16) & 0x0ff0000) |
-						((st->GetByte() << 8) & 0x0ff00) |
-						(st->GetByte() & 0x0ff);
-			err = Parse_Msg_HexDump(msg, st, field_name, field_code);
+			if (strlen(field_code_name) != 6)
+				return EINVAL;
+			field_code = ((field_code_name[1] << 24) & 0xff000000) |
+						((field_code_name[2] << 16) & 0x0ff0000) |
+						((field_code_name[3] << 8) & 0x0ff00) |
+						(field_code_name[4] & 0x0ff);
+			for (sz = 0; (c = st->GetByte()) && isdigit(c); sz = sz * 10 + c - '0');
+			err = Parse_Msg_HexDump(msg, st, field_name, field_code, sz);
+
 			if (err < B_OK)
 				return err;
 		} else
