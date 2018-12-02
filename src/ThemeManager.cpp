@@ -20,6 +20,7 @@
 #include <String.h>
 #include <TranslationUtils.h>
 #include <TranslatorRoster.h>
+#include <Volume.h>
 
 #include <image.h>
 
@@ -758,9 +759,11 @@ ThemeManager::DeleteTheme(int32 id)
 	if (!err) {
 		// move the files to trash...
 		BEntry ent(loc.String());
+		BVolume vol;
 		if (ent.InitCheck() == B_OK) {
+			ent.GetVolume(&vol);
 			BPath trash;
-			err = find_directory(B_TRASH_DIRECTORY, &trash);
+			err = find_directory(B_TRASH_DIRECTORY, &trash, true, &vol);
 			if (!err) {
 				BDirectory trashDir(trash.Path());
 				if (trashDir.InitCheck() == B_OK) {
