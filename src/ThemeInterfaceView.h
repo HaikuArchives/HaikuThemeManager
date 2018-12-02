@@ -63,6 +63,7 @@ private:
 		
 		BScrollView*		fThemeListSV;
 		BListView*			fThemeList;
+		BButton*			fDefaultsBtn;
 		BButton*			fApplyBtn;
 		BButton*			fNewBtn;
 		BTextControl*		fNameText;

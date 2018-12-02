@@ -200,24 +200,32 @@ ThemeInterfaceView::AllAttached()
 	fMoreThemesBtn->SetTarget(this);
 	fMoreThemesBtn->ResizeToPreferred();
 
+	fDefaultsBtn = new BButton(BRect(), "defaults", _T("Defaults"), new BMessage(B_PREF_APP_SET_DEFAULTS), B_FOLLOW_RIGHT | B_FOLLOW_TOP);
+	AddChild(fDefaultsBtn);
+	fDefaultsBtn->ResizeToPreferred();
+	fDefaultsBtn->SetTarget(this);
+
 	fApplyBtn = new BButton(BRect(), "apply", _T("Apply"), new BMessage(kApplyThemeBtn), B_FOLLOW_RIGHT | B_FOLLOW_TOP);
 	AddChild(fApplyBtn);
 	fApplyBtn->ResizeToPreferred();
 	fApplyBtn->SetTarget(this);
 
 	float widest = max_c(fSetShotBtn->Bounds().Width(), fShowSSPaneBtn->Bounds().Width());
+	widest = max_c(widest, fDefaultsBtn->Bounds().Width());
 	widest = max_c(widest, fApplyBtn->Bounds().Width());
 	float height = fSetShotBtn->Bounds().Height();
 	fSetShotBtn->ResizeTo(widest, height);
 	fShowSSPaneBtn->ResizeTo(widest, height);
 	fMoreThemesBtn->ResizeTo(widest, height);
+	fDefaultsBtn->ResizeTo(widest, height);
 	fApplyBtn->ResizeTo(widest, height);
 	
 	fSetShotBtn->MoveTo(frame.right - widest, frame.top + 5.0);
 	fShowSSPaneBtn->MoveTo(frame.right - widest, fSetShotBtn->Frame().bottom + 10.0);
 	fMoreThemesBtn->MoveTo(frame.right - widest, fShowSSPaneBtn->Frame().bottom + 10.0);
 	fApplyBtn->MoveTo(frame.right - widest, fNewBtn->Frame().top - fApplyBtn->Bounds().Height() - 10);
-	
+	fDefaultsBtn->MoveTo(frame.right - widest, fNewBtn->Frame().top - (fApplyBtn->Bounds().Height() + 10) * 2);
+
 	// add the preview screen
 	BRect preview_frame(fNewBtn->Frame().left, fThemeListSV->Frame().top, frame.right - widest - 10, fNewBtn->Frame().top - 10);
 
