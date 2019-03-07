@@ -25,7 +25,9 @@ public:
 		void		RelocalizeStrings();
 		void		RelayoutButtons();
 		int32		AddonId();
-		
+
+		BCheckBox	*ApplyBox() { return fApplyBox; };
+		BCheckBox	*SaveBox() { return fSaveBox; };
 private:
 		int32		fId;
 		ThemeInterfaceView	*fIView;

@@ -32,14 +32,21 @@
 
 
 ThemeAddonItem::ThemeAddonItem(BRect bounds, ThemeInterfaceView *iview, int32 id)
-	: ViewItem(bounds, "addonitem", B_FOLLOW_NONE, B_WILL_DRAW)
+	: ViewItem(bounds, "addonitem", B_FOLLOW_NONE, B_WILL_DRAW),
+	fPrefsBtn(NULL)
 {
 	ThemeManager *tman;
 	fId = id;
 	fIView = iview;
+	fAddonName = _T("Global");
+	BString tip(_T("Change actions for all"));
 	tman = iview->GetThemeManager();
-	fAddonName = tman->AddonName(id);
-	BString tip(tman->AddonDescription(id));
+	uint32 flags = 0;
+	if (id > -1) {
+		fAddonName = tman->AddonName(id);
+		tip.SetTo(tman->AddonDescription(id));
+		flags = tman->AddonFlags(id);
+	}
 #if defined(__HAIKU__) || defined(B_BEOS_VERSION_DANO)
 	SetToolTip(tip.String());
 #endif
@@ -56,21 +63,32 @@ ThemeAddonItem::ThemeAddonItem(BRect bounds, ThemeInterfaceView *iview, int32 id
 	apply->AddInt32("addon", id);
 	BMessage *save = new BMessage(CB_SAVE);
 	save->AddInt32("addon", id);
-	BMessage *prefs = new BMessage(BTN_PREFS);
-	prefs->AddInt32("addon", id);
+	int32 value;
+	value = (flags & Z_THEME_ADDON_DO_SET_ALL) ? B_CONTROL_ON : B_CONTROL_OFF;
+#ifdef __HAIKU__
+	if (id < 0) value = B_CONTROL_PARTIALLY_ON;
+#endif
 	fApplyBox = new BCheckBox(BRect(CTRL_OFF_X, CTRL_OFF_Y, CTRL_OFF_X+50, CTRL_OFF_Y+30), "apply", _T("Apply"), apply);
-	fApplyBox->SetValue((tman->AddonFlags(id) & Z_THEME_ADDON_DO_SET_ALL)?B_CONTROL_ON:B_CONTROL_OFF);
+	fApplyBox->SetValue(value);
 	fSaveBox = new BCheckBox(BRect(CTRL_OFF_X+50+CTRL_SPACING, CTRL_OFF_Y, CTRL_OFF_X+100+CTRL_SPACING, CTRL_OFF_Y+30), "save", _T("Save"), save);
-	fSaveBox->SetValue((tman->AddonFlags(id) & Z_THEME_ADDON_DO_RETRIEVE)?B_CONTROL_ON:B_CONTROL_OFF);
+	value = (flags & Z_THEME_ADDON_DO_RETRIEVE) ? B_CONTROL_ON : B_CONTROL_OFF;
+#ifdef __HAIKU__
+	if (id < 0) value = B_CONTROL_PARTIALLY_ON;
+#endif
+	fSaveBox->SetValue(value);
 #if defined(__HAIKU__) || defined(B_BEOS_VERSION_DANO)
 	fApplyBox->SetToolTip(_T("Use this information from themes"));
 	fSaveBox->SetToolTip(_T("Save this information to themes"));
 #endif
 #ifdef HAVE_PREF_BTN
-	fPrefsBtn = new BButton(BRect(CTRL_OFF_X+100+CTRL_SPACING*2, CTRL_OFF_Y, CTRL_OFF_X+150+CTRL_SPACING*2, CTRL_OFF_Y+30), "prefs", _T("Preferences"), prefs);
+	if (id > -1) {
+		BMessage *prefs = new BMessage(BTN_PREFS);
+		prefs->AddInt32("addon", id);
+		fPrefsBtn = new BButton(BRect(CTRL_OFF_X+100+CTRL_SPACING*2, CTRL_OFF_Y, CTRL_OFF_X+150+CTRL_SPACING*2, CTRL_OFF_Y+30), "prefs", _T("Preferences"), prefs);
 #if defined(__HAIKU__) || defined(B_BEOS_VERSION_DANO)
-	fPrefsBtn->SetToolTip(_T("Run the preferences panel for this topic."));
+		fPrefsBtn->SetToolTip(_T("Run the preferences panel for this topic."));
 #endif
+	}
 #endif
 	BFont fnt;
 	GetFont(&fnt);
@@ -105,8 +123,10 @@ ThemeAddonItem::AttachedToWindow()
 	AddChild(fSaveBox);
 	fSaveBox->SetTarget(fIView);
 #ifdef HAVE_PREF_BTN
-	AddChild(fPrefsBtn);
-	fPrefsBtn->SetTarget(fIView);
+	if (fPrefsBtn) {
+		AddChild(fPrefsBtn);
+		fPrefsBtn->SetTarget(fIView);
+	}
 #endif
 	RelayoutButtons();
 }
@@ -140,10 +160,12 @@ ThemeAddonItem::RelocalizeStrings()
 	fSaveBox->SetToolTip(_T("Save this information to themes"));
 #endif
 #ifdef HAVE_PREF_BTN
-	fPrefsBtn->SetLabel(_T("Preferences"));
+	if (fPrefsBtn) {
+		fPrefsBtn->SetLabel(_T("Preferences"));
 #if defined(__HAIKU__) || defined(B_BEOS_VERSION_DANO)
-	fPrefsBtn->SetToolTip(_T("Run the preferences panel for this topic."));
+		fPrefsBtn->SetToolTip(_T("Run the preferences panel for this topic."));
 #endif
+	}
 #endif
 	RelayoutButtons();
 }
@@ -156,8 +178,10 @@ ThemeAddonItem::RelayoutButtons()
 	fSaveBox->MoveTo(fApplyBox->Frame().right+CTRL_SPACING, fApplyBox->Frame().top);
 	fSaveBox->ResizeToPreferred();
 #ifdef HAVE_PREF_BTN
-	fPrefsBtn->MoveTo(fSaveBox->Frame().right+CTRL_SPACING, fSaveBox->Frame().top);
-	fPrefsBtn->ResizeToPreferred();
+	if (fPrefsBtn) {
+		fPrefsBtn->MoveTo(fSaveBox->Frame().right+CTRL_SPACING, fSaveBox->Frame().top);
+		fPrefsBtn->ResizeToPreferred();
+	}
 #endif
 }
 

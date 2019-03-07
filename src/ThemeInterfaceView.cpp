@@ -28,6 +28,7 @@
 #include <Roster.h>
 
 #include <Button.h>
+#include <CheckBox.h>
 #include <ListView.h>
 #include <interface/StringView.h>
 #include <ScrollView.h>
@@ -388,8 +389,18 @@ ThemeInterfaceView::MessageReceived(BMessage *_msg)
 				value = false;
 			if (_msg->FindInt32("addon", &id) < B_OK)
 				break;
-			//tman->SetAddonFlags(id, (tman->AddonFlags(id) & ~Z_THEME_ADDON_DO_SET_ALL));
-			tman->SetAddonFlags(id, (tman->AddonFlags(id) & ~Z_THEME_ADDON_DO_SET_ALL) | (value?Z_THEME_ADDON_DO_SET_ALL:0));
+
+			if (id > -1) {
+				tman->SetAddonFlags(id, (tman->AddonFlags(id) & ~Z_THEME_ADDON_DO_SET_ALL) | (value?Z_THEME_ADDON_DO_SET_ALL:0));
+			} else {
+				// apply globally
+				int32 i;
+				for (i = fAddonList->CountItems() - 1; i > 0; i--) {
+					ThemeAddonItem *item = static_cast<ThemeAddonItem *>(fAddonList->ItemAt(i));
+					item->ApplyBox()->SetValue(value);
+					tman->SetAddonFlags(item->AddonId(), (tman->AddonFlags(item->AddonId()) & ~Z_THEME_ADDON_DO_SET_ALL) | (value?Z_THEME_ADDON_DO_SET_ALL:0));
+				}
+			}
 			break;
 
 		case CB_SAVE:
@@ -399,7 +410,18 @@ ThemeInterfaceView::MessageReceived(BMessage *_msg)
 				value = false;
 			if (_msg->FindInt32("addon", &id) < B_OK)
 				break;
-			tman->SetAddonFlags(id, (tman->AddonFlags(id) & ~Z_THEME_ADDON_DO_RETRIEVE) | (value?Z_THEME_ADDON_DO_RETRIEVE:0));
+
+			if (id > -1) {
+				tman->SetAddonFlags(id, (tman->AddonFlags(id) & ~Z_THEME_ADDON_DO_RETRIEVE) | (value?Z_THEME_ADDON_DO_RETRIEVE:0));
+			} else {
+				// apply globally
+				int32 i;
+				for (i = fAddonList->CountItems() - 1; i > 0; i--) {
+					ThemeAddonItem *item = static_cast<ThemeAddonItem *>(fAddonList->ItemAt(i));
+					item->SaveBox()->SetValue(value);
+					tman->SetAddonFlags(item->AddonId(), (tman->AddonFlags(item->AddonId()) & ~Z_THEME_ADDON_DO_RETRIEVE) | (value?Z_THEME_ADDON_DO_RETRIEVE:0));
+				}
+			}
 			break;
 
 		case BTN_PREFS:
@@ -616,8 +638,14 @@ ThemeInterfaceView::PopulateAddonList()
 	int32 i, count;
 	ViewItem *vi;
 	ThemeManager* tman = GetThemeManager();
-	count = tman->CountAddons();
+
 	fAddonList->MakeEmpty();
+
+	// global item
+	vi = new ThemeAddonItem(BRect(0,0,200,52), this, -1);
+	fAddonList->AddItem(vi);
+
+	count = tman->CountAddons();
 	for (i = 0; i < count; i++) {
 		vi = new ThemeAddonItem(BRect(0,0,200,52), this, i);
 		fAddonList->AddItem(vi);
