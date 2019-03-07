@@ -527,20 +527,21 @@ ThemeInterfaceView::_ThemeListPopulator()
 	bool isro;
 	BStringItem *si;
 
+	LockLooper();
+	fThemeList->MakeEmpty();
+	UnlockLooper();
+
 	ThemeManager* tman = GetThemeManager();
 	tman->LoadThemes();
 
 	count = tman->CountThemes();
 	
+
 	LockLooper();
-	fThemeList->MakeEmpty();
-	UnlockLooper();
 
 	si = new BStringItem("(System Themes)");
 	si->SetEnabled(false);
-	LockLooper();
 	fThemeList->AddItem(si);
-	UnlockLooper();
 	si = NULL; // first non-readonly item will set it again
 
 	// native themes
@@ -553,16 +554,14 @@ ThemeInterfaceView::_ThemeListPopulator()
 		if (!isro && si == NULL) {
 			si = new BStringItem("(User Themes)");
 			si->SetEnabled(false);
-			LockLooper();
 			fThemeList->AddItem(si);
-			UnlockLooper();
 		}
 
 		ti = new ThemeItem(i, name.String(), isro);
-		LockLooper();
 		fThemeList->AddItem(ti);
-		UnlockLooper();
 	}
+
+	UnlockLooper();
 
 	// for each importer
 	for (importer = 0; importer < tman->CountThemeImporters(); importer++) {
