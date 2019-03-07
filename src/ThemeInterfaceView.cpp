@@ -525,6 +525,7 @@ ThemeInterfaceView::_ThemeListPopulator()
 	BString name;
 	ThemeItem *ti;
 	bool isro;
+	BStringItem *si;
 
 	ThemeManager* tman = GetThemeManager();
 	tman->LoadThemes();
@@ -534,13 +535,29 @@ ThemeInterfaceView::_ThemeListPopulator()
 	LockLooper();
 	fThemeList->MakeEmpty();
 	UnlockLooper();
-	
+
+	si = new BStringItem("(System Themes)");
+	si->SetEnabled(false);
+	LockLooper();
+	fThemeList->AddItem(si);
+	UnlockLooper();
+	si = NULL; // first non-readonly item will set it again
+
 	// native themes
 	for (i = 0; i < count; i++) {
 		err = tman->ThemeName(i, name);
 		isro = tman->ThemeIsReadOnly(i);
 		if (err)
 			continue;
+
+		if (!isro && si == NULL) {
+			si = new BStringItem("(User Themes)");
+			si->SetEnabled(false);
+			LockLooper();
+			fThemeList->AddItem(si);
+			UnlockLooper();
+		}
+
 		ti = new ThemeItem(i, name.String(), isro);
 		LockLooper();
 		fThemeList->AddItem(ti);
@@ -558,7 +575,7 @@ ThemeInterfaceView::_ThemeListPopulator()
 		// separator item
 		name = "Imported (";
 		name << tman->ThemeImporterAt(importer) << ")";
-		BStringItem *si = new BStringItem(name.String());
+		si = new BStringItem(name.String());
 		si->SetEnabled(false);
 		LockLooper();
 		fThemeList->AddItem(si);
