@@ -189,9 +189,29 @@ ThemeManager::LoadAddons()
 
 	ta = instantiate_themes_addon_backgrounds();
 	ADDA(ta);
-	ta = instantiate_themes_addon_beide();
-	ADDA(ta);
 	ta = instantiate_themes_addon_deskbar();
+	ADDA(ta);
+#if defined(__HAIKU__) || defined(B_BEOS_VERSION_DANO)
+	ta = instantiate_themes_addon_ui_settings();
+	ADDA(ta);
+#endif
+	ta = instantiate_themes_addon_window_decor();
+	ADDA(ta);
+#ifndef ZETA_ADDONS
+	ta = instantiate_themes_addon_screensaver();
+	ADDA(ta);
+	ta = instantiate_themes_addon_sounds();
+	ADDA(ta);
+	ta = instantiate_themes_addon_terminal();
+	ADDA(ta);
+	// audio players
+	ta = instantiate_themes_addon_soundplay();
+	ADDA(ta);
+	ta = instantiate_themes_addon_winamp_skin();
+	ADDA(ta);
+#endif
+	// dev tools
+	ta = instantiate_themes_addon_beide();
 	ADDA(ta);
 #ifndef ZETA_ADDONS
 	ta = instantiate_themes_addon_eddie();
@@ -199,27 +219,9 @@ ThemeManager::LoadAddons()
 #endif
 	ta = instantiate_themes_addon_pe();
 	ADDA(ta);
-	ta = instantiate_themes_addon_screensaver();
-	ADDA(ta);
-#ifndef ZETA_ADDONS
-	ta = instantiate_themes_addon_soundplay();
-	ADDA(ta);
-#endif
-	ta = instantiate_themes_addon_sounds();
-	ADDA(ta);
-	ta = instantiate_themes_addon_terminal();
-	ADDA(ta);
-#if defined(__HAIKU__) || defined(B_BEOS_VERSION_DANO)
-	ta = instantiate_themes_addon_ui_settings();
-	ADDA(ta);
-#endif
-#ifndef ZETA_ADDONS
-	ta = instantiate_themes_addon_winamp_skin();
-	ADDA(ta);
-#endif
-	ta = instantiate_themes_addon_window_decor();
-	ADDA(ta);
-#endif
+
+#endif /*SINGLE_BINARY*/
+
 	//if (err)	return err;
 	fAddonCount = fAddonList.CountItems();
 	PRINT(("ThemeManager: %ld addons loaded\n", fAddonCount));
