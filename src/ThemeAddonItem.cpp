@@ -42,9 +42,15 @@ ThemeAddonItem::ThemeAddonItem(BRect bounds, ThemeInterfaceView *iview, int32 id
 	BString tip(_T("Change actions for all"));
 	tman = iview->GetThemeManager();
 	uint32 flags = 0;
+	bool detected = true;
 	if (id > -1) {
 		fAddonName = tman->AddonName(id);
 		tip.SetTo(tman->AddonDescription(id));
+		detected = tman->DetectApplication(id) == B_OK;
+		if (!detected) {
+			tip << " " << _T("(Application not installed)");
+			SetEnabled(false);
+		}
 		flags = tman->AddonFlags(id);
 	}
 #if defined(__HAIKU__) || defined(B_BEOS_VERSION_DANO)
@@ -80,6 +86,10 @@ ThemeAddonItem::ThemeAddonItem(BRect bounds, ThemeInterfaceView *iview, int32 id
 	fApplyBox->SetToolTip(_T("Use this information from themes"));
 	fSaveBox->SetToolTip(_T("Save this information to themes"));
 #endif
+	if (!detected) {
+		fApplyBox->SetEnabled(false);
+		fSaveBox->SetEnabled(false);
+	}
 #ifdef HAVE_PREF_BTN
 	if (id > -1) {
 		BMessage *prefs = new BMessage(BTN_PREFS);
@@ -88,6 +98,8 @@ ThemeAddonItem::ThemeAddonItem(BRect bounds, ThemeInterfaceView *iview, int32 id
 #if defined(__HAIKU__) || defined(B_BEOS_VERSION_DANO)
 		fPrefsBtn->SetToolTip(_T("Run the preferences panel for this topic."));
 #endif
+		if (!detected)
+			fPrefsBtn->SetEnabled(false);
 	}
 #endif
 	BFont fnt;

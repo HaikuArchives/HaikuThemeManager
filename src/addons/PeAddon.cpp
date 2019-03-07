@@ -37,7 +37,11 @@
 #define A_DESCRIPTION "Make Pe use system colors"
 
 #define PE_SETTINGS_NAME "pe/settings"
-#define PE_SIG "application/x-vnd.beunited.pe"
+static const char *kAppSig = "application/x-vnd.beunited.pe";
+static const char *kAppSigs[] = {
+	kAppSig,
+	NULL
+};
 
 #define msg_Preferences					'Pref'
 #define msg_NewColor					'NClr'
@@ -76,7 +80,7 @@ status_t	FindPrefWindow(BMessenger &messenger);
 
 
 PeThemesAddon::PeThemesAddon()
-	: ThemesAddon(A_NAME, A_MSGNAME)
+	: ThemesAddon(A_NAME, A_MSGNAME, kAppSigs)
 {
 }
 
@@ -99,14 +103,14 @@ PeThemesAddon::RunPreferencesPanel()
 	status_t err;
 
 	// make sure Terminal is running
-	if (!be_roster->IsRunning(PE_SIG)) {
-		err = be_roster->Launch(PE_SIG);
+	if (!be_roster->IsRunning(kAppSig)) {
+		err = be_roster->Launch(kAppSig);
 		if (err < B_OK)
 			return err;
 	}
 
 	// force showing the prefs window
-	BMessenger app(PE_SIG);
+	BMessenger app(kAppSig);
 	BMessage msgShowPref(msg_Preferences);
 	err = app.SendMessage(&msgShowPref);
 
@@ -234,7 +238,7 @@ PeThemesAddon::ApplyDefaultTheme(uint32 flags)
 status_t
 PeThemesAddon::FindPrefWindow(BMessenger &messenger)
 {
-	BMessenger app(PE_SIG);
+	BMessenger app(kAppSig);
 	BMessenger win;
 	status_t err;
 	int i;

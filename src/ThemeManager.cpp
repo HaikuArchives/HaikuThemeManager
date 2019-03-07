@@ -319,6 +319,18 @@ ThemeManager::OptionsView(int32 addon)
 
 
 status_t
+ThemeManager::DetectApplication(int32 addon)
+{
+	FENTRY;
+	ThemesAddon *ta;
+	ta = AddonAt(addon);
+	if (ta)
+		return ta->Detect();
+	return B_ERROR;
+}
+
+
+status_t
 ThemeManager::RunPreferencesPanel(int32 addon)
 {
 	FENTRY;

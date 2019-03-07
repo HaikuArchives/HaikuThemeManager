@@ -42,6 +42,12 @@
 #define B_SYSTEM_PREFERENCES_DIRECTORY B_BEOS_PREFERENCES_DIRECTORY
 #endif
 
+static const char *kAppSigs[] = {
+	"application/x-vnd.Haiku-Backgrounds",
+	"application/x-vnd.Be-Backgrounds",
+	NULL
+};
+
 
 class BackgroundThemesAddon : public ThemesAddon {
 public:
@@ -70,7 +76,7 @@ status_t	BackupFiles(BMessage &theme, BDirectory &folder);
 
 
 BackgroundThemesAddon::BackgroundThemesAddon()
-	: ThemesAddon(A_NAME, A_MSGNAME)
+	: ThemesAddon(A_NAME, A_MSGNAME, kAppSigs)
 {
 }
 

@@ -20,7 +20,7 @@ class ThemeManager;
 
 class ThemesAddon {
 public:
-			ThemesAddon(const char *name, const char *message_name);
+			ThemesAddon(const char *name, const char *message_name, const char **app_sigs = NULL);
 virtual		~ThemesAddon();
 	
 	/* presentation */
@@ -29,6 +29,11 @@ virtual	const char	*Name(); /* pretty name */
 virtual const char	*Description(); /* tooltip... */
 	
 virtual BView		*OptionsView();
+					// return the list of app signatures
+virtual const char	**AppSigs() { return fAppSigs; };
+					// check if corresponding app is installed
+virtual status_t	Detect();
+					// start the app preferences
 virtual status_t	RunPreferencesPanel();
 					// if you override, call it first
 virtual status_t	LoadSettings(BMessage &settings);
@@ -62,7 +67,7 @@ virtual status_t	InstallFiles(BMessage &theme, BDirectory &folder);
 virtual status_t	BackupFiles(BMessage &theme, BDirectory &folder);
 	
 	/*  */
-	
+
 private:
 
 friend class Z::ThemeManager::ThemeManager;
@@ -74,6 +79,7 @@ friend class Z::ThemeManager::ThemeManager;
 	char	*fMsgName;
 	uint32	fFlags;
 	BMessage fSettings;
+	const char	**fAppSigs;
 };
 
 } // ns ThemeManager

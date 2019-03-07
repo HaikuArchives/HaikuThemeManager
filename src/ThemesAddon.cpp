@@ -9,7 +9,9 @@
 
 #include <Debug.h>
 #include <Directory.h>
+#include <Entry.h>
 #include <Message.h>
+#include <Roster.h>
 #include <String.h>
 
 #include <stdio.h>
@@ -33,11 +35,12 @@ extern bool CompareMessages(BMessage &a, BMessage &b);
 // #pragma mark - 
 
 
-ThemesAddon::ThemesAddon(const char *name, const char *message_name)
+ThemesAddon::ThemesAddon(const char *name, const char *message_name, const char **app_sigs)
 	: fImageId(-1),
 	fName(NULL),
 	fMsgName(NULL),
-	fFlags(0L)
+	fFlags(0L),
+	fAppSigs(app_sigs)
 {
 	fName = strdup(name);
 	FENTRY;
@@ -75,6 +78,20 @@ ThemesAddon::OptionsView()
 {
 	FENTRY;
 	return NULL;
+}
+
+
+status_t
+ThemesAddon::Detect()
+{
+	FENTRY;
+	int32 i;
+	for (i = 0; fAppSigs && fAppSigs[i]; i++) {
+		entry_ref ref;
+		if (be_roster->FindApp(fAppSigs[i], &ref) == B_OK)
+			return B_OK;
+	}
+	return fAppSigs ? B_ENTRY_NOT_FOUND : B_OK;
 }
 
 

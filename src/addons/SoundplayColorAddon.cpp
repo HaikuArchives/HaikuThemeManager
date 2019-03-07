@@ -31,6 +31,9 @@
 #define A_DESCRIPTION "Make SoundPlay use system colors"
 
 
+static const char *kSoundPlaySig = "application/x-vnd.marcone-soundplay";
+static const char *kSoundPlaySigs[] = {kSoundPlaySig, NULL};
+
 class SoundplayThemesAddon : public ThemesAddon {
 public:
 	SoundplayThemesAddon();
@@ -50,7 +53,7 @@ status_t	ApplyDefaultTheme(uint32 flags=0L);
 
 
 SoundplayThemesAddon::SoundplayThemesAddon()
-	: ThemesAddon(A_NAME, A_MSGNAME)
+	: ThemesAddon(A_NAME, A_MSGNAME, kSoundPlaySigs)
 {
 }
 
@@ -103,7 +106,7 @@ SoundplayThemesAddon::ApplyTheme(BMessage &theme, uint32 flags)
 	}
 
 	if (flags & UI_THEME_SETTINGS_APPLY && AddonFlags() & Z_THEME_ADDON_DO_APPLY) {
-		BMessenger msgr("application/x-vnd.marcone-soundplay");
+		BMessenger msgr(kSoundPlaySig);
 		BMessage command(B_COUNT_PROPERTIES);
 		BMessage answer;
 		command.AddSpecifier("Window");

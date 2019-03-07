@@ -37,6 +37,11 @@
 
 #define EDDIE_SETTINGS_NAME "Eddie/settings"
 
+static const char *kAppSigs[] = {
+	"application/x-vnd.pce-EDDI",
+	NULL
+};
+
 
 class EddieThemesAddon : public ThemesAddon {
 public:
@@ -57,7 +62,7 @@ status_t	ApplyDefaultTheme(uint32 flags=0L);
 
 
 EddieThemesAddon::EddieThemesAddon()
-	: ThemesAddon(A_NAME, A_MSGNAME)
+	: ThemesAddon(A_NAME, A_MSGNAME, kAppSigs)
 {
 }
 

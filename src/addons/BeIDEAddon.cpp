@@ -37,6 +37,11 @@
 
 #define BEIDE_SETTINGS_NAME "Metrowerks/BeIDE_Prefs"
 
+static const char *kAppSigs[] = {
+	"application/x-mw-BeIDE",
+	NULL
+};
+
 
 // __PACKED
 struct beide_editor_pref {
@@ -74,7 +79,7 @@ status_t	ApplyDefaultTheme(uint32 flags=0L);
 
 
 BeIDEThemesAddon::BeIDEThemesAddon()
-	: ThemesAddon(A_NAME, A_MSGNAME)
+	: ThemesAddon(A_NAME, A_MSGNAME, kAppSigs)
 {
 }
 

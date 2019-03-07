@@ -51,6 +51,7 @@ ThemesAddon	*AddonAt(int32 addon);
 const char	*AddonName(int32 addon);
 const char	*AddonDescription(int32 addon);
 BView		*OptionsView(int32 addon);
+status_t	DetectApplication(int32 addon);
 status_t	RunPreferencesPanel(int32 addon);
 status_t	LoadSettings();
 status_t	SaveSettings();
