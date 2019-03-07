@@ -133,6 +133,11 @@ typedef unsigned long int addr_t;
 #define B_TOOLTIP_TEXT_COLOR B_TOOL_TIP_TEXT_COLOR
 #endif
 
+#ifdef B_BEOS_VERSION_DANO
+// mimic the Haiku API
+#define SetToolTip SetToolTipText
+#endif
+
 #ifdef __MWERKS__
 // mwcc does not know about it, use best effort
 #define __FUNCTION__ __FILE__ /*__LINE__*/

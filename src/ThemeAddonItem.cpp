@@ -40,15 +40,14 @@ ThemeAddonItem::ThemeAddonItem(BRect bounds, ThemeInterfaceView *iview, int32 id
 	tman = iview->GetThemeManager();
 	fAddonName = tman->AddonName(id);
 	BString tip(tman->AddonDescription(id));
+#if defined(__HAIKU__) || defined(B_BEOS_VERSION_DANO)
+	SetToolTip(tip.String());
+#endif
 #ifdef B_BEOS_VERSION_DANO
-	SetToolTipText(tip.String());
 	SetViewUIColor(B_UI_PANEL_BACKGROUND_COLOR);
 	SetLowUIColor(B_UI_PANEL_BACKGROUND_COLOR);
 	SetHighUIColor(B_UI_PANEL_TEXT_COLOR);
 #else
-#ifdef __HAIKU__
-	SetToolTip(tip.String());
-#endif
 	SetViewColor(ui_color(B_PANEL_BACKGROUND_COLOR));
 	SetLowColor(ui_color(B_PANEL_BACKGROUND_COLOR));
 	SetHighColor(ui_color(B_PANEL_TEXT_COLOR));
@@ -63,20 +62,13 @@ ThemeAddonItem::ThemeAddonItem(BRect bounds, ThemeInterfaceView *iview, int32 id
 	fApplyBox->SetValue((tman->AddonFlags(id) & Z_THEME_ADDON_DO_SET_ALL)?B_CONTROL_ON:B_CONTROL_OFF);
 	fSaveBox = new BCheckBox(BRect(CTRL_OFF_X+50+CTRL_SPACING, CTRL_OFF_Y, CTRL_OFF_X+100+CTRL_SPACING, CTRL_OFF_Y+30), "save", _T("Save"), save);
 	fSaveBox->SetValue((tman->AddonFlags(id) & Z_THEME_ADDON_DO_RETRIEVE)?B_CONTROL_ON:B_CONTROL_OFF);
-#ifdef B_BEOS_VERSION_DANO
-	fApplyBox->SetToolTipText(_T("Use this information from themes"));
-	fSaveBox->SetToolTipText(_T("Save this information to themes"));
-#endif
-#ifdef __HAIKU__
+#if defined(__HAIKU__) || defined(B_BEOS_VERSION_DANO)
 	fApplyBox->SetToolTip(_T("Use this information from themes"));
 	fSaveBox->SetToolTip(_T("Save this information to themes"));
 #endif
 #ifdef HAVE_PREF_BTN
 	fPrefsBtn = new BButton(BRect(CTRL_OFF_X+100+CTRL_SPACING*2, CTRL_OFF_Y, CTRL_OFF_X+150+CTRL_SPACING*2, CTRL_OFF_Y+30), "prefs", _T("Preferences"), prefs);
-#ifdef B_BEOS_VERSION_DANO
-	fPrefsBtn->SetToolTipText(_T("Run the preferences panel for this topic."));
-#endif
-#ifdef __HAIKU__
+#if defined(__HAIKU__) || defined(B_BEOS_VERSION_DANO)
 	fPrefsBtn->SetToolTip(_T("Run the preferences panel for this topic."));
 #endif
 #endif
@@ -143,20 +135,13 @@ ThemeAddonItem::RelocalizeStrings()
 {
 	fApplyBox->SetLabel(_T("Apply"));
 	fSaveBox->SetLabel(_T("Save"));
-#ifdef B_BEOS_VERSION_DANO
-	fApplyBox->SetToolTipText(_T("Use this information from themes"));
-	fSaveBox->SetToolTipText(_T("Save this information to themes"));
-#endif
-#ifdef __HAIKU__
+#if defined(__HAIKU__) || defined(B_BEOS_VERSION_DANO)
 	fApplyBox->SetToolTip(_T("Use this information from themes"));
 	fSaveBox->SetToolTip(_T("Save this information to themes"));
 #endif
 #ifdef HAVE_PREF_BTN
 	fPrefsBtn->SetLabel(_T("Preferences"));
-#ifdef B_BEOS_VERSION_DANO
-	fPrefsBtn->SetToolTipText(_T("Run the preferences panel for this topic."));
-#endif
-#ifdef __HAIKU__
+#if defined(__HAIKU__) || defined(B_BEOS_VERSION_DANO)
 	fPrefsBtn->SetToolTip(_T("Run the preferences panel for this topic."));
 #endif
 #endif
