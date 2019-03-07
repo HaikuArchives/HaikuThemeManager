@@ -571,6 +571,7 @@ ThemeInterfaceView::_ThemeListPopulator()
 		PRINT(("Imports for %s: %d\n", tman->ThemeImporterAt(importer), (tman->CountThemes() - count)));
 		if (tman->CountThemes() == count)
 			continue; // nothing found
+
 		// separator item
 		name = "Imported (";
 		name << tman->ThemeImporterAt(importer) << ")";
@@ -579,11 +580,13 @@ ThemeInterfaceView::_ThemeListPopulator()
 		LockLooper();
 		fThemeList->AddItem(si);
 		UnlockLooper();
+
 		// add new themes
 		count = tman->CountThemes();
+		// we reuse i from where it was left
 		for (; i < count; i++) {
 			err = tman->ThemeName(i, name);
-			isro = true;//tman->ThemeIsReadOnly(i);
+			isro = true;// importers can't save themes back
 			if (err)
 				continue;
 			ti = new ThemeItem(i, name.String(), isro);
@@ -594,6 +597,7 @@ ThemeInterfaceView::_ThemeListPopulator()
 			snooze(1000);
 		}
 	}
+
 	// enable controls again
 	BControl *c;
 	LockLooper();
