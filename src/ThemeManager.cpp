@@ -1215,6 +1215,8 @@ ThemeManager::ThemeIsReadOnly(int32 id)
 		return true;
 	if (s.FindFirst("/boot/beos") >= 0)
 		return true;
+	if (s.FindFirst("/system/data") >= 0)
+		return true;
 	return false;
 }
 
