@@ -11,17 +11,30 @@
 #include <Entry.h>
 #include <File.h>
 #include <BeBuild.h>
+
+#ifdef __HAIKU__
+#include <locale/Catalog.h>
+#endif
+
 #ifdef B_ZETA_VERSION
 #include <add-ons/pref_app/PrefPanel.h>
 #include <locale/Locale.h>
 #include <Separator.h>
+#define B_TRANSLATE _T
 #else
-#define _T(v) v
 #define B_PREF_APP_ENABLE_REVERT 'zPAE'
 #define B_PREF_APP_SET_DEFAULTS 'zPAD'
 #define B_PREF_APP_REVERT 'zPAR'
 #define B_PREF_APP_ADDON_REF 'zPAA'
 #endif
+
+#ifndef B_TRANSLATE
+#define B_TRANSLATE(v) v
+#endif
+
+#undef B_TRANSLATION_CONTEXT
+#define B_TRANSLATION_CONTEXT "ThemeInterfaceView"
+
 #include <Resources.h>
 #include <TranslationUtils.h>
 #include <TranslatorFormats.h>
@@ -153,7 +166,7 @@ ThemeInterfaceView::AllAttached()
 	fThemeList->SetTarget(this);
 
 	// buttons...
-	fNewBtn = new BButton(BRect(), "create", _T("New"), new BMessage(kCreateThemeBtn));
+	fNewBtn = new BButton(BRect(), "create", B_TRANSLATE("New"), new BMessage(kCreateThemeBtn));
 	AddChild(fNewBtn);
 	fNewBtn->SetTarget(this);
 	fNewBtn->ResizeToPreferred();
@@ -172,41 +185,41 @@ ThemeInterfaceView::AllAttached()
 	fNameText->Hide();
 
 	lt.x = fNewBtn->Frame().right + 10.0;
-	fSaveBtn = new BButton(BRect(), "save", _T("Save"), new BMessage(kSaveThemeBtn));
+	fSaveBtn = new BButton(BRect(), "save", B_TRANSLATE("Save"), new BMessage(kSaveThemeBtn));
 	AddChild(fSaveBtn);
 	fSaveBtn->SetTarget(this);
 	fSaveBtn->ResizeToPreferred();
 	fSaveBtn->MoveTo(lt);
 
 	lt.x = fSaveBtn->Frame().right + 10.0;
-	fDeleteBtn = new BButton(BRect(), "delete", _T("Delete"), new BMessage(kDeleteThemeBtn));
+	fDeleteBtn = new BButton(BRect(), "delete", B_TRANSLATE("Delete"), new BMessage(kDeleteThemeBtn));
 	AddChild(fDeleteBtn);
 	fDeleteBtn->SetTarget(this);
 	fDeleteBtn->ResizeToPreferred();
 	fDeleteBtn->MoveTo(lt);
 
 	// buttons...
-	fSetShotBtn = new BButton(BRect(), "makeshot", _T("Add Screenshot"), new BMessage(kMakeScreenshot), B_FOLLOW_RIGHT | B_FOLLOW_TOP);
+	fSetShotBtn = new BButton(BRect(), "makeshot", B_TRANSLATE("Add Screenshot"), new BMessage(kMakeScreenshot), B_FOLLOW_RIGHT | B_FOLLOW_TOP);
 	AddChild(fSetShotBtn);
 	fSetShotBtn->SetTarget(this);
 	fSetShotBtn->ResizeToPreferred();
 	
-	fShowSSPaneBtn = new BButton(BRect(), "hidess", _T("Show Options"), new BMessage(kHidePreviewBtn), B_FOLLOW_RIGHT | B_FOLLOW_TOP);
+	fShowSSPaneBtn = new BButton(BRect(), "hidess", B_TRANSLATE("Show Options"), new BMessage(kHidePreviewBtn), B_FOLLOW_RIGHT | B_FOLLOW_TOP);
 	AddChild(fShowSSPaneBtn);
 	fShowSSPaneBtn->SetTarget(this);
 	fShowSSPaneBtn->ResizeToPreferred();
 
-	fMoreThemesBtn = new BButton(BRect(), "getthemes", _T("More themes"), new BMessage(skOnlineThemes), B_FOLLOW_RIGHT | B_FOLLOW_TOP);
+	fMoreThemesBtn = new BButton(BRect(), "getthemes", B_TRANSLATE("More themes"), new BMessage(skOnlineThemes), B_FOLLOW_RIGHT | B_FOLLOW_TOP);
 	AddChild(fMoreThemesBtn);
 	fMoreThemesBtn->SetTarget(this);
 	fMoreThemesBtn->ResizeToPreferred();
 
-	fDefaultsBtn = new BButton(BRect(), "defaults", _T("Defaults"), new BMessage(B_PREF_APP_SET_DEFAULTS), B_FOLLOW_RIGHT | B_FOLLOW_TOP);
+	fDefaultsBtn = new BButton(BRect(), "defaults", B_TRANSLATE("Defaults"), new BMessage(B_PREF_APP_SET_DEFAULTS), B_FOLLOW_RIGHT | B_FOLLOW_TOP);
 	AddChild(fDefaultsBtn);
 	fDefaultsBtn->ResizeToPreferred();
 	fDefaultsBtn->SetTarget(this);
 
-	fApplyBtn = new BButton(BRect(), "apply", _T("Apply"), new BMessage(kApplyThemeBtn), B_FOLLOW_RIGHT | B_FOLLOW_TOP);
+	fApplyBtn = new BButton(BRect(), "apply", B_TRANSLATE("Apply"), new BMessage(kApplyThemeBtn), B_FOLLOW_RIGHT | B_FOLLOW_TOP);
 	AddChild(fApplyBtn);
 	fApplyBtn->ResizeToPreferred();
 	fApplyBtn->SetTarget(this);
@@ -232,7 +245,7 @@ ThemeInterfaceView::AllAttached()
 
 	fBox = new BBox(preview_frame, "preview", B_FOLLOW_ALL);
 	AddChild(fBox);
-	fBox->SetLabel(_T("Preview"));
+	fBox->SetLabel(B_TRANSLATE("Preview"));
 	
 	preview_frame.InsetBy(10.0, 15.0);
 	preview_frame.OffsetTo(10.0, 20.0);
@@ -244,7 +257,7 @@ ThemeInterfaceView::AllAttached()
 	fScreenshotPane->SetViewColor(ui_color(B_PANEL_BACKGROUND_COLOR));
 #endif
 	
-	fScreenshotNone = new BStringView(BRect(), "sshotnone", _T("No Theme selected"), B_FOLLOW_ALL);
+	fScreenshotNone = new BStringView(BRect(), "sshotnone", B_TRANSLATE("No Theme selected"), B_FOLLOW_ALL);
 	fScreenshotNone->SetFontSize(20.0);
 	fScreenshotNone->SetAlignment(B_ALIGN_CENTER);
 	fBox->AddChild(fScreenshotNone);
@@ -255,7 +268,7 @@ ThemeInterfaceView::AllAttached()
 							
 	// Theme hyperlink
 	/*
-	BStringView* hlink = new BStringView(BRect(), "theme_hyperlink", _T("More themes online"), new BMessage(skOnlineThemes), B_FOLLOW_RIGHT | B_FOLLOW_BOTTOM);
+	BStringView* hlink = new BStringView(BRect(), "theme_hyperlink", B_TRANSLATE("More themes online"), new BMessage(skOnlineThemes), B_FOLLOW_RIGHT | B_FOLLOW_BOTTOM);
 	AddChild(hlink);
 	hlink->SetClickText(hlink->GetText(), *this);
 	hlink->ResizeToPreferred();
@@ -490,11 +503,11 @@ ThemeInterfaceView::HideScreenshotPane(bool hide)
 			fBox->Hide();
 			fAddonListSV->Show();
 		}
-		fShowSSPaneBtn->SetLabel(_T("Show Preview"));
+		fShowSSPaneBtn->SetLabel(B_TRANSLATE("Show Preview"));
 	} 
 	else 
 	{
-		fShowSSPaneBtn->SetLabel(_T("Show Options"));
+		fShowSSPaneBtn->SetLabel(B_TRANSLATE("Show Options"));
 		if (fScreenshotPane->IsHidden()) 
 		{
 			fBox->Show();
@@ -847,7 +860,7 @@ ThemeInterfaceView::ThemeSelected()
 		while(true == fScreenshotNone->IsHidden())
 			fScreenshotNone->Show();
 			
-		fScreenshotNone->SetText(_T("No Theme selected"));			
+		fScreenshotNone->SetText(B_TRANSLATE("No Theme selected"));
 		return ENOENT;
 	}
 	
@@ -871,7 +884,7 @@ ThemeInterfaceView::ThemeSelected()
 		while(true == fScreenshotNone->IsHidden())
 			fScreenshotNone->Show();
 
-		fScreenshotNone->SetText(_T("No Screenshot"));
+		fScreenshotNone->SetText(B_TRANSLATE("No Screenshot"));
 		return err;
 	}
 
@@ -943,7 +956,7 @@ ThemeInterfaceView::AError(const char *func, status_t err)
 	BString msg;
 	char *str = strerror(err);
 	msg << "Error in " << func << "() : " << str;
-	alert = new BAlert("error", msg.String(), _T("Ok"));
+	alert = new BAlert("error", msg.String(), B_TRANSLATE("Ok"));
 	alert->Go();
 	return err; /* pass thru */
 }

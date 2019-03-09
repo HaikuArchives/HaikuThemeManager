@@ -8,15 +8,28 @@
 #include "ThemeManager.h"
 #include "UITheme.h"
 #include <BeBuild.h>
+
+#ifdef __HAIKU__
+#include <locale/Catalog.h>
+#endif
+
 #ifdef B_ZETA_VERSION
 #include <locale/Locale.h>
+#define B_TRANSLATE _T
 #else
-#define _T(v) v
 #define B_LANGUAGE_CHANGED '_BLC'
 #define B_PREF_APP_SET_DEFAULTS 'zPAD'
 #define B_PREF_APP_REVERT 'zPAR'
 #define B_PREF_APP_ADDON_REF 'zPAA'
 #endif
+
+#ifndef B_TRANSLATE
+#define B_TRANSLATE(v) v
+#endif
+
+#undef B_TRANSLATION_CONTEXT
+#define B_TRANSLATION_CONTEXT "ThemeAddonItem"
+
 #include <Button.h>
 #include <CheckBox.h>
 #include <Font.h>
@@ -38,8 +51,8 @@ ThemeAddonItem::ThemeAddonItem(BRect bounds, ThemeInterfaceView *iview, int32 id
 	ThemeManager *tman;
 	fId = id;
 	fIView = iview;
-	fAddonName = _T("Global");
-	BString tip(_T("Change actions for all"));
+	fAddonName = B_TRANSLATE("Global");
+	BString tip(B_TRANSLATE("Change actions for all"));
 	tman = iview->GetThemeManager();
 	uint32 flags = 0;
 	bool detected = true;
@@ -48,7 +61,7 @@ ThemeAddonItem::ThemeAddonItem(BRect bounds, ThemeInterfaceView *iview, int32 id
 		tip.SetTo(tman->AddonDescription(id));
 		detected = tman->DetectApplication(id) == B_OK;
 		if (!detected) {
-			tip << " " << _T("(Application not installed)");
+			tip << " " << B_TRANSLATE("(Application not installed)");
 			SetEnabled(false);
 		}
 		flags = tman->AddonFlags(id);
@@ -74,17 +87,17 @@ ThemeAddonItem::ThemeAddonItem(BRect bounds, ThemeInterfaceView *iview, int32 id
 #ifdef __HAIKU__
 	if (id < 0) value = B_CONTROL_PARTIALLY_ON;
 #endif
-	fApplyBox = new BCheckBox(BRect(CTRL_OFF_X, CTRL_OFF_Y, CTRL_OFF_X+50, CTRL_OFF_Y+30), "apply", _T("Apply"), apply);
+	fApplyBox = new BCheckBox(BRect(CTRL_OFF_X, CTRL_OFF_Y, CTRL_OFF_X+50, CTRL_OFF_Y+30), "apply", B_TRANSLATE("Apply"), apply);
 	fApplyBox->SetValue(value);
-	fSaveBox = new BCheckBox(BRect(CTRL_OFF_X+50+CTRL_SPACING, CTRL_OFF_Y, CTRL_OFF_X+100+CTRL_SPACING, CTRL_OFF_Y+30), "save", _T("Save"), save);
+	fSaveBox = new BCheckBox(BRect(CTRL_OFF_X+50+CTRL_SPACING, CTRL_OFF_Y, CTRL_OFF_X+100+CTRL_SPACING, CTRL_OFF_Y+30), "save", B_TRANSLATE("Save"), save);
 	value = (flags & Z_THEME_ADDON_DO_RETRIEVE) ? B_CONTROL_ON : B_CONTROL_OFF;
 #ifdef __HAIKU__
 	if (id < 0) value = B_CONTROL_PARTIALLY_ON;
 #endif
 	fSaveBox->SetValue(value);
 #if defined(__HAIKU__) || defined(B_BEOS_VERSION_DANO)
-	fApplyBox->SetToolTip(_T("Use this information from themes"));
-	fSaveBox->SetToolTip(_T("Save this information to themes"));
+	fApplyBox->SetToolTip(B_TRANSLATE("Use this information from themes"));
+	fSaveBox->SetToolTip(B_TRANSLATE("Save this information to themes"));
 #endif
 	if (!detected) {
 		fApplyBox->SetEnabled(false);
@@ -94,9 +107,9 @@ ThemeAddonItem::ThemeAddonItem(BRect bounds, ThemeInterfaceView *iview, int32 id
 	if (id > -1) {
 		BMessage *prefs = new BMessage(BTN_PREFS);
 		prefs->AddInt32("addon", id);
-		fPrefsBtn = new BButton(BRect(CTRL_OFF_X+100+CTRL_SPACING*2, CTRL_OFF_Y, CTRL_OFF_X+150+CTRL_SPACING*2, CTRL_OFF_Y+30), "prefs", _T("Preferences"), prefs);
+		fPrefsBtn = new BButton(BRect(CTRL_OFF_X+100+CTRL_SPACING*2, CTRL_OFF_Y, CTRL_OFF_X+150+CTRL_SPACING*2, CTRL_OFF_Y+30), "prefs", B_TRANSLATE("Preferences"), prefs);
 #if defined(__HAIKU__) || defined(B_BEOS_VERSION_DANO)
-		fPrefsBtn->SetToolTip(_T("Run the preferences panel for this topic."));
+		fPrefsBtn->SetToolTip(B_TRANSLATE("Run the preferences panel for this topic."));
 #endif
 		if (!detected)
 			fPrefsBtn->SetEnabled(false);
@@ -165,17 +178,17 @@ ThemeAddonItem::Draw(BRect)
 void
 ThemeAddonItem::RelocalizeStrings()
 {
-	fApplyBox->SetLabel(_T("Apply"));
-	fSaveBox->SetLabel(_T("Save"));
+	fApplyBox->SetLabel(B_TRANSLATE("Apply"));
+	fSaveBox->SetLabel(B_TRANSLATE("Save"));
 #if defined(__HAIKU__) || defined(B_BEOS_VERSION_DANO)
-	fApplyBox->SetToolTip(_T("Use this information from themes"));
-	fSaveBox->SetToolTip(_T("Save this information to themes"));
+	fApplyBox->SetToolTip(B_TRANSLATE("Use this information from themes"));
+	fSaveBox->SetToolTip(B_TRANSLATE("Save this information to themes"));
 #endif
 #ifdef HAVE_PREF_BTN
 	if (fPrefsBtn) {
-		fPrefsBtn->SetLabel(_T("Preferences"));
+		fPrefsBtn->SetLabel(B_TRANSLATE("Preferences"));
 #if defined(__HAIKU__) || defined(B_BEOS_VERSION_DANO)
-		fPrefsBtn->SetToolTip(_T("Run the preferences panel for this topic."));
+		fPrefsBtn->SetToolTip(B_TRANSLATE("Run the preferences panel for this topic."));
 #endif
 	}
 #endif
