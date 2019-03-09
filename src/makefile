@@ -87,6 +87,10 @@ RDEFS := Themes.rdef
 #		library: my_lib.a entry: my_lib.a or path/my_lib.a
 LIBS = be media textencoding translation $(STDCPPLIBS)
 
+ifneq ($(findstring haiku,$(MAKE_HOST)), )
+LIBS += localestub
+endif
+
 #	specify additional paths to directories following the standard
 #	libXXX.so or libXXX.a naming scheme.  You can specify full paths
 #	or paths relative to the makefile.  The paths included may not
@@ -209,6 +213,21 @@ EXTRA_DEPS :=
 #	If you want to see the complete build line for every file, then set this to 'true',
 #	otherwise it will tell you at the end what the build flags were.
 #CHATTY			:=
+
+
+###############"
+# from Haiku's makefile template
+
+# If you plan to use localization, specify the application's MIME signature.
+APP_MIME_SIG = application/x-vnd.mmu_man-ThemeManager
+
+# 	Specify the codes for languages you are going to support in this
+# 	application. The default "en" one must be provided too. "make catkeys"
+# 	will recreate only the "locales/en.catkeys" file. Use it as a template
+# 	for creating catkeys for other languages. All localization files must be
+# 	placed in the "locales" subdirectory.
+LOCALES = en
+
 
 
 
