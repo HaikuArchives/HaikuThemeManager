@@ -257,14 +257,14 @@ ThemeInterfaceView::AllAttached()
 	fScreenshotPane->SetViewColor(ui_color(B_PANEL_BACKGROUND_COLOR));
 #endif
 	
-	fScreenshotNone = new BStringView(BRect(), "sshotnone", B_TRANSLATE("No Theme selected"), B_FOLLOW_ALL);
-	fScreenshotNone->SetFontSize(20.0);
-	fScreenshotNone->SetAlignment(B_ALIGN_CENTER);
-	fBox->AddChild(fScreenshotNone);
-	fScreenshotNone->ResizeToPreferred();
-	fScreenshotNone->ResizeTo(fBox->Bounds().Width() - 10.0, fScreenshotNone->Bounds().Height());
-	fScreenshotNone->MoveTo(fBox->Bounds().left + 5.0,
-							((fBox->Frame().Height() - fScreenshotNone->Frame().Height()) / 2.0));
+	fScreenshotText = new BStringView(BRect(), "sshotnone", B_TRANSLATE("No Theme selected"), B_FOLLOW_ALL);
+	fScreenshotText->SetFontSize(20.0);
+	fScreenshotText->SetAlignment(B_ALIGN_CENTER);
+	fBox->AddChild(fScreenshotText);
+	fScreenshotText->ResizeToPreferred();
+	fScreenshotText->ResizeTo(fBox->Bounds().Width() - 10.0, fScreenshotText->Bounds().Height());
+	fScreenshotText->MoveTo(fBox->Bounds().left + 5.0,
+							((fBox->Frame().Height() - fScreenshotText->Frame().Height()) / 2.0));
 							
 	// Theme hyperlink
 	/*
@@ -857,10 +857,10 @@ ThemeInterfaceView::ThemeSelected()
 		fScreenshotPane->Invalidate(fScreenshotPane->Bounds());
 		
 		HideScreenshotPane(false);			
-		while(true == fScreenshotNone->IsHidden())
-			fScreenshotNone->Show();
+		while(true == fScreenshotText->IsHidden())
+			fScreenshotText->Show();
 			
-		fScreenshotNone->SetText(B_TRANSLATE("No Theme selected"));
+		fScreenshotText->SetText(B_TRANSLATE("No Theme selected"));
 		return ENOENT;
 	}
 	
@@ -881,16 +881,16 @@ ThemeInterfaceView::ThemeSelected()
 		fprintf(stderr, "ThemeManager: no screenshot; error 0x%08lx\n", err);
 
 		HideScreenshotPane(false);
-		while(true == fScreenshotNone->IsHidden())
-			fScreenshotNone->Show();
+		while(true == fScreenshotText->IsHidden())
+			fScreenshotText->Show();
 
-		fScreenshotNone->SetText(B_TRANSLATE("No Screenshot"));
+		fScreenshotText->SetText(B_TRANSLATE("No Screenshot"));
 		return err;
 	}
 
 	SetScreenshot(sshot);
-	while(false == fScreenshotNone->IsHidden())
-			fScreenshotNone->Hide();
+	while(false == fScreenshotText->IsHidden())
+			fScreenshotText->Hide();
 
 	//err = tman->ApplyTheme(theme);
 	return err;

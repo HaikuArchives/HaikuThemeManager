@@ -73,7 +73,7 @@ private:
 		BButton*			fShowSSPaneBtn;
 		BButton*			fMoreThemesBtn;
 		BView*				fScreenshotPane;
-		BStringView*		fScreenshotNone;
+		BStringView*		fScreenshotText;
 		BBox*				fBox;
 		BScrollView*		fAddonListSV;
 		BListView*			fAddonList;
