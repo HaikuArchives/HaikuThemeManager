@@ -1,4 +1,4 @@
-1	English	application/x-vnd.mmu_man-ThemeManager	4089236419
+1	English	application/x-vnd.mmu_man-ThemeManager	1786805449
 Ok	ThemeInterfaceView		Ok
 Use this information from themes	ThemeAddonItem		Use this information from themes
 Apply	ThemeAddonItem		Apply
@@ -6,18 +6,18 @@ Preferences	ThemeAddonItem		Preferences
 Save	ThemeInterfaceView		Save
 Save	ThemeAddonItem		Save
 Save this information to themes	ThemeAddonItem		Save this information to themes
+Screenshot	ThemeInterfaceView		Screenshot
 Global	ThemeAddonItem		Global
 No Theme selected	ThemeInterfaceView		No Theme selected
 Apply	ThemeInterfaceView		Apply
+Options	ThemeInterfaceView		Options
 Run the preferences panel for this topic.	ThemeAddonItem		Run the preferences panel for this topic.
 Defaults	ThemeInterfaceView		Defaults
 More themes	ThemeInterfaceView		More themes
-Show Options	ThemeInterfaceView		Show Options
-Preview	ThemeInterfaceView		Preview
+Details	ThemeInterfaceView		Details
 New	ThemeInterfaceView		New
 Add Screenshot	ThemeInterfaceView		Add Screenshot
 Delete	ThemeInterfaceView		Delete
 No Screenshot	ThemeInterfaceView		No Screenshot
-Show Preview	ThemeInterfaceView		Show Preview
 (Application not installed)	ThemeAddonItem		(Application not installed)
 Change actions for all	ThemeAddonItem		Change actions for all
