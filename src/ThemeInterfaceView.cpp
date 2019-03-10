@@ -63,6 +63,7 @@ extern status_t ScaleBitmap(const BBitmap& inBitmap, BBitmap& outBitmap);
 #include "ThemeInterfaceView.h"
 #include "ThemeItem.h"
 #include "ThemeAddonItem.h"
+#include "ScreenshotView.h"
 
 /* impl */
 #include "ThemeManager.h"
@@ -246,7 +247,7 @@ ThemeInterfaceView::AllAttached()
 	//AddChild(fScreenshotTab);
 	fTabView->AddTab(fScreenshotTab);
 
-	fScreenshotPane = new BView(preview_frame, "screenshot", B_FOLLOW_ALL, B_WILL_DRAW);
+	fScreenshotPane = new ScreenshotView(preview_frame, "screenshot", B_FOLLOW_ALL, B_WILL_DRAW);
 	fScreenshotTab->AddChild(fScreenshotPane);
 	fScreenshotPane->SetViewPanelBgColor();
 	
@@ -868,47 +869,15 @@ ThemeInterfaceView::SetIsRevertable()
 }
 
 
-// PRIVATE: in libzeta for now.
-extern status_t ScaleBitmap(const BBitmap& inBitmap, BBitmap& outBitmap);
-
-
 void
 ThemeInterfaceView::SetScreenshot(BBitmap *shot)
 {
 	// no screenshotpanel
 	if(NULL == fScreenshotPane)
 		return;
-		
-	fScreenshotPane->ClearViewBitmap();
-	if (shot)
-	{
-#ifdef __HAIKU__
-		fScreenshotPane->SetViewBitmap(shot, shot->Bounds(),
-			fScreenshotPane->Bounds(), B_FOLLOW_ALL, B_FILTER_BITMAP_BILINEAR);
 
-#else
-		BBitmap scaled(fScreenshotPane->Bounds(), B_RGB32);
-		status_t err = ENOSYS;
-#ifdef B_ZETA_VERSION
-		err = ScaleBitmap(*shot, scaled);
-#endif
-		if( err == B_OK )
-		{
-			fScreenshotPane->SetViewBitmap(&scaled);
-		}
-		else
-		{
-			fScreenshotPane->SetViewBitmap(shot, shot->Bounds(),
-				fScreenshotPane->Bounds());
-		}
-#endif
-	}
-	
-	fScreenshotPane->Invalidate(fScreenshotPane->Bounds());
+	fScreenshotPane->SetScreenshot(shot);
 	fHasScreenshot = (shot != NULL);
-	
-	if (shot)
-		delete shot;
 }
 
 

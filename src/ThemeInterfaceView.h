@@ -21,6 +21,7 @@ class BTabView;
 class BTextControl;
 class BTextView;
 class BMessage;
+class ScreenshotView;
 class BStringView;
 class MyInvoker;
 
@@ -70,7 +71,7 @@ private:
 		BButton*			fSetShotBtn;
 		BButton*			fMoreThemesBtn;
 		BTabView*			fTabView;
-		BView*				fScreenshotPane;
+		ScreenshotView*		fScreenshotPane;
 		BStringView*		fScreenshotText;
 		BView*				fScreenshotTab;
 		BTextView*			fDetails;
