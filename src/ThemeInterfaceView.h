@@ -73,6 +73,7 @@ private:
 		BView*				fScreenshotPane;
 		BStringView*		fScreenshotText;
 		BView*				fScreenshotTab;
+		BTextView*			fDetails;
 		BScrollView*		fAddonListSV;
 		BListView*			fAddonList;
 };

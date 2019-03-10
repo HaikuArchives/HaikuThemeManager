@@ -262,9 +262,13 @@ ThemeInterfaceView::AllAttached()
 
 
 	// TODO: real preview from actual data and BControlLook & co
-	fTabView->AddTab(new BStringView(fTabView->ContainerView()->Bounds(), B_TRANSLATE("Preview"), "TODO", B_FOLLOW_ALL, B_WILL_DRAW));
+	//fTabView->AddTab(new BStringView(fTabView->ContainerView()->Bounds(), B_TRANSLATE("Preview"), "TODO", B_FOLLOW_ALL, B_WILL_DRAW));
+
+
 	// TODO: theme informations
-	fTabView->AddTab(new BStringView(fTabView->ContainerView()->Bounds(), B_TRANSLATE("Details"), "TODO", B_FOLLOW_ALL, B_WILL_DRAW));
+	fDetails = new BTextView(preview_frame, B_TRANSLATE("Details"), preview_frame.InsetByCopy(3,3), B_FOLLOW_ALL, B_WILL_DRAW);
+	fDetails->SetText("TODO");
+	fTabView->AddTab(fDetails);
 
 	// Theme hyperlink
 	/*
