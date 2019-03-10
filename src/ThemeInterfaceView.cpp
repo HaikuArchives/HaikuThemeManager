@@ -144,12 +144,8 @@ void
 ThemeInterfaceView::AllAttached()
 {
 	BView::AllAttached();
-	
-#ifdef B_BEOS_VERSION_DANO
-	SetViewUIColor(B_UI_PANEL_BACKGROUND_COLOR);
-#else
-	SetViewColor(ui_color(B_PANEL_BACKGROUND_COLOR));
-#endif
+
+	SetViewPanelBgColor();
 	
 	fThemeManager = new ThemeManager;
 
