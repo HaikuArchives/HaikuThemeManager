@@ -246,6 +246,7 @@ ThemeInterfaceView::AllAttached()
 	fScreenshotTab = new BView(preview_frame, B_TRANSLATE("Screenshot"), B_FOLLOW_ALL, B_WILL_DRAW);
 	//AddChild(fScreenshotTab);
 	fTabView->AddTab(fScreenshotTab);
+	fTabView->Select(0L);
 
 	fScreenshotPane = new ScreenshotView(preview_frame, "screenshot", B_FOLLOW_ALL, B_WILL_DRAW);
 	fScreenshotTab->AddChild(fScreenshotPane);
