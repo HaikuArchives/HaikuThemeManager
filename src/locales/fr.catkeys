@@ -14,7 +14,6 @@ Options	ThemeInterfaceView		Options
 Run the preferences panel for this topic.	ThemeAddonItem		Lancer le panneau de préférences pour ce sujet.
 Defaults	ThemeInterfaceView		Défauts
 More themes	ThemeInterfaceView		Plus de thèmes
-Preview	ThemeInterfaceView		Prévisualiser
 Details	ThemeInterfaceView		Détails
 New	ThemeInterfaceView		Nouveau
 Add Screenshot	ThemeInterfaceView		Ajout capture d'écran
