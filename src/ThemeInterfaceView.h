@@ -17,6 +17,7 @@ class BBox;
 class BListView;
 class BButton;
 class BScrollView;
+class BTabView;
 class BTextControl;
 class BTextView;
 class BMessage;
@@ -33,9 +34,6 @@ public:
 		virtual void 		MessageReceived(BMessage* _msg);
 		ThemeManager*		GetThemeManager();
 		
-		void				HideScreenshotPane(bool hide);
-		bool				IsScreenshotPaneHidden();
-
 		void				PopulateThemeList();
 		void				PopulateAddonList();
 
@@ -70,11 +68,11 @@ private:
 		BButton*			fSaveBtn;
 		BButton*			fDeleteBtn;
 		BButton*			fSetShotBtn;
-		BButton*			fShowSSPaneBtn;
 		BButton*			fMoreThemesBtn;
+		BTabView*			fTabView;
 		BView*				fScreenshotPane;
 		BStringView*		fScreenshotText;
-		BBox*				fBox;
+		BView*				fScreenshotTab;
 		BScrollView*		fAddonListSV;
 		BListView*			fAddonList;
 };

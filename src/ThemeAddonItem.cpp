@@ -69,12 +69,11 @@ ThemeAddonItem::ThemeAddonItem(BRect bounds, ThemeInterfaceView *iview, int32 id
 #if defined(__HAIKU__) || defined(B_BEOS_VERSION_DANO)
 	SetToolTip(tip.String());
 #endif
+	SetViewPanelBgColor();
 #ifdef B_BEOS_VERSION_DANO
-	SetViewUIColor(B_UI_PANEL_BACKGROUND_COLOR);
 	SetLowUIColor(B_UI_PANEL_BACKGROUND_COLOR);
 	SetHighUIColor(B_UI_PANEL_TEXT_COLOR);
 #else
-	SetViewColor(ui_color(B_PANEL_BACKGROUND_COLOR));
 	SetLowColor(ui_color(B_PANEL_BACKGROUND_COLOR));
 	SetHighColor(ui_color(B_PANEL_TEXT_COLOR));
 #endif
@@ -120,6 +119,14 @@ ThemeAddonItem::ThemeAddonItem(BRect bounds, ThemeInterfaceView *iview, int32 id
 	fnt.SetSize(fnt.Size()+1);
 	fnt.SetFace(B_ITALIC_FACE);
 	SetFont(&fnt);
+
+	AddChild(fApplyBox);
+	AddChild(fSaveBox);
+#ifdef HAVE_PREF_BTN
+	if (fPrefsBtn) {
+		AddChild(fPrefsBtn);
+	}
+#endif
 }
 
 
@@ -143,13 +150,10 @@ ThemeAddonItem::DrawItem(BView *ownerview, BRect frame, bool complete)
 void
 ThemeAddonItem::AttachedToWindow()
 {
-	AddChild(fApplyBox);
 	fApplyBox->SetTarget(fIView);
-	AddChild(fSaveBox);
 	fSaveBox->SetTarget(fIView);
 #ifdef HAVE_PREF_BTN
 	if (fPrefsBtn) {
-		AddChild(fPrefsBtn);
 		fPrefsBtn->SetTarget(fIView);
 	}
 #endif

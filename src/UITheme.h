@@ -125,17 +125,21 @@ inline rgb_color make_color(uint8 red, uint8 green, uint8 blue, uint8 alpha=255)
 	return c;
 }
 typedef unsigned long int addr_t;
+
+#define SetViewPanelBgColor() SetViewColor(ui_color(B_PANEL_BACKGROUND_COLOR))
 #endif
 #endif
 
 #ifdef __HAIKU__
 #define B_TOOLTIP_BACKGROUND_COLOR B_TOOL_TIP_BACKGROUND_COLOR
 #define B_TOOLTIP_TEXT_COLOR B_TOOL_TIP_TEXT_COLOR
+#define SetViewPanelBgColor() SetViewUIColor(B_PANEL_BACKGROUND_COLOR)
 #endif
 
 #ifdef B_BEOS_VERSION_DANO
 // mimic the Haiku API
 #define SetToolTip SetToolTipText
+#define SetViewPanelBgColor() SetViewUIColor(B_UI_PANEL_BACKGROUND_COLOR)
 #endif
 
 #ifdef __MWERKS__

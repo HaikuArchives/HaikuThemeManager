@@ -45,6 +45,7 @@
 #include <ListView.h>
 #include <interface/StringView.h>
 #include <ScrollView.h>
+#include <TabView.h>
 #include <TextControl.h>
 #include <TextView.h>
 
@@ -72,7 +73,6 @@ const uint32 kCreateThemeBtn	= 'TmCr';
 const uint32 kReallyCreateTheme	= 'TmCR';
 const uint32 kSaveThemeBtn		= 'TmSa';
 const uint32 kDeleteThemeBtn	= 'TmDe';
-const uint32 kHidePreviewBtn	= 'TmHP';
 const uint32 kThemeSelected		= 'TmTS';
 const uint32 kMakeScreenshot	= 'TmMS';
 
@@ -122,7 +122,7 @@ ThemeInterfaceView::ThemeInterfaceView(BRect _bounds)
 	fThemeManager(NULL),
 	fScreenshotPaneHidden(false),
 	fHasScreenshot(false),
-	fBox(NULL)
+	fScreenshotTab(NULL)
 {
 /*
 	BMessageFilter *filt = new BMessageFilter(B_ANY_DELIVERY, B_ANY_SOURCE, refs_filter);
@@ -204,11 +204,6 @@ ThemeInterfaceView::AllAttached()
 	fSetShotBtn->SetTarget(this);
 	fSetShotBtn->ResizeToPreferred();
 	
-	fShowSSPaneBtn = new BButton(BRect(), "hidess", B_TRANSLATE("Show Options"), new BMessage(kHidePreviewBtn), B_FOLLOW_RIGHT | B_FOLLOW_TOP);
-	AddChild(fShowSSPaneBtn);
-	fShowSSPaneBtn->SetTarget(this);
-	fShowSSPaneBtn->ResizeToPreferred();
-
 	fMoreThemesBtn = new BButton(BRect(), "getthemes", B_TRANSLATE("More themes"), new BMessage(skOnlineThemes), B_FOLLOW_RIGHT | B_FOLLOW_TOP);
 	AddChild(fMoreThemesBtn);
 	fMoreThemesBtn->SetTarget(this);
@@ -224,48 +219,53 @@ ThemeInterfaceView::AllAttached()
 	fApplyBtn->ResizeToPreferred();
 	fApplyBtn->SetTarget(this);
 
-	float widest = max_c(fSetShotBtn->Bounds().Width(), fShowSSPaneBtn->Bounds().Width());
+	float widest = max_c(fSetShotBtn->Bounds().Width(), fMoreThemesBtn->Bounds().Width());
 	widest = max_c(widest, fDefaultsBtn->Bounds().Width());
 	widest = max_c(widest, fApplyBtn->Bounds().Width());
 	float height = fSetShotBtn->Bounds().Height();
 	fSetShotBtn->ResizeTo(widest, height);
-	fShowSSPaneBtn->ResizeTo(widest, height);
 	fMoreThemesBtn->ResizeTo(widest, height);
 	fDefaultsBtn->ResizeTo(widest, height);
 	fApplyBtn->ResizeTo(widest, height);
 	
 	fSetShotBtn->MoveTo(frame.right - widest, frame.top + 5.0);
-	fShowSSPaneBtn->MoveTo(frame.right - widest, fSetShotBtn->Frame().bottom + 10.0);
-	fMoreThemesBtn->MoveTo(frame.right - widest, fShowSSPaneBtn->Frame().bottom + 10.0);
+	fMoreThemesBtn->MoveTo(frame.right - widest, fSetShotBtn->Frame().bottom + 10.0);
 	fApplyBtn->MoveTo(frame.right - widest, fNewBtn->Frame().top - fApplyBtn->Bounds().Height() - 10);
 	fDefaultsBtn->MoveTo(frame.right - widest, fNewBtn->Frame().top - (fApplyBtn->Bounds().Height() + 10) * 2);
 
 	// add the preview screen
 	BRect preview_frame(fNewBtn->Frame().left, fThemeListSV->Frame().top, frame.right - widest - 10, fNewBtn->Frame().top - 10);
 
-	fBox = new BBox(preview_frame, "preview", B_FOLLOW_ALL);
-	AddChild(fBox);
-	fBox->SetLabel(B_TRANSLATE("Preview"));
-	
-	preview_frame.InsetBy(10.0, 15.0);
-	preview_frame.OffsetTo(10.0, 20.0);
+	fTabView = new BTabView(preview_frame, "tabs");
+	fTabView->SetViewPanelBgColor();
+	AddChild(fTabView);
+
+	preview_frame = fTabView->ContainerView()->Bounds();
+
+	fScreenshotTab = new BView(preview_frame, B_TRANSLATE("Screenshot"), B_FOLLOW_ALL, B_WILL_DRAW);
+	//AddChild(fScreenshotTab);
+	fTabView->AddTab(fScreenshotTab);
+
 	fScreenshotPane = new BView(preview_frame, "screenshot", B_FOLLOW_ALL, B_WILL_DRAW);
-	fBox->AddChild(fScreenshotPane);
-#ifdef B_BEOS_VERSION_DANO
-	fScreenshotPane->SetViewUIColor(B_UI_PANEL_BACKGROUND_COLOR);
-#else
-	fScreenshotPane->SetViewColor(ui_color(B_PANEL_BACKGROUND_COLOR));
-#endif
+	fScreenshotTab->AddChild(fScreenshotPane);
+	fScreenshotPane->SetViewPanelBgColor();
 	
 	fScreenshotText = new BStringView(BRect(), "sshotnone", B_TRANSLATE("No Theme selected"), B_FOLLOW_ALL);
 	fScreenshotText->SetFontSize(20.0);
 	fScreenshotText->SetAlignment(B_ALIGN_CENTER);
-	fBox->AddChild(fScreenshotText);
+	fScreenshotTab->AddChild(fScreenshotText);
+	fScreenshotText->SetViewPanelBgColor();
 	fScreenshotText->ResizeToPreferred();
-	fScreenshotText->ResizeTo(fBox->Bounds().Width() - 10.0, fScreenshotText->Bounds().Height());
-	fScreenshotText->MoveTo(fBox->Bounds().left + 5.0,
-							((fBox->Frame().Height() - fScreenshotText->Frame().Height()) / 2.0));
-							
+	fScreenshotText->ResizeTo(fScreenshotTab->Bounds().Width() - 10.0, fScreenshotText->Bounds().Height());
+	fScreenshotText->MoveTo(fScreenshotTab->Bounds().left + 5.0,
+							((fScreenshotTab->Frame().Height() - fScreenshotText->Frame().Height()) / 2.0));
+
+
+	// TODO: real preview from actual data and BControlLook & co
+	fTabView->AddTab(new BStringView(fTabView->ContainerView()->Bounds(), B_TRANSLATE("Preview"), "TODO", B_FOLLOW_ALL, B_WILL_DRAW));
+	// TODO: theme informations
+	fTabView->AddTab(new BStringView(fTabView->ContainerView()->Bounds(), B_TRANSLATE("Details"), "TODO", B_FOLLOW_ALL, B_WILL_DRAW));
+
 	// Theme hyperlink
 	/*
 	BStringView* hlink = new BStringView(BRect(), "theme_hyperlink", B_TRANSLATE("More themes online"), new BMessage(skOnlineThemes), B_FOLLOW_RIGHT | B_FOLLOW_BOTTOM);
@@ -276,18 +276,21 @@ ThemeInterfaceView::AllAttached()
 	*/
 	
 	// the addons list view
-	preview_frame = fBox->Frame();
-	preview_frame.InsetBy(3.0, 3.0);
+
+	preview_frame = fTabView->ContainerView()->Bounds();
 	preview_frame.right -= B_V_SCROLL_BAR_WIDTH;
-	fAddonList = new BListView(preview_frame, "addonlist");
-	fAddonListSV = new BScrollView("addonlistsv", fAddonList, B_FOLLOW_LEFT|B_FOLLOW_TOP, 0, false, true);
-	AddChild(fAddonListSV);
+	fAddonList = new BListView(preview_frame/*BRect()*/, "addonlist");
+
+	PopulateAddonList();
+
+	fAddonListSV = new BScrollView(B_TRANSLATE("Options"), fAddonList, B_FOLLOW_LEFT|B_FOLLOW_TOP, 0, false, true);
 	fAddonList->SetSelectionMessage(new BMessage(kThemeSelected));
 	fAddonList->SetInvocationMessage(new BMessage(kApplyThemeBtn));
 	fAddonList->SetTarget(this);	
-	fAddonListSV->Hide();
 
-	PopulateAddonList();
+
+	fTabView->AddTab(fAddonListSV);
+
 	PopulateThemeList();
 }
 
@@ -298,6 +301,8 @@ ThemeInterfaceView::MessageReceived(BMessage *_msg)
 	ThemeManager *tman;
 	int32 value;
 	int32 id;
+
+_msg->PrintToStream();
 
 	switch(_msg->what)
 	{
@@ -311,10 +316,6 @@ ThemeInterfaceView::MessageReceived(BMessage *_msg)
 
 		case kThemeSelected:
 			ThemeSelected();
-			break;
-
-		case kHidePreviewBtn:
-			HideScreenshotPane(!IsScreenshotPaneHidden());
 			break;
 
 		case kApplyThemeBtn:
@@ -483,46 +484,6 @@ ThemeManager*
 ThemeInterfaceView::GetThemeManager()
 {
 	return fThemeManager;
-}
-
-
-void
-ThemeInterfaceView::HideScreenshotPane(bool hide)
-{
-	BString lbl;
-	if (IsScreenshotPaneHidden() && hide)
-		return;
-	if (!IsScreenshotPaneHidden() && !hide)
-		return;
-	fScreenshotPaneHidden = hide;
-
-	if (hide) 
-	{
-		if (!fScreenshotPane->IsHidden()) 
-		{
-			fBox->Hide();
-			fAddonListSV->Show();
-		}
-		fShowSSPaneBtn->SetLabel(B_TRANSLATE("Show Preview"));
-	} 
-	else 
-	{
-		fShowSSPaneBtn->SetLabel(B_TRANSLATE("Show Options"));
-		if (fScreenshotPane->IsHidden()) 
-		{
-			fBox->Show();
-			fAddonListSV->Hide();
-		}
-	}
-	// TODO
-}
-
-
-
-bool
-ThemeInterfaceView::IsScreenshotPaneHidden()
-{
-	return fScreenshotPaneHidden;
 }
 
 
@@ -856,7 +817,6 @@ ThemeInterfaceView::ThemeSelected()
 		fScreenshotPane->ClearViewBitmap();
 		fScreenshotPane->Invalidate(fScreenshotPane->Bounds());
 		
-		HideScreenshotPane(false);			
 		while(true == fScreenshotText->IsHidden())
 			fScreenshotText->Show();
 			
@@ -880,7 +840,6 @@ ThemeInterfaceView::ThemeSelected()
 		SetScreenshot(NULL);
 		fprintf(stderr, "ThemeManager: no screenshot; error 0x%08lx\n", err);
 
-		HideScreenshotPane(false);
 		while(true == fScreenshotText->IsHidden())
 			fScreenshotText->Show();
 
