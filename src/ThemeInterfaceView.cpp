@@ -244,6 +244,7 @@ ThemeInterfaceView::AllAttached()
 	preview_frame = fTabView->ContainerView()->Bounds();
 
 	fScreenshotTab = new BView(preview_frame, B_TRANSLATE("Screenshot"), B_FOLLOW_ALL, B_WILL_DRAW);
+	fScreenshotTab->SetViewPanelBgColor();
 	//AddChild(fScreenshotTab);
 	fTabView->AddTab(fScreenshotTab);
 	fTabView->Select(0L);
