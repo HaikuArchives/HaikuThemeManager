@@ -15,9 +15,8 @@ extern status_t ScaleBitmap(const BBitmap& inBitmap, BBitmap& outBitmap);
 
 
 ScreenshotView::ScreenshotView(BRect bounds, const char *name,
-						uint32 resizeMask = B_FOLLOW_ALL,
-						uint32 flags = B_FULL_UPDATE_ON_RESIZE
-							| B_WILL_DRAW | B_FRAME_EVENTS)
+						uint32 resizeMask,
+						uint32 flags)
 	: BView(bounds, name, resizeMask, flags)
 {
 	fBitmap = NULL;
