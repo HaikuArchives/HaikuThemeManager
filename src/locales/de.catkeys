@@ -2,16 +2,16 @@
 Ok	ThemeInterfaceView		OK
 Save	ThemeInterfaceView		Speichern
 Screenshot	ThemeInterfaceView		Screenshot
-No Theme selected	ThemeInterfaceView		Kein Theme ausgewählt
+No theme selected	ThemeInterfaceView		Kein Theme ausgewählt
 Apply	ThemeInterfaceView		Anwenden
 Options	ThemeInterfaceView		Optionen
 Defaults	ThemeInterfaceView		Standardwerte
 More themes	ThemeInterfaceView		Weitere Themes
 Details	ThemeInterfaceView		Details
 New	ThemeInterfaceView		Neu
-Add Screenshot	ThemeInterfaceView		Screenshot hinzufügen
+Add screenshot	ThemeInterfaceView		Screenshot hinzufügen
 Delete	ThemeInterfaceView		Löschen
-No Screenshot	ThemeInterfaceView		Kein Screenshot
+No screenshot	ThemeInterfaceView		Kein Screenshot
 Apply	ThemeAddonItem		Anwenden
 Preferences	ThemeAddonItem		Einstellungen
 Save	ThemeAddonItem		Speichern
