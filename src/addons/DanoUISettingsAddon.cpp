@@ -29,7 +29,7 @@
 #endif
 
 //#define A_NAME "UI Settings"
-#define A_NAME "System Colors and Fonts"
+#define A_NAME "System colors and fonts"
 #define A_MSGNAME Z_THEME_UI_SETTINGS
 #define A_DESCRIPTION "System colors, fonts and other goodies"
 

@@ -26,7 +26,7 @@
 #define instantiate_themes_addon instantiate_themes_addon_soundplay
 #endif
 
-#define A_NAME "SoundPlay Color"
+#define A_NAME "SoundPlay color"
 #define A_MSGNAME NULL //Z_THEME_SOUNDPLAY_SETTINGS
 #define A_DESCRIPTION "Make SoundPlay use system colors"
 

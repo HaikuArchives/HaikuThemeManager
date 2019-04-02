@@ -31,7 +31,7 @@
 #define instantiate_themes_addon instantiate_themes_addon_beide
 #endif
 
-#define A_NAME "BeIDE Colors"
+#define A_NAME "BeIDE colors"
 #define A_MSGNAME NULL //Z_THEME_BEIDE_SETTINGS
 #define A_DESCRIPTION "Make BeIDE use system colors"
 

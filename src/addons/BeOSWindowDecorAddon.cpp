@@ -46,7 +46,7 @@
 #define instantiate_themes_addon instantiate_themes_addon_window_decor
 #endif
 
-#define A_NAME "Window Decor"
+#define A_NAME "Window decor"
 #define A_MSGNAME Z_THEME_WINDOW_DECORATIONS
 #define A_DESCRIPTION "Window decorations and scrollbars"
 

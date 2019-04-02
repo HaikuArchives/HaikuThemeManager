@@ -31,7 +31,7 @@
 #define instantiate_themes_addon instantiate_themes_addon_eddie
 #endif
 
-#define A_NAME "Eddie Colors"
+#define A_NAME "Eddie colors"
 #define A_MSGNAME NULL //Z_THEME_Eddie_SETTINGS
 #define A_DESCRIPTION "Make Eddie use system colors"
 

@@ -32,9 +32,9 @@
 #define instantiate_themes_addon instantiate_themes_addon_winamp_skin
 #endif
 
-#define A_NAME "Winamp Skin"
+#define A_NAME "Winamp skin"
 #define A_MSGNAME Z_THEME_WINAMP_SKIN_SETTINGS
-#define A_DESCRIPTION "Handle CL-Amp and SoundPlay (not yet) Skins - requires SkinSelector plugin to be activated in CL-Amp and SoundPlay."
+#define A_DESCRIPTION "Handle CL-Amp and SoundPlay (not yet) skins - requires SkinSelector plugin to be activated in CL-Amp and SoundPlay."
 
 #define CL_SETTINGS_NAME "CL-Amp/CL-Amp.preferences"
 #define CL_APP_SIG "application/x-vnd.ClaesL-CLAmp"

@@ -196,7 +196,7 @@ ThemeInterfaceView::AllAttached()
 	fDeleteBtn->MoveTo(lt);
 
 	// buttons...
-	fSetShotBtn = new BButton(BRect(), "makeshot", B_TRANSLATE("Add Screenshot"), new BMessage(kMakeScreenshot), B_FOLLOW_RIGHT | B_FOLLOW_TOP);
+	fSetShotBtn = new BButton(BRect(), "makeshot", B_TRANSLATE("Add screenshot"), new BMessage(kMakeScreenshot), B_FOLLOW_RIGHT | B_FOLLOW_TOP);
 	AddChild(fSetShotBtn);
 	fSetShotBtn->SetTarget(this);
 	fSetShotBtn->ResizeToPreferred();
@@ -249,7 +249,7 @@ ThemeInterfaceView::AllAttached()
 	fScreenshotTab->AddChild(fScreenshotPane);
 	fScreenshotPane->SetViewPanelBgColor();
 	
-	fScreenshotText = new BStringView(BRect(), "sshotnone", B_TRANSLATE("No Theme selected"), B_FOLLOW_ALL);
+	fScreenshotText = new BStringView(BRect(), "sshotnone", B_TRANSLATE("No theme selected"), B_FOLLOW_ALL);
 	fScreenshotText->SetFontSize(20.0);
 	fScreenshotText->SetAlignment(B_ALIGN_CENTER);
 	fScreenshotTab->AddChild(fScreenshotText);
@@ -538,7 +538,7 @@ ThemeInterfaceView::_ThemeListPopulator()
 
 	LockLooper();
 
-	si = new BStringItem("(System Themes)");
+	si = new BStringItem("(System themes)");
 	si->SetEnabled(false);
 	fThemeList->AddItem(si);
 	si = NULL; // first non-readonly item will set it again
@@ -551,7 +551,7 @@ ThemeInterfaceView::_ThemeListPopulator()
 			continue;
 
 		if (!isro && si == NULL) {
-			si = new BStringItem("(User Themes)");
+			si = new BStringItem("(User themes)");
 			si->SetEnabled(false);
 			fThemeList->AddItem(si);
 		}
@@ -823,7 +823,7 @@ ThemeInterfaceView::ThemeSelected()
 		while(true == fScreenshotText->IsHidden())
 			fScreenshotText->Show();
 			
-		fScreenshotText->SetText(B_TRANSLATE("No Theme selected"));
+		fScreenshotText->SetText(B_TRANSLATE("No theme selected"));
 		return ENOENT;
 	}
 	

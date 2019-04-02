@@ -32,7 +32,7 @@
 #define instantiate_themes_addon instantiate_themes_addon_pe
 #endif
 
-#define A_NAME "Pe Colors"
+#define A_NAME "Pe colors"
 #define A_MSGNAME NULL //Z_THEME_PE_SETTINGS
 #define A_DESCRIPTION "Make Pe use system colors"
 
