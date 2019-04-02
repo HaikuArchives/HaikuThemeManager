@@ -7,6 +7,21 @@
 #include <Screen.h>
 #include <Window.h>
 
+#ifdef __HAIKU__
+#include <locale/Catalog.h>
+#endif
+#ifdef B_ZETA_VERSION
+#include <locale/Locale.h>
+#define B_TRANSLATE _T
+#endif
+
+#ifndef B_TRANSLATE
+#define B_TRANSLATE(v) v
+#endif
+
+#undef B_TRANSLATION_CONTEXT
+#define B_TRANSLATION_CONTEXT "ThemesApp"
+
 #include <stdio.h>
 #include <unistd.h>
 
@@ -34,7 +49,7 @@ ThemesApp::ReadyToRun()
 	BRect frame(0, 0, 680, 400);
 	frame.OffsetBySelf(s.Frame().Width()/2 - frame.Width()/2, 
 						s.Frame().Height()/2 - frame.Height()/2);
-	BWindow *w = new BWindow(frame, "ThemeManager", B_TITLED_WINDOW, B_NOT_RESIZABLE | B_QUIT_ON_WINDOW_CLOSE);
+	BWindow *w = new BWindow(frame, B_TRANSLATE("Theme Manager"), B_TITLED_WINDOW, B_NOT_RESIZABLE | B_QUIT_ON_WINDOW_CLOSE);
 	ThemeInterfaceView *v = new ThemeInterfaceView(w->Bounds());
 	w->AddChild(v);
 	w->Show();
