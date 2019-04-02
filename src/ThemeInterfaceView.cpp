@@ -846,7 +846,7 @@ ThemeInterfaceView::ThemeSelected()
 		while(true == fScreenshotText->IsHidden())
 			fScreenshotText->Show();
 
-		fScreenshotText->SetText(B_TRANSLATE("No Screenshot"));
+		fScreenshotText->SetText(B_TRANSLATE("No screenshot"));
 		return err;
 	}
 
