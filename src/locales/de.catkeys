@@ -1,0 +1,23 @@
+1	German	application/x-vnd.mmu_man-ThemeManager	1465829422
+Ok	ThemeInterfaceView		OK
+Save	ThemeInterfaceView		Speichern
+Screenshot	ThemeInterfaceView		Screenshot
+No Theme selected	ThemeInterfaceView		Kein Theme ausgewählt
+Apply	ThemeInterfaceView		Anwenden
+Options	ThemeInterfaceView		Optionen
+Defaults	ThemeInterfaceView		Standardwerte
+More themes	ThemeInterfaceView		Weitere Themes
+Details	ThemeInterfaceView		Details
+New	ThemeInterfaceView		Neu
+Add Screenshot	ThemeInterfaceView		Screenshot hinzufügen
+Delete	ThemeInterfaceView		Löschen
+No Screenshot	ThemeInterfaceView		Kein Screenshot
+Apply	ThemeAddonItem		Anwenden
+Preferences	ThemeAddonItem		Einstellungen
+Save	ThemeAddonItem		Speichern
+Global	ThemeAddonItem		Global
+(Application not installed)	ThemeAddonItem		(Anwendung nicht installiert)
+Save these settings to themes	ThemeAddonItem		Diese Einstellungen im Theme speichern
+Open the preference panel for this item	ThemeAddonItem		Einstellungsfenster hierfür öffnen
+Set apply/save actions for all items	ThemeAddonItem		Anwenden/Speichern Aktionen für alle übernehmen
+Apply these settings from themes	ThemeAddonItem		Diese Einstellungen aus dem Theme übernehmen
