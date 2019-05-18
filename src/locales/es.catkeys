@@ -1,0 +1,24 @@
+1	Spanish	application/x-vnd.mmu_man-ThemeManager	3433625334
+Ok	ThemeInterfaceView		Aceptar
+Save	ThemeInterfaceView		Guardar
+Screenshot	ThemeInterfaceView		Imagen de pantalla
+Apply	ThemeInterfaceView		Aplicar
+Options	ThemeInterfaceView		Opciones
+Defaults	ThemeInterfaceView		Por defecto
+More themes	ThemeInterfaceView		Más temas
+Details	ThemeInterfaceView		Detalles
+New	ThemeInterfaceView		Nuevo
+Delete	ThemeInterfaceView		Borrar
+No theme selected	ThemeInterfaceView		No hay tema seleccionado
+Add screenshot	ThemeInterfaceView		Añadir captura de pantalla
+No screenshot	ThemeInterfaceView		Sin captura de pantalla
+Apply	ThemeAddonItem		Aplicar
+Preferences	ThemeAddonItem		Preferencias
+Save	ThemeAddonItem		Guardar
+Global	ThemeAddonItem		Global
+(Application not installed)	ThemeAddonItem		(Aplicación no instalada)
+Save these settings to themes	ThemeAddonItem		Guardar esta configuración en el tema
+Open the preference panel for this item	ThemeAddonItem		Abrir las preferencias de este elemento
+Set apply/save actions for all items	ThemeAddonItem		Cambiar las opciones para todos los elementos
+Apply these settings from themes	ThemeAddonItem		Aplicar esta configuración
+Theme Manager	ThemesApp		Theme Manager

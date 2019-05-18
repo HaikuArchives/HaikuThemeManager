@@ -1,0 +1,24 @@
+1	Romanian	application/x-vnd.mmu_man-ThemeManager	3433625334
+Ok	ThemeInterfaceView		Ok
+Save	ThemeInterfaceView		Salvează
+Screenshot	ThemeInterfaceView		Captură de ecran
+Apply	ThemeInterfaceView		Aplică
+Options	ThemeInterfaceView		Opțiuni
+Defaults	ThemeInterfaceView		Implicite
+More themes	ThemeInterfaceView		Mai multe teme
+Details	ThemeInterfaceView		Detalii
+New	ThemeInterfaceView		Nou
+Delete	ThemeInterfaceView		Șterge
+No theme selected	ThemeInterfaceView		Nu s-a selectat nicio temă
+Add screenshot	ThemeInterfaceView		Adaugă captură de ecran
+No screenshot	ThemeInterfaceView		Fără captură de ecran
+Apply	ThemeAddonItem		Aplică
+Preferences	ThemeAddonItem		Preferințe
+Save	ThemeAddonItem		Salvează
+Global	ThemeAddonItem		Global
+(Application not installed)	ThemeAddonItem		(Aplicație neinstalată)
+Save these settings to themes	ThemeAddonItem		Salvează aceste configurări la teme
+Open the preference panel for this item	ThemeAddonItem		Deschide panoul de preferințe pentru acest element
+Set apply/save actions for all items	ThemeAddonItem		Stabilește acțiuni de aplicare/salvare pentru toate elementele
+Apply these settings from themes	ThemeAddonItem		Aplică aceste configurări pentru teme
+Theme Manager	ThemesApp		Theme Manager
