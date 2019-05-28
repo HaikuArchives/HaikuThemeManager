@@ -32,8 +32,10 @@ Some themes are available [here](https://github.com/mmuman/HaikuThemes).
   * [ ] dircolors (cf. http://linux.die.net/man/5/dir_colors )
   * [ ] icons (/etc/icons ? svg/hvif, setmime...)
   * [ ] Tracker usage bar colors
-  * [ ] mouse cursors (needs app_server fixes ??)
+  * [ ] mouse cursors (needs app_server fixes ??) #8
   * [ ] Pulse colors (-> sample code)
   * [ ] BeIDE/Pe/Eddie full colors (map to singe namespace)
   * [ ] Vision/BeShare full colors (map to singe namespace)
+  * [ ] Moe settings #15
+  * [ ] Boot Screen customization #7
   * [ ] Firefox theme ?
