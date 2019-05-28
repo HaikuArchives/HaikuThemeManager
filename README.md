@@ -9,6 +9,8 @@ It is add-ons based, so can be extended.
 
 License: MIT
 
+You can help translating this application [here](https://i18n.kacperkasper.pl/projects/26).
+
 This repository contains only the Theme Manager app.
 Some themes are available [here](https://github.com/mmuman/HaikuThemes).
 
