@@ -227,9 +227,7 @@ APP_MIME_SIG = application/x-vnd.mmu_man-ThemeManager
 # 	will recreate only the "locales/en.catkeys" file. Use it as a template
 # 	for creating catkeys for other languages. All localization files must be
 # 	placed in the "locales" subdirectory.
-LOCALES = en de fr
-
-
+LOCALES = ca cs de en en_GB es fr fur hr id it pt ro sv tr uk
 
 
 ## include the makefile-engine

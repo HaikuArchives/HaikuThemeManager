@@ -1,24 +1,24 @@
 1	Ukrainian	application/x-vnd.mmu_man-ThemeManager	3433625334
-Ok	ThemeInterfaceView		Ok
-Save	ThemeInterfaceView		Зберегти
-Screenshot	ThemeInterfaceView		Знімок екрану
-Apply	ThemeInterfaceView		Застосувати
-Options	ThemeInterfaceView		Параметри
-Defaults	ThemeInterfaceView		Умовчання
-More themes	ThemeInterfaceView		Більше тем
-Details	ThemeInterfaceView		Деталі
-New	ThemeInterfaceView		Нова
-Delete	ThemeInterfaceView		Видалити
-No theme selected	ThemeInterfaceView		Не вибрано жодної теми
-Add screenshot	ThemeInterfaceView		Додати знімок екрану
-No screenshot	ThemeInterfaceView		Немає знімка екрану
+(Application not installed)	ThemeAddonItem		(Програму не встановлено)
 Apply	ThemeAddonItem		Застосувати
+Apply these settings from themes	ThemeAddonItem		Застосувати ці параметри з тем
+Global	ThemeAddonItem		Загальні
+Open the preference panel for this item	ThemeAddonItem		Відкрити панель налаштувань для цього елемента
 Preferences	ThemeAddonItem		Налаштування
 Save	ThemeAddonItem		Зберегти
-Global	ThemeAddonItem		Загальні
-(Application not installed)	ThemeAddonItem		(Програму не встановлено)
 Save these settings to themes	ThemeAddonItem		Зберегти ці параметри до тем
-Open the preference panel for this item	ThemeAddonItem		Відкрити панель налаштувань для цього елемента
 Set apply/save actions for all items	ThemeAddonItem		Встановити дії застосувати/зберегти для усіх елементів
-Apply these settings from themes	ThemeAddonItem		Застосувати ці параметри з тем
+Add screenshot	ThemeInterfaceView		Додати знімок екрану
+Apply	ThemeInterfaceView		Застосувати
+Defaults	ThemeInterfaceView		Умовчання
+Delete	ThemeInterfaceView		Видалити
+Details	ThemeInterfaceView		Деталі
+More themes	ThemeInterfaceView		Більше тем
+New	ThemeInterfaceView		Нова
+No screenshot	ThemeInterfaceView		Немає знімка екрану
+No theme selected	ThemeInterfaceView		Не вибрано жодної теми
+Ok	ThemeInterfaceView		Ok
+Options	ThemeInterfaceView		Параметри
+Save	ThemeInterfaceView		Зберегти
+Screenshot	ThemeInterfaceView		Знімок екрану
 Theme Manager	ThemesApp		Менеджер тем

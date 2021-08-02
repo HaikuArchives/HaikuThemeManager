@@ -1,0 +1,24 @@
+1	Turkish	application/x-vnd.mmu_man-ThemeManager	3433625334
+(Application not installed)	ThemeAddonItem		(Uygulama yüklü değil)
+Apply	ThemeAddonItem		Uygula
+Apply these settings from themes	ThemeAddonItem		Bu tema ayarlarını uygula
+Global	ThemeAddonItem		Global
+Open the preference panel for this item	ThemeAddonItem		Bu ögenin tercihler panelini aç
+Preferences	ThemeAddonItem		Tercihler
+Save	ThemeAddonItem		Kaydet
+Save these settings to themes	ThemeAddonItem		Bu tema ayarlarını kaydet
+Set apply/save actions for all items	ThemeAddonItem		Tüm ögeler için uygula/kaydet
+Add screenshot	ThemeInterfaceView		Ekran görüntüsü ekle
+Apply	ThemeInterfaceView		Uygula
+Defaults	ThemeInterfaceView		Öntanımlılar
+Delete	ThemeInterfaceView		Sil
+Details	ThemeInterfaceView		Ayrıntılar
+More themes	ThemeInterfaceView		Daha fazla tema
+New	ThemeInterfaceView		Yeni
+No screenshot	ThemeInterfaceView		Ekran görüntüsü yok
+No theme selected	ThemeInterfaceView		Hiçbir tema seçilmedi
+Ok	ThemeInterfaceView		Tamam
+Options	ThemeInterfaceView		Seçenekler
+Save	ThemeInterfaceView		Kaydet
+Screenshot	ThemeInterfaceView		Ekran görüntüsü
+Theme Manager	ThemesApp		Tema Yöneticisi

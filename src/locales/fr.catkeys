@@ -1,24 +1,24 @@
 1	French	application/x-vnd.mmu_man-ThemeManager	3433625334
-Ok	ThemeInterfaceView		Ok
-Save	ThemeInterfaceView		Enregistrer
-Screenshot	ThemeInterfaceView		Capture
-Apply	ThemeInterfaceView		Appliquer
-Options	ThemeInterfaceView		Options
-Defaults	ThemeInterfaceView		Défauts
-More themes	ThemeInterfaceView		Plus de thèmes
-Details	ThemeInterfaceView		Détails
-New	ThemeInterfaceView		Nouveau
-Delete	ThemeInterfaceView		Effacer
-No theme selected	ThemeInterfaceView		Aucun thème sélectionné
-Add screenshot	ThemeInterfaceView		Ajout capture d'écran
-No screenshot	ThemeInterfaceView		Pas de capture
+(Application not installed)	ThemeAddonItem		(Application non installée)
 Apply	ThemeAddonItem		Appliquer
+Apply these settings from themes	ThemeAddonItem		Appliquer ces paramètres depuis les thèmes
+Global	ThemeAddonItem		Global
+Open the preference panel for this item	ThemeAddonItem		Ouvrir le panneau de préférences pour ce sujet
 Preferences	ThemeAddonItem		Préférences
 Save	ThemeAddonItem		Sauver
-Global	ThemeAddonItem		Global
-(Application not installed)	ThemeAddonItem		(Application non installée)
 Save these settings to themes	ThemeAddonItem		Sauver ces paramètres dans les thèmes
-Open the preference panel for this item	ThemeAddonItem		Ouvrir le panneau de préférences pour ce sujet
 Set apply/save actions for all items	ThemeAddonItem		Définir l'action appliquer/sauver pour tous les sujets
-Apply these settings from themes	ThemeAddonItem		Appliquer ces paramètres depuis les thèmes
+Add screenshot	ThemeInterfaceView		Ajout capture d'écran
+Apply	ThemeInterfaceView		Appliquer
+Defaults	ThemeInterfaceView		Défauts
+Delete	ThemeInterfaceView		Effacer
+Details	ThemeInterfaceView		Détails
+More themes	ThemeInterfaceView		Plus de thèmes
+New	ThemeInterfaceView		Nouveau
+No screenshot	ThemeInterfaceView		Pas de capture
+No theme selected	ThemeInterfaceView		Aucun thème sélectionné
+Ok	ThemeInterfaceView		D'accord
+Options	ThemeInterfaceView		Options
+Save	ThemeInterfaceView		Enregistrer
+Screenshot	ThemeInterfaceView		Capture
 Theme Manager	ThemesApp		Gestionnaire de thèmes

@@ -1,0 +1,24 @@
+1	Catalan	application/x-vnd.mmu_man-ThemeManager	3433625334
+(Application not installed)	ThemeAddonItem		(Aplicació no instal·lada)
+Apply	ThemeAddonItem		Aplica-ho
+Apply these settings from themes	ThemeAddonItem		Aplica aquests paràmetres a partir dels temes.
+Global	ThemeAddonItem		Global
+Open the preference panel for this item	ThemeAddonItem		Obre el tauler de preferències per a aquest element.
+Preferences	ThemeAddonItem		Preferències
+Save	ThemeAddonItem		Desa
+Save these settings to themes	ThemeAddonItem		Desa aquests paràmetres als temes.
+Set apply/save actions for all items	ThemeAddonItem		Estableix accions d'aplicar / desar per a tots els elements.
+Add screenshot	ThemeInterfaceView		Afegeix una captura de pantalla
+Apply	ThemeInterfaceView		Aplica-ho
+Defaults	ThemeInterfaceView		Per defecte
+Delete	ThemeInterfaceView		Suprimeix
+Details	ThemeInterfaceView		Detalls
+More themes	ThemeInterfaceView		Més temes
+New	ThemeInterfaceView		Nou
+No screenshot	ThemeInterfaceView		Cap captura
+No theme selected	ThemeInterfaceView		No s'ha seleccionat cap tema.
+Ok	ThemeInterfaceView		D'acord
+Options	ThemeInterfaceView		Opcions
+Save	ThemeInterfaceView		Desa
+Screenshot	ThemeInterfaceView		Captura de pantalla
+Theme Manager	ThemesApp		Gestor de temes
